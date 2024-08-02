@@ -5,6 +5,7 @@ content {
 	left: 0;
 	right: 0;
 	bottom: 0;
+	font-family: BebasNeueRegular, Arial, sans-serif;
 	font-size: 21px;
 	color: #fff;
 	text-transform: uppercase;
@@ -133,12 +134,60 @@ content {
 		white-space: nowrap;
 		text-align: center;
 		border-radius: 6px;
-		// backdrop-filter: blur(5px);
+		backdrop-filter: blur(5px);
 		background: linear-gradient(180deg, #484579a1, #1c0c5a94);
 
 		&.p1 { top: -37px; left: 130px; }
 		&.p2 { top: -37px; left: 320px; }
 		&.p3 { top: -37px; left: 500px; }
+		&.p4 {
+			top: 77px;
+			left: 670px;
+
+			.bet {
+				left: auto;
+				transform: translateX(-128%);
+			}
+		}
+		
+		&.p5 {
+			top: 322px;
+			left: 500px;
+
+			.bet {
+				bottom: auto;
+				top: -43px;
+			}
+		}
+
+		&.p6 {
+			top: 322px;
+			left: 320px;
+
+			.bet {
+				bottom: auto;
+				top: -43px;
+			}
+		}
+
+		&.p7 {
+			top: 322px;
+			left: 130px;
+
+			.bet {
+				bottom: auto;
+				top: -43px;
+			}
+		}
+
+		&.p8 {
+			top: 77px;
+			left: -20px;
+
+			.bet {
+				left: 144%;
+			}
+		}
 
 		.bg {
 			position: absolute;
@@ -169,18 +218,19 @@ content {
 
 		.name {
 			position: absolute;
-			top: 5px;
+			top: 3px;
 			left: 0;
 			right: 0;
 			z-index: 1;
-			font-size: 13px;
+			padding-top: 1px;
+			font-size: 17px;
 
 			&:before { content: attr(data-name); }
 
 			&:after {
 				content: "";
 				position: absolute;
-				top: 17px;
+				top: 19px;
 				left: 0;
 				right: 0;
 				height: 76px;
@@ -202,17 +252,19 @@ content {
 
 		.chips {
 			position: absolute;
-			bottom: 3px;
+			bottom: 0;
 			left: 0;
 			right: 0;
-			font-size: 13px;
+			font-size: 17px;
 		}
 
 		.bet {
 			position: absolute;
 			bottom: -43px;
-			left: -5px;
+			left: 50%;
+			transform: translate(-50%);
 			height: 29px;
+			font-size: 23px;
 			padding: 5px 11px 3px 31px;
 			background: rgba(#000,.15);
 			filter: drop-shadow(0 1px 0 rgba(#fff,.35));
@@ -275,13 +327,14 @@ content {
 
 	.pot {
 		position: absolute;
-		top: 246px;
+		top: 240px;
 		left: 317px;
 		height: 29px;
 		padding: 5px 11px 3px 31px;
 		background: rgba(#000,.15);
 		filter: drop-shadow(0 1px 0 rgba(#fff,.35));
 		border-radius: 31px;
+		font-size: 23px;
 
 		&:before {
 			content: "";
@@ -298,11 +351,11 @@ content {
 		}
 	}
 
-	.flop-1 { top: 144px; left: 197px; }
-	.flop-2 { top: 144px; left: 269px; }
-	.flop-3 { top: 144px; left: 341px; }
-	.turn   { top: 144px; left: 413px; }
-	.river  { top: 144px; left: 485px; }
+	.flop-1 { top: 142px; left: 197px; }
+	.flop-2 { top: 142px; left: 269px; }
+	.flop-3 { top: 142px; left: 341px; }
+	.turn   { top: 142px; left: 413px; }
+	.river  { top: 142px; left: 485px; }
 }
 
 .card {
@@ -401,3 +454,15 @@ content {
 	&.cQ	{ background-image: url(~/icons/cQ.png); }
 	&.cK	{ background-image: url(~/icons/cK.png); }
 }
+
+
+
+// custom fonts
+@font-face {
+	font-family: "BebasNeueRegular";
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url(~/fonts/BebasNeue-webfont.woff) format("woff2");
+}
+
