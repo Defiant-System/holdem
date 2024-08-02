@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0">
+
+	@import "card-diamonds.svg"
+	@import "card-spades.svg"
+	@import "card-hearts.svg"
+	@import "card-clubs.svg"
+
+</svg>
