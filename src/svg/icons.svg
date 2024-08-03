@@ -25,4 +25,11 @@
 			c3,0.5,6.4,1.2,10.8,3.4c1.9,0.7,3.4,1.7,4.5,2.8L65.5,59z"/>
 	</svg>
 
+	<svg id="icon-slide-arrow" viewBox="0 0 18 15">
+		<style type="text/css">
+			.st0{fill:#333;}
+		</style>
+		<polygon class="st0" points="0,4 0,11 9,11 9,15 18,7.5 9,0 9,4 "/>
+	</svg>
+
 </svg>

@@ -332,24 +332,6 @@ content {
 			filter: drop-shadow(0 1px 0 rgba(#fff,.35));
 			border-radius: 31px;
 
-			&.fold {
-				font-size: 0;
-				background: rgba(#f00,.35);
-				color: #fff;
-
-				&:before {
-					// background: #d66;
-					box-shadow: inset 0 1px 0 rgba(#fcc,.5),
-								0 0 0 1px rgba(#000,.15),
-								0 2px 3px rgba(#000,.5);
-				}
-
-				&:after {
-					content: "Fold";
-					font-size: 23px;
-				}
-			}
-
 			&:before {
 				content: "";
 				background: url(~/icons/chip-red.png) 50% 50%/contain no-repeat;
@@ -363,6 +345,34 @@ content {
 							0 0 0 1px rgba(#000,.15),
 							0 2px 3px rgba(#000,.5);
 			}
+		}
+
+		&[data-state="folded"] {
+			.bet {
+				font-size: 0;
+				background: rgba(#f00,.35);
+				color: #fff;
+
+				&:before {
+					// background: #d66;
+					box-shadow: inset 0 1px 0 rgba(#fcc,.5),
+								0 0 0 1px rgba(#000,.15),
+								0 2px 3px rgba(#000,.5);
+				}
+
+				&:after {
+					content: "Folded";
+					font-size: 23px;
+				}
+			}
+		}
+
+		&[data-state="check"] {
+
+		}
+
+		&[data-state="all-in"] {
+
 		}
 	}
 
@@ -489,8 +499,8 @@ content {
 
 .actions {
 	position: absolute;
-	top: 266px;
-	left: 300px;
+	top: 286px;
+	left: 280px;
 	width: 212px;
 	border-radius: 6px;
 	backdrop-filter: blur(5px);
@@ -534,7 +544,7 @@ content {
 		height: 29px;
 		margin: 0 0 7px 0;
 		display: flex;
-		border-radius: 6px;
+		border-radius: 4px;
 		text-align: center;
 		background: linear-gradient(180deg, #878995, #606270 50%, #474857 50%, #545563);
 		box-shadow: 0 0 0 1px rgba(#000,.25),
@@ -573,12 +583,12 @@ content {
 			transition: opacity 100ms ease-in-out;
 
 			&:first-child {
-				border-radius: 6px 0 0 6px;
+				border-radius: 4px 0 0 4px;
 				border-left: 0;
 			}
 
 			&:last-child {
-				border-radius: 0 6px 6px 0;
+				border-radius: 0 4px 4px 0;
 				width: auto;
 				flex: 1;
 			}
@@ -616,7 +626,8 @@ content {
 			top: 1px;
 			bottom: 2px;
 			left: 1px;
-			width: 41px;
+			width: 40px;
+			z-index: 2;
 			cursor: pointer;
 			border-radius: 5px;
 			background: radial-gradient(circle at bottom center, #dddddd80, transparent 90%),
@@ -626,6 +637,34 @@ content {
 				background: radial-gradient(circle at bottom center, #eeeeee80, transparent 90%),
 							linear-gradient(180deg, #878995, #606270 50%, #474857 50%, #545563);
 			}
+
+			&:after {
+				content: "";
+				position: absolute;
+				top: 6px;
+				left: 12px;
+				width: 18px;
+				height: 15px;
+				background: url(~/icons/icon-slide-arrow.png) 50% 50%/contain no-repeat;
+				filter: drop-shadow(0 1px 0 rgba(#fff,.35));
+				opacity: .5;
+			}
+		}
+
+		.text {
+			position: absolute;
+			top: 8px;
+			right: 5px;
+			width: 137px;
+			font-size: 16px;
+			text-align: center;
+			color: #fff;
+			text-shadow: none;
+  			background: linear-gradient(to right, #4d4d4d 0, #fff 10%, #4d4d4d 20%);
+  			background-position: 0;
+  			-webkit-background-clip: text;
+  			-webkit-text-fill-color: transparent;
+  			animation: textShine 3s infinite linear forwards;
 		}
 	}
 
@@ -817,6 +856,13 @@ content {
 	50%  { transform: translateY(-9px) translateZ(50px) rotateY(90deg); }
 	100% { transform: translateY(0px) translateZ(0px) rotateY(0deg); }
 }
+
+@keyframes textShine {
+	0%   { background-position: 0; }
+	60%  { background-position: 115px; }
+	100% { background-position: 115px; }
+}
+
 
 
 // custom fonts
