@@ -12,7 +12,7 @@ content {
 	text-shadow: 0 2px 1px rgba(#000,.35);
 }
 
-.board {
+.game {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -127,7 +127,7 @@ content {
 		}
 	}
 
-	.player {
+	.seat {
 		position: absolute;
 		width: 95px;
 		height: 117px;
@@ -248,6 +248,10 @@ content {
 			&[data-name="Jenny"]:after { background-image: url(~/img/jenny.webp); }
 			&[data-name="Mary"]:after { background-image: url(~/img/mary.webp); }
 			&[data-name="Nina"]:after { background-image: url(~/img/nina.webp); }
+
+			&[data-name="Me"]:after {
+				background-image: url(~/icons/user-placeholder.png);
+			}
 		}
 
 		.chips {
@@ -264,11 +268,29 @@ content {
 			left: 50%;
 			transform: translate(-50%);
 			height: 29px;
-			font-size: 23px;
+			font-size: 21px;
 			padding: 5px 11px 3px 31px;
-			background: rgba(#000,.15);
+			background: rgba(#000,.25);
 			filter: drop-shadow(0 1px 0 rgba(#fff,.35));
 			border-radius: 31px;
+
+			&.fold {
+				font-size: 0;
+				background: rgba(#f00,.35);
+				color: #fff;
+
+				&:before {
+					background: #d66;
+					box-shadow: inset 0 1px 0 rgba(#fcc,.5),
+								0 0 0 1px rgba(#000,.15),
+								0 2px 3px rgba(#000,.5);
+				}
+
+				&:after {
+					content: "Fold";
+					font-size: 23px;
+				}
+			}
 
 			&:before {
 				content: "";
@@ -279,7 +301,7 @@ content {
 				width: 19px;
 				height: 19px;
 				border-radius: 50%;
-				box-shadow: inset 0 1px 0 rgba(#fff,.5),
+				box-shadow: inset 0 1px 0 rgba(#ccf,.5),
 							0 0 0 1px rgba(#000,.15),
 							0 2px 3px rgba(#000,.5);
 			}
@@ -288,8 +310,8 @@ content {
 
 	.dealer {
 		position: absolute;
-		top: 63px;
-		left: 422px;
+		top: 69px;
+		left: 605px;
 		width: 25px;
 		height: 25px;
 		text-align: center;
@@ -330,7 +352,7 @@ content {
 		top: 240px;
 		left: 317px;
 		height: 29px;
-		padding: 5px 11px 3px 31px;
+		padding: 4px 11px 0 31px;
 		background: rgba(#000,.15);
 		filter: drop-shadow(0 1px 0 rgba(#fff,.35));
 		border-radius: 31px;
@@ -338,7 +360,7 @@ content {
 
 		&:before {
 			content: "";
-			background: #fc0;
+			background: #da1;
 			position: absolute;
 			top: 5px;
 			left: 5px;
@@ -351,25 +373,71 @@ content {
 		}
 	}
 
-	.flop-1 { top: 142px; left: 197px; }
-	.flop-2 { top: 142px; left: 269px; }
-	.flop-3 { top: 142px; left: 341px; }
-	.turn   { top: 142px; left: 413px; }
-	.river  { top: 142px; left: 485px; }
+	.board {
+		position: absolute;
+		top: 142px;
+		left: 197px;
+		z-index: 2;
+		--s1: 300ms;
+		--s2: 400ms;
+		// perspective: 800px;
+		min-height: 0px;
+		transition: min-height var( --s1 ) linear;
+
+		&.fan-flop {
+			min-height: 1px;
+			transition-duration: var( --s2 );
+
+			.card {
+				&.flop-1 { left: 0; }
+				&.flop-2 { left: 72px; }
+				&.flop-3 { left: 144px; }
+			}
+		}
+
+		&.flip-flop {
+			min-height: 2px;
+
+			.card {
+				&.flop-1 { animation: cardFlip var( --s2 ) 40ms forwards; }
+				&.flop-2 { animation: cardFlip var( --s2 ) 140ms forwards; }
+				&.flop-3 { animation: cardFlip var( --s2 ) 240ms forwards; }
+			}
+		}
+
+		&.flip-turn {
+			.card.turn {
+				animation: cardFlip var( --s2 ) 40ms forwards;
+			}
+		}
+
+		&.flip-river {
+			.card.river {
+				animation: cardFlip var( --s2 ) 40ms forwards;
+			}
+		}
+
+		.card {
+			top: 0;
+			transition: left var( --s1 ) ease-in-out;
+
+			&.flop-1 { left: 0; }
+			&.flop-2 { left: 0; }
+			&.flop-3 { left: 0; }
+			&.turn   { left: 216px; }
+			&.river  { left: 288px; }
+		}
+	}
 }
 
 .card {
 	position: absolute;
-	// top: 0;
-	// left: 0;
 	width: 66px;
 	height: 90px;
 	display: inline-block;
-	// margin: 17px 0 0 -43px;
 	border-radius: 5px;
 	transform-style: preserve-3d;
 	background-size: 66px 90px;
-	// background-position: -2px 0, 0 0;
 	background-repeat: no-repeat;
 	box-shadow: 0 0 0 1px rgba(#111,.1),
 				0 2px 5px rgba(#000,.2);
@@ -455,6 +523,12 @@ content {
 	&.cK	{ background-image: url(~/icons/cK.png); }
 }
 
+
+@keyframes cardFlip {
+	0%   { transform: translateY(0px) translateZ(0px) rotateY(180deg); }
+	50%  { transform: translateY(-9px) translateZ(50px) rotateY(90deg); }
+	100% { transform: translateY(0px) translateZ(0px) rotateY(0deg); }
+}
 
 
 // custom fonts
