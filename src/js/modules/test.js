@@ -1,6 +1,7 @@
 
 let Test = {
 	init(APP) {
+		return;
 		
 		setTimeout(() => {
 			window.find(`.board`).cssSequence("fan-flop", "transitionend", el => {

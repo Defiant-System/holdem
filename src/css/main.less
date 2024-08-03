@@ -10,6 +10,10 @@ content {
 	color: #fff;
 	text-transform: uppercase;
 	text-shadow: 0 2px 1px rgba(#000,.35);
+
+	.hidden {
+		display: none;
+	}
 }
 
 .game {
@@ -160,7 +164,8 @@ content {
 		text-align: center;
 		border-radius: 6px;
 		backdrop-filter: blur(5px);
-		background: linear-gradient(180deg, #484579a1, #1c0c5a94);
+		background: radial-gradient(ellipse at bottom center, #dddddd60, transparent 90%),
+					linear-gradient(180deg, #484579a1, #1c0c5a94);
 
 		&.p1 {
 			top: -37px;
@@ -433,7 +438,6 @@ content {
 		z-index: 2;
 		--s1: 300ms;
 		--s2: 400ms;
-		// perspective: 800px;
 		min-height: 0px;
 		transition: min-height var( --s1 ) linear;
 
@@ -479,6 +483,109 @@ content {
 			&.flop-3 { left: 0; }
 			&.turn   { left: 216px; }
 			&.river  { left: 288px; }
+		}
+	}
+}
+
+.options {
+	position: absolute;
+	top: 266px;
+	left: 300px;
+	width: 212px;
+	border-radius: 6px;
+	backdrop-filter: blur(5px);
+	background: radial-gradient(ellipse at bottom center, #dddddd40, transparent 90%),
+				linear-gradient(180deg, #484579a1, #1c0c5a94);
+	padding: 13px 0 3px 13px;
+	z-index: 2;
+	font-size: 0;
+	overflow: hidden;
+	box-shadow: 0 0 0 2px rgba(#fff,.75),
+				0 3px 9px rgba(#000,.35),
+				0 5px 17px rgba(#000,.35);
+
+	&:before {
+		content: "";
+		pointer-events: none;
+		background: linear-gradient(180deg, rgba(#fff,.35), rgba(#fff,.125));
+		position: absolute;
+		top: -11px;
+		left: -20px;
+		right: -20px;
+		height: 23px;
+		border-radius: 50%;
+		mix-blend-mode: hard-light;
+	}
+
+	.button {
+		position: relative;
+		padding: 7px 0 0 0;
+		margin: 0 7px 7px 0;
+		width: 90px;
+		height: 29px;
+		display: inline-block;
+		border-radius: 4px;
+		vertical-align: top;
+		text-align: center;
+		font-size: 17px;
+		cursor: pointer;
+		text-shadow: 0 1px 1px rgba(#000,.25);
+		background: radial-gradient(circle at bottom center, #dddddd80, transparent 90%),
+					linear-gradient(180deg, #878995, #606270 50%, #474857 50%, #545563);
+		box-shadow: 0 0 0 1px rgba(#000,.25),
+					inset 0 1px 0 rgba(#fff,.2),
+					inset 0 -1px 0 rgba(#000,.1),
+					0 1px 1px rgba(#000,.2);
+
+		&:nth-child(2n) {
+			margin-right: 0;
+		}
+
+		&.fold {
+			background: radial-gradient(circle at bottom center, #ff87878e, transparent 90%),
+						linear-gradient(180deg, #d5747a, #cf5f69 50%, #c6202c 50%, #c1212e);
+
+			&:hover {
+				background: radial-gradient(circle at bottom center, #ff8787ae, transparent 90%),
+							linear-gradient(180deg, #d5747a, #cf5f69 50%, #c6202c 50%, #c1212e);
+			}
+		}
+
+		&.check {
+			background: radial-gradient(circle at bottom center, #8585857a, transparent 90%),
+						linear-gradient(180deg, #555864, #333441 50%, #1b1d2a 50%, #1b1c2a);
+
+			&:hover {
+				background: radial-gradient(circle at bottom center, #8585859a, transparent 90%),
+							linear-gradient(180deg, #555864, #333441 50%, #1b1d2a 50%, #1b1c2a);
+			}
+		}
+
+		&.call {
+			background: radial-gradient(circle at bottom center, #aecaff77, transparent 90%),
+						linear-gradient(180deg, #70ba71, #3cab3b 50%, #249f15 50%, #249f15);
+
+			&:hover {
+				background: radial-gradient(circle at bottom center, #aecaff97, transparent 90%),
+							linear-gradient(180deg, #70ba71, #3cab3b 50%, #249f15 50%, #249f15);
+			}
+		}
+
+		&.raise {
+			background: radial-gradient(circle at bottom center, #aeffc260, transparent 90%),
+						linear-gradient(180deg, #83a3e9, #5f86e5 50%, #4472e0 50%, #4973d2);
+
+			&:hover {
+				background: radial-gradient(circle at bottom center, #aeffc280, transparent 90%),
+							linear-gradient(180deg, #83a3e9, #5f86e5 50%, #4472e0 50%, #4973d2);
+			}
+		}
+
+		&:active {
+			padding-top: 8px;
+			box-shadow: 0 0 0 1px rgba(#000,.25),
+						inset 0 1px 0 rgba(#fff,.01),
+						0 1px 1px rgba(#000,.2);
 		}
 	}
 }
