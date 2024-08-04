@@ -192,6 +192,18 @@ let Poker = {
 					}, 10);
 				}));
 				break;
+			case "deal-turn":
+				// reset deck
+				setTimeout(() => APP.els.deck.cssSequence("appear", "transitionend", el => {
+					
+				}));
+				break;
+			case "deal-river":
+				// reset deck
+				setTimeout(() => APP.els.deck.cssSequence("appear", "transitionend", el => {
+					
+				}));
+				break;
 			case "restore-state":
 				let entries = Object.keys(event.data.players);
 				// reset players array

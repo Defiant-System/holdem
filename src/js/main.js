@@ -44,6 +44,11 @@ const holdem = {
 			case "new-game":
 				Poker.dispatch({ type: "start-new-round" });
 				break;
+			case "deal-flop":
+			case "deal-turn":
+			case "deal-river":
+				Poker.dispatch(event);
+				break;
 			case "set-theme":
 				Self.content.data({ theme: event.arg });
 				break;

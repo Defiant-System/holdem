@@ -9,6 +9,9 @@
 		<Menu name="Game View" click="show-game-view"/>
 		<Menu type="divider"/>
 		<Menu name="New Game" click="new-game"/>
+		<Menu name="Deal Flop" click="deal-flop"/>
+		<Menu name="Deal Turn" click="deal-turn"/>
+		<Menu name="Deal River" click="deal-river"/>
 		<Menu type="divider"/>
 		<Menu name="Purple Theme" click="set-theme" arg="purple"/>
 		<Menu name="Brown Theme" click="set-theme" arg="brown"/>
