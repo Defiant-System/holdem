@@ -9,6 +9,8 @@ let STARTING_BANKROLL = 5000;
 let SMALL_BLIND = 50;
 let BIG_BLIND = 100;
 
+let globalSpeed = 600;
+
 let Bots = [];
 let cards = new Array(52);
 let players,
@@ -65,8 +67,6 @@ let Poker = {
 		for (let i=0; i<players.length; i++) {
 			players[i].update({
 				index: i === 0 ? 0 : seats.pop(),
-				cardA: "",
-				cardB: "",
 				status: "",
 				totalBet: 0,
 				subtotalBet: 0,
@@ -136,7 +136,7 @@ let Poker = {
 		// flag player as "thinking"
 		playerBettor.update({ status: "OPTION" });
 
-		// this.dealAndWriteA();
+		this.dealAndWriteA();
 	},
 	dealAndWriteA() {
 		let currentPlayer;
@@ -152,7 +152,7 @@ let Poker = {
 
 		// and now show the cards
 		currentPlayer = this.getNextPlayerPosition(buttonIndex, 1);
-		this.unrollPlayer(currentPlayer, currentPlayer, this.dealAndWriteB);
+		this.unrollPlayer(currentPlayer, currentPlayer, () => this.dealAndWriteB());
 	},
 	dealAndWriteB() {
 		let currentPlayer = buttonIndex;
@@ -164,10 +164,15 @@ let Poker = {
 		}
 
 		currentPlayer = this.getNextPlayerPosition(buttonIndex, 1);
-		unroll_player(currentPlayer, currentPlayer, delayForMain);
+		this.unrollPlayer(currentPlayer, currentPlayer, () => this.delayForMain());
 	},
 	unrollPlayer(startingPlayer, playerPos, finalCall) {
 		let nextPlayer = this.getNextPlayerPosition(playerPos, 1);
+		if (startingPlayer == nextPlayer) {
+			setTimeout(finalCall, globalSpeed);
+		} else {
+			setTimeout(() => this.unrollPlayer(startingPlayer, nextPlayer, finalCall), globalSpeed);
+		}
 	},
 	delayForMain() {
 		console.log( "main" );

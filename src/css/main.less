@@ -183,7 +183,7 @@ content {
 		background: radial-gradient(ellipse at bottom center, #dddddd60, transparent 90%),
 					linear-gradient(180deg, #484579a1, #1c0c5a94);
 
-		&.p0 {
+		&.s0 {
 			display: block;
 			top: 302px;
 			left: 9px;
@@ -219,7 +219,7 @@ content {
 			}
 		}
 
-		&.p1 {
+		&.s1 {
 			display: block;
 			top: 77px;
 			left: -20px;
@@ -238,7 +238,7 @@ content {
 			}
 		}
 
-		&.p2 {
+		&.s2 {
 			display: block;
 			top: -63px;
 			left: 130px;
@@ -251,7 +251,7 @@ content {
 			.bet:before { filter: hue-rotate(55deg); }
 		}
 
-		&.p3 {
+		&.s3 {
 			display: block;
 			top: -63px;
 			left: 320px;
@@ -264,7 +264,7 @@ content {
 			.bet:before { filter: hue-rotate(155deg) saturate(1.25); }
 		}
 
-		&.p4 {
+		&.s4 {
 			display: block;
 			top: -63px;
 			left: 500px;
@@ -277,7 +277,7 @@ content {
 			.bet:before { filter: hue-rotate(95deg); }
 		}
 
-		&.p5 {
+		&.s5 {
 			display: block;
 			top: 97px;
 			left: 670px;
@@ -296,7 +296,7 @@ content {
 			}
 		}
 		
-		&.p6 {
+		&.s6 {
 			display: block;
 			top: 340px;
 			left: 500px;
@@ -314,7 +314,7 @@ content {
 			}
 		}
 
-		&.p7 {
+		&.s7 {
 			display: block;
 			top: 340px;
 			left: 280px;
@@ -395,14 +395,15 @@ content {
 
 		.cards {
 			position: absolute;
-			// left: 0;
-			// right: 0;
-			// bottom: -19px;
 			z-index: 2;
+
+			&[data-cardA]:before { display: block; }
+			&[data-cardB]:after { display: block; }
 
 			&:before,
 			&:after {
 				content: "";
+				display: none;
 				background: url(~/icons/cb-red.png) 0 0/contain no-repeat;
 				background-size: 30px auto;
 				position: absolute;
@@ -410,13 +411,13 @@ content {
 				left: -16px;
 				width: 31px;
 				height: 41px;
-				border-radius: 3px 3px 0 0;
-				// transform: rotate(-6deg);
+				border-radius: 3px;
+				box-shadow: 0 0 0 1px rgba(#111,.1),
+							0 1px 2px rgba(#000,.2);
 			}
 
 			&:after {
 				left: -7px;
-				// transform: rotate(2deg);
 			}
 		}
 
@@ -490,6 +491,27 @@ content {
 		&[data-state="all-in"] {
 
 		}
+	}
+
+	.deck {
+		background: url(~/icons/cb-red.png) 0 0/contain no-repeat;
+		position: absolute;
+		width: 43px;
+		height: 59px;
+		z-index: 5;
+		border-radius: 3px;
+		box-shadow: 0 0 0 1px rgba(#111,.1),
+					0 3px 11px rgba(#000,.35),
+					0 5px 21px rgba(#000,.35);
+
+		&[data-pos="p0"] { top: 228px; left: 106px; }
+		&[data-pos="p1"] { top: 148px; left: 134px; }
+		&[data-pos="p2"] { top: 68px; left: 186px; }
+		&[data-pos="p3"] { top: 68px; left: 376px; }
+		&[data-pos="p4"] { top: 68px; left: 546px; }
+		&[data-pos="p5"] { top: 159px; left: 556px; }
+		&[data-pos="p6"] { top: 249px; left: 556px; }
+		&[data-pos="p7"] { top: 238px; left: 326px; }
 	}
 
 	.dealer {
@@ -929,9 +951,9 @@ content {
 	&.s8	{ background-image: url(~/icons/s8.png), url(~/icons/spades-front.png); }
 	&.s9	{ background-image: url(~/icons/s9.png), url(~/icons/spades-front.png); }
 	&.s10	{ background-image: url(~/icons/s10.png), url(~/icons/spades-front.png); }
-	&.sJ	{ background-image: url(~/icons/sJ.png); }
-	&.sQ	{ background-image: url(~/icons/sQ.png); }
-	&.sK	{ background-image: url(~/icons/sK.png); }
+	&.s11	{ background-image: url(~/icons/sJ.png); }
+	&.s12	{ background-image: url(~/icons/sQ.png); }
+	&.s13	{ background-image: url(~/icons/sK.png); }
 
 	&.hA	{ background-image: url(~/icons/hA.png), url(~/icons/hearts-front.png); }
 	&.h2	{ background-image: url(~/icons/h2.png), url(~/icons/hearts-front.png); }
@@ -943,9 +965,9 @@ content {
 	&.h8	{ background-image: url(~/icons/h8.png), url(~/icons/hearts-front.png); }
 	&.h9	{ background-image: url(~/icons/h9.png), url(~/icons/hearts-front.png); }
 	&.h10	{ background-image: url(~/icons/h10.png), url(~/icons/hearts-front.png); }
-	&.hJ	{ background-image: url(~/icons/hJ.png); }
-	&.hQ	{ background-image: url(~/icons/hQ.png); }
-	&.hK	{ background-image: url(~/icons/hK.png); }
+	&.h11	{ background-image: url(~/icons/hJ.png); }
+	&.h12	{ background-image: url(~/icons/hQ.png); }
+	&.h13	{ background-image: url(~/icons/hK.png); }
 
 	&.dA	{ background-image: url(~/icons/dA.png), url(~/icons/diamonds-front.png); }
 	&.d2	{ background-image: url(~/icons/d2.png), url(~/icons/diamonds-front.png); }
@@ -957,9 +979,9 @@ content {
 	&.d8	{ background-image: url(~/icons/d8.png), url(~/icons/diamonds-front.png); }
 	&.d9	{ background-image: url(~/icons/d9.png), url(~/icons/diamonds-front.png); }
 	&.d10	{ background-image: url(~/icons/d10.png), url(~/icons/diamonds-front.png); }
-	&.dJ	{ background-image: url(~/icons/dJ.png); }
-	&.dQ	{ background-image: url(~/icons/dQ.png); }
-	&.dK	{ background-image: url(~/icons/dK.png); }
+	&.d11	{ background-image: url(~/icons/dJ.png); }
+	&.d12	{ background-image: url(~/icons/dQ.png); }
+	&.d13	{ background-image: url(~/icons/dK.png); }
 
 	&.cA	{ background-image: url(~/icons/cA.png), url(~/icons/clubs-front.png); }
 	&.c2	{ background-image: url(~/icons/c2.png), url(~/icons/clubs-front.png); }
@@ -971,9 +993,9 @@ content {
 	&.c8	{ background-image: url(~/icons/c8.png), url(~/icons/clubs-front.png); }
 	&.c9	{ background-image: url(~/icons/c9.png), url(~/icons/clubs-front.png); }
 	&.c10	{ background-image: url(~/icons/c10.png), url(~/icons/clubs-front.png); }
-	&.cJ	{ background-image: url(~/icons/cJ.png); }
-	&.cQ	{ background-image: url(~/icons/cQ.png); }
-	&.cK	{ background-image: url(~/icons/cK.png); }
+	&.c11	{ background-image: url(~/icons/cJ.png); }
+	&.c12	{ background-image: url(~/icons/cQ.png); }
+	&.c13	{ background-image: url(~/icons/cK.png); }
 }
 
 
