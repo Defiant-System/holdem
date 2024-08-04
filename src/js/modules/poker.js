@@ -32,8 +32,8 @@ let Poker = {
 		// create bots
 		Bots.push(new Player({ name: "Ricardo" }));
 		Bots.push(new Player({ name: "Ann" }));
-		Bots.push(new Player({ name: "Bruce" }));
-		Bots.push(new Player({ name: "Denzel" }));
+		Bots.push(new Player({ name: "Daniel" }));
+		Bots.push(new Player({ name: "Jack" }));
 		Bots.push(new Player({ name: "Jenny" }));
 		Bots.push(new Player({ name: "Mary" }));
 		Bots.push(new Player({ name: "Nina" }));

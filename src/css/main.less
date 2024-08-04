@@ -386,8 +386,8 @@ content {
 
 			&[data-name="Ricardo"]:after { background-image: url(~/img/ricardo.webp); }
 			&[data-name="Ann"]:after { background-image: url(~/img/ann.webp); }
-			&[data-name="Bruce"]:after { background-image: url(~/img/bruce.webp); }
-			&[data-name="Denzel"]:after { background-image: url(~/img/denzel.webp); }
+			&[data-name="Daniel"]:after { background-image: url(~/img/daniel.webp); }
+			&[data-name="Jack"]:after { background-image: url(~/img/jack.webp); }
 			&[data-name="Jenny"]:after { background-image: url(~/img/jenny.webp); }
 			&[data-name="Mary"]:after { background-image: url(~/img/mary.webp); }
 			&[data-name="Nina"]:after { background-image: url(~/img/nina.webp); }
@@ -500,9 +500,14 @@ content {
 		height: 59px;
 		z-index: 5;
 		border-radius: 3px;
-		box-shadow: 0 0 0 1px rgba(#111,.1),
-					0 3px 11px rgba(#000,.35),
-					0 5px 21px rgba(#000,.35);
+		// box-shadow: 0 0 0 1px rgba(#111,.1),
+		// 			0 3px 11px rgba(#000,.35),
+		// 			0 7px 21px rgba(#000,.35);
+		filter: drop-shadow(0 1px 0 hsl(1, 5%, 77%))
+				drop-shadow(0 2px 0 hsl(1, 5%, 75%))
+				drop-shadow(0 3px 0 hsl(1, 5%, 70%))
+				drop-shadow(0 2px 7px rgba(#000,.35))
+				drop-shadow(0 5px 13px rgba(#000,.5));
 
 		&[data-pos="p0"] { top: 228px; left: 106px; }
 		&[data-pos="p1"] { top: 148px; left: 134px; }
