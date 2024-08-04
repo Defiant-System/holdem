@@ -13,6 +13,7 @@ const holdem = {
 		// fast references
 		this.els = {
 			content: window.find("content"),
+			deck: window.find(".deck"),
 			dealer: window.find(".dealer"),
 			seats: window.find(".seat"),
 		};

@@ -29,9 +29,25 @@ class Player {
 
 	set cardA(v) {
 		this._cardA = v;
+		// calculations
+		let cname = this.index === 0 ? `card ${v} in-deck` : "cardA in-deck",
+			deckOffset = holdem.els.deck.offset(".table"),
+			cardsOffset = this.cardsEl.offset(".table"),
+			t = deckOffset.top - cardsOffset.top,
+			l = deckOffset.left - cardsOffset.left;
 		// update UI
-		if (this.index === 0) this.el.find(".cards").append(`<div class="card ${v}"></div>`);
-		else this.el.find(".cards").data({ cardA: "1" });
+		this.aEl = this.cardsEl.append(`<div class="${cname}" style="top: ${t}px; left: ${l}px; --delay: ${this.index};"></div>`);
+
+		setTimeout(() => {
+			this.aEl.css({ top: 0, left: -16, width: 31, height: 41 });
+			this.aEl.cssSequence("landing", "transitionend", el => {
+				if (this.index === 0) {
+					// user ME, flip card animation
+				} else {
+					el.removeClass("landing in-deck");
+				}
+			});
+		}, 100);
 	}
 
 	get cardB() {
@@ -40,9 +56,25 @@ class Player {
 
 	set cardB(v) {
 		this._cardB = v;
+		// calculations
+		let cname = this.index === 0 ? `card ${v} in-deck` : "cardB in-deck",
+			deckOffset = holdem.els.deck.offset(".table"),
+			cardsOffset = this.cardsEl.offset(".table"),
+			t = deckOffset.top - cardsOffset.top,
+			l = deckOffset.left - cardsOffset.left;
 		// update UI
-		if (this.index === 0) this.el.find(".cards").append(`<div class="card ${v}"></div>`);
-		else this.el.find(".cards").data({ cardB: "1" });
+		this.bEl = this.cardsEl.append(`<div class="${cname}" style="top: ${t}px; left: ${l}px; --delay: ${this.index};"></div>`);
+
+		setTimeout(() => {
+			this.bEl.css({ top: 0, left: -7, width: 31, height: 41 });
+			this.bEl.cssSequence("landing", "transitionend", el => {
+				if (this.index === 0) {
+					// user ME, flip card animation
+				} else {
+					el.removeClass("landing in-deck");
+				}
+			});
+		}, 1100);
 	}
 
 	update(data) {
@@ -55,6 +87,7 @@ class Player {
 	syncEl() {
 		// this.element
 		this.el = holdem.els.seats.get(this.index);
+		this.cardsEl = this.el.find(".cards");
 		this.el.find(".name").data({ name: this.name });
 		this.el.find(".chips").html(this.bankroll.format(" "));
 		this.el.addClass(`s${this.index}`);
