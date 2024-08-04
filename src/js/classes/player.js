@@ -55,6 +55,8 @@ class Player {
 	update(data) {
 		//reset values
 		Object.keys(data).map(key => this[key] = data[key]);
+		// if totalBet is set to zero, update UI
+		if (this.totalBet === 0) this.el.data({ state: "" });
 		// update UI
 		this.syncEl();
 	}

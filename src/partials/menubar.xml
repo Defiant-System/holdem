@@ -4,6 +4,15 @@
 		<Menu type="divider"/>
 		<Menu name="Quit Texas Hold'em" shell="win -c"/>
 	</Menu>
+	<Menu name="Game" for="game-board">
+		<Menu name="Start View" click="show-start-view"/>
+		<Menu name="Game View" click="show-game-view"/>
+		<Menu type="divider"/>
+		<Menu name="New Game" click="new-game"/>
+		<Menu type="divider"/>
+		<Menu name="Purple Theme" click="set-theme" arg="purple"/>
+		<Menu name="Brown Theme" click="set-theme" arg="brown"/>
+	</Menu>
 	<Menu name="Help">
 		<Menu name="Help" click="open-help"/>
 		<Menu type="divider"/>

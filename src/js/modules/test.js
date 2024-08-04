@@ -4,11 +4,11 @@ let Test = {
 
 		// return;
 
-		return setTimeout(() => {
-			Poker.dispatch({ type: "set-opponents", value: 4, noStart: true });
-			Poker.dispatch({ type: "shuffle-deck" });
-			Poker.dispatch({ type: "deal-flop" });
-		}, 500);
+		// return setTimeout(() => {
+		// 	Poker.dispatch({ type: "set-opponents", value: 4, noStart: true });
+		// 	Poker.dispatch({ type: "shuffle-deck" });
+		// 	Poker.dispatch({ type: "deal-flop" });
+		// }, 500);
 
 		// return setTimeout(() => {
 		// 	Poker.dispatch({ type: "set-opponents", value: 4 });

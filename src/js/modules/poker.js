@@ -26,7 +26,6 @@ let Poker = {
 	init() {
 		this.dispatch({ type: "create-bots" });
 		this.dispatch({ type: "create-deck" });
-		this.dispatch({ type: "new-game" });
 	},
 	dispatch(event) {
 		let APP = holdem,
@@ -85,6 +84,8 @@ let Poker = {
 				if (!event.noStart) Self.dispatch({ type: "start-new-round" });
 				break;
 			case "start-new-round":
+				Self.dispatch({ type: "reset-table" });
+				Self.dispatch({ type: "new-game" });
 				Self.dispatch({ type: "new-round" });
 				Self.dispatch({ type: "shuffle-deck" });
 				Self.dispatch({ type: "blinds-and-deal" });
@@ -94,6 +95,14 @@ let Poker = {
 				APP.els.deck.cssSequence("disappear", "transitionend", el => el.removeClass("appear disappear"));
 				// flip users hole cards
 				APP.els.seats.get(0).find(".cards").addClass("hole-flip");
+				break;
+			case "reset-table":
+				// remove card elements
+				APP.els.seats.find(".cards > *").remove();
+				// reset user0 seat
+				APP.els.seats.removeClass("hole-flip");
+				// reset players
+				players.map(p => p.update({ cardA: "", cardB: "", totalBet: 0 }));
 				break;
 			case "new-round":
 				RUN_EM = 0;
@@ -192,7 +201,7 @@ let Poker = {
 				// restore dealer index
 				buttonIndex = event.data.dealer;
 				// start new round
-				this.dispatch({ type: "start-new-round" });
+				Self.dispatch({ type: "start-new-round" });
 				break;
 			case "set-dealer":
 				buttonIndex = event.index;
