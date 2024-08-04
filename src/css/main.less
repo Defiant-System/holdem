@@ -200,11 +200,12 @@ content {
 			.cards {
 				top: 2px;
 				left: 106px;
+				perspective: 900px;
 
 				&.hole-flip {
 					.card {
-						&.cardA { animation: cardFlip 500ms forwards 100ms; }
-						&.cardB { animation: cardFlip 500ms forwards 200ms; }
+						&.cardA { animation: cardFlip 500ms ease-in-out forwards 100ms; }
+						&.cardB { animation: cardFlip 500ms ease-in-out forwards 200ms; }
 					}
 				}
 
@@ -662,6 +663,7 @@ content {
 		z-index: 2;
 		--s1: 300ms;
 		--s2: 400ms;
+		perspective: 500px;
 		min-height: 0px;
 		transition: min-height var( --s1 ) linear;
 
@@ -680,27 +682,31 @@ content {
 			min-height: 2px;
 
 			.card {
-				&.flop-1 { animation: cardFlip var( --s2 ) 40ms forwards; }
-				&.flop-2 { animation: cardFlip var( --s2 ) 140ms forwards; }
-				&.flop-3 { animation: cardFlip var( --s2 ) 240ms forwards; }
+				&.flop-1 { animation: cardFlip var( --s2 ) 100ms ease-in-out forwards; }
+				&.flop-2 { animation: cardFlip var( --s2 ) 200ms ease-in-out forwards; }
+				&.flop-3 { animation: cardFlip var( --s2 ) 300ms ease-in-out forwards; }
 			}
 		}
 
 		&.flip-turn {
 			.card.turn {
-				animation: cardFlip var( --s2 ) 40ms forwards;
+				animation: cardFlip var( --s2 ) 40ms ease-in-out forwards;
 			}
 		}
 
 		&.flip-river {
 			.card.river {
-				animation: cardFlip var( --s2 ) 40ms forwards;
+				animation: cardFlip var( --s2 ) 40ms ease-in-out forwards;
 			}
 		}
 
 		.card {
 			top: 0;
 			transition: left var( --s1 ) ease-in-out;
+
+			&:before {
+				background-size: contain;
+			}
 
 			&.in-deck {
 				opacity: 0.125;
@@ -1082,9 +1088,9 @@ content {
 
 
 @keyframes cardFlip {
-	0%   { transform: translateY(0px) translateZ(0px) rotateY(180deg); }
-	50%  { transform: translateY(-9px) translateZ(50px) rotateY(90deg); }
-	100% { transform: translateY(0px) translateZ(0px) rotateY(0deg); }
+	0%   { transform: translateY(0px) rotateY(180deg); }
+	50%  { transform: translateY(-9px) rotateY(90deg); }
+	100% { transform: translateY(0px) rotateY(0deg); }
 }
 
 @keyframes textShine {
