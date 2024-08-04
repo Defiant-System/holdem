@@ -1,11 +1,23 @@
 
+@import "./classes/player.js"
+
+@import "./modules/poker.js"
 @import "./modules/test.js"
+
+
+const ME = karaqu.user;
 
 
 const holdem = {
 	init() {
 		// fast references
-		this.content = window.find("content");
+		this.els = {
+			content: window.find("content"),
+			seats: window.find(".seat"),
+		};
+
+		// init objects
+		Poker.init();
 
 		// DEV-ONLY-START
 		Test.init(this);
