@@ -9,29 +9,30 @@ let STARTING_BANKROLL = 500;
 let SMALL_BLIND;
 let BIG_BLIND;
 
-let players;
+let Bots = [];
 let cards = new Array(52);
-let board,
+let players,
+	board,
 	deckIndex,
 	buttonIndex;
-
-let Bots = [];
-Bots.push(new Player({ name: "Ricardo", img: "~/img/ricardo.webp" }));
-Bots.push(new Player({ name: "Ann", img: "~/img/ann.webp" }));
-Bots.push(new Player({ name: "Bruce", img: "~/img/bruce.webp" }));
-Bots.push(new Player({ name: "Denzel", img: "~/img/denzel.webp" }));
-Bots.push(new Player({ name: "Jenny", img: "~/img/jenny.webp" }));
-Bots.push(new Player({ name: "Mary", img: "~/img/mary.webp" }));
-Bots.push(new Player({ name: "Nina", img: "~/img/nina.webp" }));
 
 
 let Poker = {
 	init() {
-		this.makeDeck();
+		this.make();
 		this.newGame();
-		this.opponents(3);
+		// this.opponents(3);
 	},
-	makeDeck() {
+	make() {
+		// create bots
+		Bots.push(new Player({ name: "Ricardo" }));
+		Bots.push(new Player({ name: "Ann" }));
+		Bots.push(new Player({ name: "Bruce" }));
+		Bots.push(new Player({ name: "Denzel" }));
+		Bots.push(new Player({ name: "Jenny" }));
+		Bots.push(new Player({ name: "Mary" }));
+		Bots.push(new Player({ name: "Nina" }));
+		// create deck
 		for (let i=2, j=0; i<15; i++) {
 			cards[j++] = `h${i}`;
 			cards[j++] = `d${i}`;
@@ -70,6 +71,17 @@ let Poker = {
 			});
 		}
 		buttonIndex = Math.floor(Math.random() * players.length);
+	},
+	restoreState(data) {
+		let entries = Object.keys(data);
+		// reset players array
+		players = new Array(entries.length);
+		// resurrect players
+		entries.map((num, i) => {
+			players[i] = new Player({ ...data[num], index: +num });
+		});
+
+		// console.log( players );
 	},
 	newRound() {
 

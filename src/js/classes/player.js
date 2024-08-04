@@ -3,7 +3,6 @@ class Player {
 	constructor(data) {
 		let opt = {
 				name: "Anon",
-				img: "~/icons/user-placeholder.png",
 				bankroll: 0,
 				carda: "",
 				cardb: "",
@@ -12,6 +11,7 @@ class Player {
 				subtotalBet: 0,
 				...data,
 			};
+		this.index = opt.index;
 		this.name = opt.name;
 		this.bankroll = opt.bankroll;
 		this.carda = opt.carda;
@@ -19,11 +19,18 @@ class Player {
 		this.status = opt.status;
 		this.totalBet = opt.totalBet;
 		this.subtotalBet = opt.subtotalBet;
+		// update UI
+		if (this.index !== undefined) this.syncEl();
 	}
 
 	reset(data) {
 		//reset values
 		Object.keys(data).map(key => this[key] = data[key]);
+		// update UI
+		this.syncEl();
+	}
+
+	syncEl() {
 		// this.element
 		this.el = holdem.els.seats.get(this.index);
 		this.el.find(".name").data({ name: this.name });
