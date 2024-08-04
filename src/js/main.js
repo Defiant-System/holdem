@@ -1,6 +1,7 @@
 
 @import "./classes/player.js"
 
+@import "./modules/utils.js"
 @import "./modules/poker.js"
 @import "./modules/test.js"
 
@@ -13,6 +14,7 @@ const holdem = {
 		// fast references
 		this.els = {
 			content: window.find("content"),
+			board: window.find(".board"),
 			deck: window.find(".deck"),
 			dealer: window.find(".dealer"),
 			seats: window.find(".seat"),

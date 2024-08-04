@@ -82,12 +82,12 @@ let Poker = {
 					});
 				}
 				// start new round
-				Self.dispatch({ type: "start-new-round" });
+				if (!event.noStart) Self.dispatch({ type: "start-new-round" });
 				break;
 			case "start-new-round":
-				Self.newRound();
-				Self.shuffle();
-				Self.blindsAndDeal();
+				Self.dispatch({ type: "new-round" });
+				Self.dispatch({ type: "shuffle-deck" });
+				Self.dispatch({ type: "blinds-and-deal" });
 				break;
 			case "hole-cards-dealt":
 				// reset deck
@@ -95,24 +95,112 @@ let Poker = {
 				// flip users hole cards
 				APP.els.seats.get(0).find(".cards").addClass("hole-flip");
 				break;
+			case "new-round":
+				RUN_EM = 0;
+				NUM_ROUNDS++;
+				HUMAN_GOES_ALL_IN = 0;
+				currentMinRaise = 0;
+				buttonIndex = Self.getNextPlayerPosition(buttonIndex, 1);
+				// update dealer button
+				Self.dispatch({ type: "set-dealer", index: buttonIndex });
+				break;
+			case "shuffle-deck":
+				for (let i=0, il=cards.length; i<il; ++i) {
+					let j = i + Utils.randomInt(il - i);
+					let tmp = cards[i];
+					cards[i] = cards[j];
+					cards[j] = tmp;
+				}
+				deckIndex = 0;
+				break;
+			case "blinds-and-deal":
+				let smallBlind = Self.getNextPlayerPosition(buttonIndex, 1),
+					bigBlind = Self.getNextPlayerPosition(smallBlind, 1),
+					bettor = Self.getNextPlayerPosition(bigBlind, 1),
+					playerSmallBlind = Self.getPlayer(smallBlind),
+					playerBigBlind = Self.getPlayer(bigBlind),
+					playerBettor = Self.getPlayer(bettor);
+				playerSmallBlind.bet(SMALL_BLIND);
+				playerBigBlind.bet(BIG_BLIND);
+				// flag player as "thinking"
+				playerBettor.update({ status: "OPTION" });
+
+				// reset deck
+				setTimeout(() => APP.els.deck.cssSequence("appear", "transitionend", el => {
+					// deal hole card 1
+					let delay = 0,
+						cpIndex = buttonIndex;
+					for (let i=0, il=players.length; i<il; i++) {
+						cpIndex = Self.getNextPlayerPosition(cpIndex, 1);
+						Self.getPlayer(cpIndex).setCard("cardA", cards[deckIndex++], delay++);
+					}
+					// deal hole card 2
+					cpIndex = buttonIndex;
+					for (let i=0, il=players.length; i<il; i++) {
+						cpIndex = Self.getNextPlayerPosition(cpIndex, 1);
+						Self.getPlayer(cpIndex).setCard("cardB", cards[deckIndex++], delay++, delay+1 === il*2);
+					}
+				}));
+				break;
+			case "deal-flop":
+				// reset deck
+				setTimeout(() => APP.els.deck.cssSequence("appear", "transitionend", el => {
+					let flop = [];
+					for (let i=0; i<3; i++) {
+						flop.push(`<div class="card ${cards[deckIndex++]} card-back flop-${i+1} in-deck"></div>`);
+					}
+					// prepare for anim
+					flop = APP.els.board.html(flop.join("")).find(".card");
+					flop.map((e, i) => {
+						let card = flop.get(i),
+							deckOffset = APP.els.deck.offset(".table"),
+							cOffset = card.offset(".table"),
+							l = deckOffset.left - cOffset.left,
+							t = deckOffset.top - cOffset.top;
+						// anim start
+						card.css({ transform: `translate(${l}px, ${t}px) rotateY(180deg)` });
+					});
+
+					setTimeout(() => {
+						flop.removeClass("in-deck")
+							.css({ transform: `translate(0px, 0px) rotateY(180deg)` })
+							.cssSequence("fly-flop", "transitionend", el => {
+								// reset card
+								el.removeClass("fly-flop").css({ transform: "" });
+								// last card animation
+								if (el.hasClass("flop-3")) {
+									// reset deck
+									APP.els.deck.cssSequence("disappear", "transitionend", el => el.removeClass("appear disappear"));
+									// fan & flip flop
+									APP.els.board.cssSequence("fan-flop", "transitionend", el => {
+										el.cssSequence("flip-flop", "transitionend", el => {
+											// continue game
+											console.log( "continue game" );
+										});
+									});
+								}
+							});
+					}, 10);
+				}));
+				break;
+			case "restore-state":
+				let entries = Object.keys(event.data.players);
+				// reset players array
+				players = new Array(entries.length);
+				// resurrect players
+				entries.map((num, i) => players[i] = new Player({ ...event.data.players[num], index: +num }));
+				// restore dealer index
+				buttonIndex = event.data.dealer;
+				// start new round
+				this.dispatch({ type: "start-new-round" });
+				break;
+			case "set-dealer":
+				buttonIndex = event.index;
+				// update UI
+				APP.els.dealer.data({ pos: `p${event.index}` });
+				APP.els.deck.data({ pos: `p${event.index}` });
+				break;
 		}
-	},
-	setDealer(index) {
-		buttonIndex = index;
-		// update UI
-		holdem.els.dealer.data({ pos: `p${index}` });
-		holdem.els.deck.data({ pos: `p${index}` });
-	},
-	restoreState(data) {
-		let entries = Object.keys(data.players);
-		// reset players array
-		players = new Array(entries.length);
-		// resurrect players
-		entries.map((num, i) => players[i] = new Player({ ...data.players[num], index: +num }));
-		// restore dealer index
-		buttonIndex = data.dealer;
-		// start new round
-		this.dispatch({ type: "start-new-round" });
 	},
 	getNextPlayerPosition(i, delta) {
 		let seats = players.filter(p => !["BUST", "FOLD"].includes(p.status)).map(p => p.index),
@@ -122,53 +210,5 @@ let Poker = {
 	},
 	getPlayer(pos) {
 		return players.find(p => p.index === pos);
-	},
-	newRound() {
-		RUN_EM = 0;
-		NUM_ROUNDS++;
-		HUMAN_GOES_ALL_IN = 0;
-		currentMinRaise = 0;
-		buttonIndex = this.getNextPlayerPosition(buttonIndex, 1);
-		// update dealer button
-		this.setDealer(buttonIndex);
-	},
-	shuffle() {
-		let rndInt = m => Math.floor(Math.random() * m);
-		for (let i=0, il=cards.length; i<il; ++i) {
-			let j = i + rndInt(il - i);
-			let tmp = cards[i];
-			cards[i] = cards[j];
-			cards[j] = tmp;
-		}
-		deckIndex = 0;
-	},
-	blindsAndDeal() {
-		let smallBlind = this.getNextPlayerPosition(buttonIndex, 1),
-			bigBlind = this.getNextPlayerPosition(smallBlind, 1),
-			bettor = this.getNextPlayerPosition(bigBlind, 1),
-			playerSmallBlind = this.getPlayer(smallBlind),
-			playerBigBlind = this.getPlayer(bigBlind),
-			playerBettor = this.getPlayer(bettor);
-		playerSmallBlind.bet(SMALL_BLIND);
-		playerBigBlind.bet(BIG_BLIND);
-		// flag player as "thinking"
-		playerBettor.update({ status: "OPTION" });
-
-		// reset deck
-		setTimeout(() => holdem.els.deck.cssSequence("appear", "transitionend", el => {
-			// deal hole card 1
-			let delay = 0,
-				cpIndex = buttonIndex;
-			for (let i=0, il=players.length; i<il; i++) {
-				cpIndex = this.getNextPlayerPosition(cpIndex, 1);
-				this.getPlayer(cpIndex).setCard("cardA", cards[deckIndex++], delay++);
-			}
-			// deal hole card 2
-			cpIndex = buttonIndex;
-			for (let i=0, il=players.length; i<il; i++) {
-				cpIndex = this.getNextPlayerPosition(cpIndex, 1);
-				this.getPlayer(cpIndex).setCard("cardB", cards[deckIndex++], delay++, delay+1 === il*2);
-			}
-		}));
 	}
 };
