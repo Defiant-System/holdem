@@ -184,7 +184,7 @@ let Poker = {
 									APP.els.board.cssSequence("fan-flop", "transitionend", el => {
 										el.cssSequence("flip-flop", "transitionend", el => {
 											// continue game
-											console.log( "continue game" );
+											// console.log( "continue game" );
 										});
 									});
 								}
