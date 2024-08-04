@@ -57,7 +57,7 @@ content {
 
 .table {
 	position: absolute;
-	top: 53px;
+	top: 73px;
 	left: 43px;
 	width: 745px;
 	height: 400px;
@@ -185,18 +185,35 @@ content {
 
 		&.p0 {
 			display: block;
-			top: 282px;
-			left: 20px;
+			top: 302px;
+			left: 9px;
 
 			.name:after {
 				background-image: url(~/icons/user-placeholder.png);
 			}
 
+			.cards {
+				top: 2px;
+				left: 106px;
+
+				&:before,
+				&:after { display: none; }
+
+				.card {
+					width: 53px;
+					height: 72px;
+					background-size: contain;
+
+					&:last-child {
+						left: 19px;
+					}
+				}
+			}
+
 			.bet {
 				bottom: auto;
-				top: -13px;
-				left: 107px;
-				transform: translate(0);
+				top: -33px;
+				left: 93px;
 
 				&:before { filter: hue-rotate(245deg); }
 			}
@@ -207,11 +224,15 @@ content {
 			top: 77px;
 			left: -20px;
 
+			.cards {
+				top: 101px;
+				left: 120px;
+			}
+
 			.bet {
 				bottom: auto;
-				top: 93px;
+				top: 107px;
 				left: 104px;
-				transform: translate(0);
 
 				&:before { filter: hue-rotate(195deg); }
 			}
@@ -219,24 +240,39 @@ content {
 
 		&.p2 {
 			display: block;
-			top: -37px;
+			top: -63px;
 			left: 130px;
+
+			.cards {
+				top: 166px;
+				left: -2px;
+			}
 
 			.bet:before { filter: hue-rotate(55deg); }
 		}
 
 		&.p3 {
 			display: block;
-			top: -37px;
+			top: -63px;
 			left: 320px;
+
+			.cards {
+				top: 166px;
+				left: -2px;
+			}
 			
 			.bet:before { filter: hue-rotate(155deg) saturate(1.25); }
 		}
 
 		&.p4 {
 			display: block;
-			top: -37px;
+			top: -63px;
 			left: 500px;
+
+			.cards {
+				top: 166px;
+				left: -2px;
+			}
 			
 			.bet:before { filter: hue-rotate(95deg); }
 		}
@@ -246,12 +282,15 @@ content {
 			top: 97px;
 			left: 670px;
 
+			.cards {
+				top: 96px;
+				left: -39px;
+			}
+
 			.bet {
 				left: auto;
 				right: 107px;
 				bottom: -17px;
-				transform: translate(0);
-				// transform: translateX(-128%);
 
 				&:before { filter: grayscale(1); }
 			}
@@ -259,8 +298,13 @@ content {
 		
 		&.p6 {
 			display: block;
-			top: 322px;
+			top: 340px;
 			left: 500px;
+
+			.cards {
+				top: -6px;
+				left: -2px;
+			}
 
 			.bet {
 				bottom: auto;
@@ -272,8 +316,13 @@ content {
 
 		&.p7 {
 			display: block;
-			top: 322px;
+			top: 340px;
 			left: 280px;
+
+			.cards {
+				top: -14px;
+				left: -2px;
+			}
 
 			.bet {
 				bottom: auto;
@@ -344,6 +393,33 @@ content {
 			&[data-name="Nina"]:after { background-image: url(~/img/nina.webp); }
 		}
 
+		.cards {
+			position: absolute;
+			// left: 0;
+			// right: 0;
+			// bottom: -19px;
+			z-index: 2;
+
+			&:before,
+			&:after {
+				content: "";
+				background: url(~/icons/cb-red.png) 0 0/contain no-repeat;
+				background-size: 30px auto;
+				position: absolute;
+				bottom: 0;
+				left: -16px;
+				width: 31px;
+				height: 41px;
+				border-radius: 3px 3px 0 0;
+				// transform: rotate(-6deg);
+			}
+
+			&:after {
+				left: -7px;
+				// transform: rotate(2deg);
+			}
+		}
+
 		.chips {
 			position: absolute;
 			bottom: 0;
@@ -353,12 +429,11 @@ content {
 		}
 
 		.bet {
-			opacity: 0;
-			visibility: hidden;
+			// opacity: 0;
+			// visibility: hidden;
 			position: absolute;
 			bottom: -43px;
-			left: 50%;
-			transform: translate(-50%);
+			left: 27px;
 			height: 29px;
 			font-size: 21px;
 			padding: 5px 11px 3px 31px;
@@ -421,7 +496,7 @@ content {
 		position: absolute;
 		width: 25px;
 		height: 25px;
-		z-index: 1;
+		z-index: 3;
 		text-align: center;
 		padding-top: 1px;
 		background: #ddd;
@@ -456,14 +531,14 @@ content {
 			text-shadow: 0 2px 1px rgba(#fff,.5);
 		}
 
-		&[data-pos="p0"] { top: 305px; left: 124px; }
-		&[data-pos="p1"] { top: 202px; left: 56px; }
-		&[data-pos="p2"] { top: 64px; left: 233px; }
-		&[data-pos="p3"] { top: 57px; left: 423px; }
-		&[data-pos="p4"] { top: 69px; left: 605px; }
-		&[data-pos="p5"] { top: 223px; left: 664px; }
-		&[data-pos="p6"] { top: 308px; left: 604px; }
-		&[data-pos="p7"] { top: 312px; left: 383px; }
+		&[data-pos="p0"] { top: 384px; left: -3px; }
+		&[data-pos="p1"] { top: 161px; left: -31px; }
+		&[data-pos="p2"] { top: 21px; left: 117px; }
+		&[data-pos="p3"] { top: 21px; left: 307px; }
+		&[data-pos="p4"] { top: 21px; left: 487px; }
+		&[data-pos="p5"] { top: 182px; left: 658px; }
+		&[data-pos="p6"] { top: 425px; left: 487px; }
+		&[data-pos="p7"] { top: 424px; left: 267px; }
 	}
 
 	.pot {

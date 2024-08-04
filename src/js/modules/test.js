@@ -4,7 +4,7 @@ let Test = {
 
 		// return;
 
-		// return setTimeout(() => Poker.opponents(3), 500);
+		return setTimeout(() => Poker.opponents(7), 500);
 
 		return setTimeout(() => {
 			Poker.restoreState({

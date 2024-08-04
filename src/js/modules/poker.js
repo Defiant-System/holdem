@@ -65,8 +65,8 @@ let Poker = {
 		for (let i=0; i<players.length; i++) {
 			players[i].update({
 				index: i === 0 ? 0 : seats.pop(),
-				carda: "",
-				cardb: "",
+				cardA: "",
+				cardB: "",
 				status: "",
 				totalBet: 0,
 				subtotalBet: 0,
@@ -88,9 +88,7 @@ let Poker = {
 		// reset players array
 		players = new Array(entries.length);
 		// resurrect players
-		entries.map((num, i) => {
-			players[i] = new Player({ ...data.players[num], index: +num });
-		});
+		entries.map((num, i) => players[i] = new Player({ ...data.players[num], index: +num }));
 		// restore dealer index
 		buttonIndex = data.dealer;
 		// start new round
@@ -115,6 +113,9 @@ let Poker = {
 		buttonIndex = this.getNextPlayerPosition(buttonIndex, 1);
 		// update dealer button
 		this.setDealer(buttonIndex);
+		
+		// temp
+		players.map(p => p.bet(1000));
 	},
 	shuffle() {
 		let rndInt = m => Math.floor(Math.random() * m);
@@ -138,7 +139,7 @@ let Poker = {
 		// flag player as "thinking"
 		playerBettor.update({ status: "OPTION" });
 
-		this.dealAndWriteA();
+		// this.dealAndWriteA();
 	},
 	dealAndWriteA() {
 		let currentPlayer;
@@ -148,7 +149,7 @@ let Poker = {
 		currentPlayer = this.getNextPlayerPosition(buttonIndex, 1);
 		// Deal cards to players still active
 		do {
-			players[currentPlayer].carda = cards[deckIndex++];
+			this.getPlayer(currentPlayer).cardA = cards[deckIndex++];
 			currentPlayer = this.getNextPlayerPosition(currentPlayer, 1);
 		} while (currentPlayer != startPlayer);
 
@@ -160,16 +161,16 @@ let Poker = {
 		let currentPlayer = buttonIndex;
 		for (let i=0; i<players.length; i++) {
 			currentPlayer = this.getNextPlayerPosition(currentPlayer, 1);
-			if (players[currentPlayer].cardb) break;
-			
-			players[currentPlayer].cardb = cards[deckIndex++];
+			let player = this.getPlayer(currentPlayer);
+			if (player.cardB) break;
+			player.cardB = cards[deckIndex++];
 		}
 
 		currentPlayer = this.getNextPlayerPosition(buttonIndex, 1);
 		unroll_player(currentPlayer, currentPlayer, delayForMain);
 	},
 	unrollPlayer(startingPlayer, playerPos, finalCall) {
-		let nextPlayer = this.getNextPlayerPosition(player_pos, 1);
+		let nextPlayer = this.getNextPlayerPosition(playerPos, 1);
 	},
 	delayForMain() {
 		console.log( "main" );
