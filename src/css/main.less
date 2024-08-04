@@ -201,12 +201,20 @@ content {
 				top: 2px;
 				left: 106px;
 
+				&.hole-flip {
+					.card {
+						&.cardA { animation: cardFlip 500ms forwards 100ms; }
+						&.cardB { animation: cardFlip 500ms forwards 200ms; }
+					}
+				}
+
 				.card {
-					opacity: .5;
+					opacity: .125;
 					width: var( --deckW );
 					height: var( --deckH );
 					background-size: contain;
 					transition: all 0s ease-in-out;
+					border-radius: 4px;
 
 					&.dealt {
 						opacity: 1;
@@ -219,22 +227,23 @@ content {
 
 					&.in-deck {
 						transition-duration: var( --cardFlight );
+						// transform: rotateY(180deg);
+					}
 
-						&:before {
-							content: "";
-							background-image: url(~/icons/cb-red.png);
-							background-position: 0 0;
-							background-repeat: no-repeat;
-							background-size: inherit;
-							position: absolute;
-							top: 0;
-							left: 0;
-							right: 0;
-							bottom: 0;
-							border-radius: inherit;
-							transform: rotateY(180deg) translateZ(.1px);
-							filter: brightness(1);
-						}
+					&:before {
+						content: "";
+						background-image: url(~/icons/cb-red.png);
+						background-position: 0 0;
+						background-repeat: no-repeat;
+						background-size: inherit;
+						position: absolute;
+						top: 0;
+						left: 0;
+						right: 0;
+						bottom: 0;
+						border-radius: inherit;
+						transform: rotateY(180deg) translateZ(.1px);
+						filter: brightness(1);
 					}
 				}
 			}
@@ -428,9 +437,7 @@ content {
 
 			.cardA,
 			.cardB {
-				background: url(~/icons/cb-red.png) 0 0/contain no-repeat;
-				// background-size: 30px auto;
-				opacity: .5;
+				opacity: .125;
 				position: absolute;
 				top: -39px;
 				left: -16px;
@@ -440,6 +447,11 @@ content {
 				box-shadow: 0 0 0 1px rgba(#111,.1),
 							0 1px 2px rgba(#000,.2);
 				transition: all 0s ease-in-out;
+
+				&:not(.card),
+				&:not(.card) {
+					background: url(~/icons/cb-red.png) 0 0/contain no-repeat;
+				}
 
 				&.dealt {
 					opacity: 1;
@@ -531,18 +543,32 @@ content {
 	}
 
 	.deck {
-		// opacity: .2;
+		opacity: 0;
 		background: url(~/icons/cb-red.png) 0 0/contain no-repeat;
 		position: absolute;
 		width: var( --deckW );
 		height: var( --deckH );
 		z-index: 1;
+		margin-top: 17px;
 		border-radius: 3px;
 		filter: drop-shadow(0 1px 0 hsl(1, 5%, 77%))
 				drop-shadow(0 2px 0 hsl(1, 5%, 75%))
 				drop-shadow(0 3px 0 hsl(1, 5%, 70%))
 				drop-shadow(0 2px 7px rgba(#000,.35))
 				drop-shadow(0 5px 13px rgba(#000,.5));
+		transition: all 0s ease-in-out;
+
+		&.appear {
+			transition-duration: 250ms;
+			opacity: 1;
+			margin-top: 0;
+		}
+
+		&.disappear {
+			transition-duration: 250ms;
+			opacity: 0;
+			margin-top: 17px;
+		}
 
 		&[data-pos="p0"] { top: 228px; left: 106px; }
 		&[data-pos="p1"] { top: 148px; left: 134px; }

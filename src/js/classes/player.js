@@ -23,7 +23,7 @@ class Player {
 		if (this.index !== undefined) this.syncEl();
 	}
 
-	setCard(which, delay, card) {
+	setCard(which, card, delay, isLast) {
 		// referense
 		this[which] = card;
 
@@ -36,14 +36,18 @@ class Player {
 		let deckOffset = holdem.els.deck.offset(".table"),
 			cOffset = this[key].offset(".table"),
 			l = deckOffset.left - cOffset.left,
-			t = deckOffset.top - cOffset.top;
+			t = deckOffset.top - cOffset.top,
+			r = this.index === 0 ? 180 : 0;
+		this[key].css({ "transform": `translate(${l}px, ${t}px) rotateY(${r}deg)`, "--delay": delay });
 
-		this[key].css({ "transform": `translate(${l}px, ${t}px)`, "--delay": delay });
-
-		requestAnimationFrame(() => this[key].addClass("in-deck dealt").css({ transform: "translate(0px, 0px)" }));
+		// deal card animation
+		requestAnimationFrame(() => this[key].addClass("in-deck dealt").css({ transform: `translate(0px, 0px) rotateY(${r}deg)` }));
 		setTimeout(() => {
 			this[key].cssSequence("!in-deck", "transitionend", el => {
-					
+				// reset card
+				el.removeClass("in-deck");
+				// "signal" - flip user hold cards
+				if (isLast) Poker.dispatch({ type: "hole-cards-dealt" });
 			});
 		}, 10);
 	}

@@ -24,33 +24,48 @@ let currentBettorIndex,
 
 let Poker = {
 	init() {
-		this.make();
-		this.newGame();
-		// this.opponents(3);
+		this.dispatch({ type: "create-bots" });
+		this.dispatch({ type: "create-deck" });
+		this.dispatch({ type: "new-game" });
 	},
-	make() {
-		// create bots
-		Bots.push(new Player({ name: "Ricardo" }));
-		Bots.push(new Player({ name: "Ann" }));
-		Bots.push(new Player({ name: "Daniel" }));
-		Bots.push(new Player({ name: "Jack" }));
-		Bots.push(new Player({ name: "Jenny" }));
-		Bots.push(new Player({ name: "Mary" }));
-		Bots.push(new Player({ name: "Nina" }));
-		// create deck
-		for (let i=2, j=0; i<15; i++) {
-			cards[j++] = `h${i}`;
-			cards[j++] = `d${i}`;
-			cards[j++] = `c${i}`;
-			cards[j++] = `s${i}`;
+	dispatch(event) {
+		let APP = holdem,
+			Self = Poker,
+			value,
+			el;
+		switch (event.type) {
+			case "create-bots":
+				Bots.push(new Player({ name: "Ricardo" }));
+				Bots.push(new Player({ name: "Ann" }));
+				Bots.push(new Player({ name: "Daniel" }));
+				Bots.push(new Player({ name: "Jack" }));
+				Bots.push(new Player({ name: "Jenny" }));
+				Bots.push(new Player({ name: "Mary" }));
+				Bots.push(new Player({ name: "Nina" }));
+				break;
+			case "create-deck":
+				// create deck
+				for (let i=2, j=0; i<15; i++) {
+					cards[j++] = `h${i}`;
+					cards[j++] = `d${i}`;
+					cards[j++] = `c${i}`;
+					cards[j++] = `s${i}`;
+				}
+				break;
+			case "new-game":
+				START_DATE = new Date();
+				NUM_ROUNDS = 0;
+				HUMAN_WINS_AGAIN = 0;
+				// shuffle bots
+				Bots.sort(() => .5 - Math.random());
+				break;
+			case "hole-cards-dealt":
+				// reset deck
+				APP.els.deck.cssSequence("disappear", "transitionend", el => el.removeClass("appear disappear"));
+				// flip users hole cards
+				APP.els.seats.get(0).find(".cards").addClass("hole-flip");
+				break;
 		}
-	},
-	newGame() {
-		START_DATE = new Date();
-		NUM_ROUNDS = 0;
-		HUMAN_WINS_AGAIN = 0;
-		// shuffle bots
-		Bots.sort(() => .5 - Math.random());
 	},
 	opponents(num) {
 		// player seats indices
@@ -137,59 +152,21 @@ let Poker = {
 		// flag player as "thinking"
 		playerBettor.update({ status: "OPTION" });
 
-		// hole card 1
-		let delay = 0,
+		// reset deck
+		setTimeout(() => holdem.els.deck.cssSequence("appear", "transitionend", el => {
+			// deal hole card 1
+			let delay = 0,
+				cpIndex = buttonIndex;
+			for (let i=0, il=players.length; i<il; i++) {
+				cpIndex = this.getNextPlayerPosition(cpIndex, 1);
+				this.getPlayer(cpIndex).setCard("cardA", cards[deckIndex++], delay++);
+			}
+			// deal hole card 2
 			cpIndex = buttonIndex;
-		for (let i=0; i<players.length; i++) {
-			cpIndex = this.getNextPlayerPosition(cpIndex, 1);
-			this.getPlayer(cpIndex).setCard("cardA", delay++, cards[deckIndex++]);
-		}
-		// hole card 2
-		cpIndex = buttonIndex;
-		for (let i=0; i<players.length; i++) {
-			cpIndex = this.getNextPlayerPosition(cpIndex, 1);
-			this.getPlayer(cpIndex).setCard("cardB", delay++, cards[deckIndex++]);
-		}
-
-		// this.dealAndWriteA();
-	},
-	// dealAndWriteA() {
-	// 	let currentPlayer;
-	// 	let startPlayer;
-
-	// 	startPlayer =
-	// 	currentPlayer = this.getNextPlayerPosition(buttonIndex, 1);
-	// 	// Deal cards to players still active
-	// 	do {
-	// 		this.getPlayer(currentPlayer).cardA = cards[deckIndex++];
-	// 		currentPlayer = this.getNextPlayerPosition(currentPlayer, 1);
-	// 	} while (currentPlayer != startPlayer);
-
-	// 	// and now show the cards
-	// 	currentPlayer = this.getNextPlayerPosition(buttonIndex, 1);
-	// 	this.unrollPlayer(currentPlayer, currentPlayer, () => this.dealAndWriteB());
-	// },
-	// dealAndWriteB() {
-	// 	let currentPlayer = buttonIndex;
-	// 	for (let i=0; i<players.length; i++) {
-	// 		currentPlayer = this.getNextPlayerPosition(currentPlayer, 1);
-	// 		let player = this.getPlayer(currentPlayer);
-	// 		if (player.cardB) break;
-	// 		player.cardB = cards[deckIndex++];
-	// 	}
-
-	// 	currentPlayer = this.getNextPlayerPosition(buttonIndex, 1);
-	// 	this.unrollPlayer(currentPlayer, currentPlayer, () => this.delayForMain());
-	// },
-	// unrollPlayer(startingPlayer, playerPos, finalCall) {
-	// 	let nextPlayer = this.getNextPlayerPosition(playerPos, 1);
-	// 	if (startingPlayer == nextPlayer) {
-	// 		setTimeout(finalCall, globalSpeed);
-	// 	} else {
-	// 		setTimeout(() => this.unrollPlayer(startingPlayer, nextPlayer, finalCall), globalSpeed);
-	// 	}
-	// },
-	// delayForMain() {
-	// 	console.log( "main" );
-	// }
+			for (let i=0, il=players.length; i<il; i++) {
+				cpIndex = this.getNextPlayerPosition(cpIndex, 1);
+				this.getPlayer(cpIndex).setCard("cardB", cards[deckIndex++], delay++, delay+1 === il*2);
+			}
+		}));
+	}
 };
