@@ -1,15 +1,20 @@
 
 let Test = {
 	init(APP) {
+
 		// return;
 
 		// return setTimeout(() => Poker.opponents(3), 500);
 
 		return setTimeout(() => {
 			Poker.restoreState({
-				"0": { bankroll: 300, name: "Hakan" },
-				"2": { bankroll: 400, name: "Nina" },
-				"4": { bankroll: 500, name: "Jenny" },
+				dealer: 0,
+				players: {
+					"0": { bankroll: 3000, name: "Hakan" },
+					"3": { bankroll: 4000, name: "Nina" },
+					"4": { bankroll: 5000, name: "Jenny" },
+					"7": { bankroll: 2050, name: "Ann" },
+				},
 			});
 		}, 500);
 		

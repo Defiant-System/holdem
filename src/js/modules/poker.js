@@ -5,9 +5,9 @@ let HUMAN_WINS_AGAIN;
 let HUMAN_GOES_ALL_IN;
 let STOP_AUTOPLAY = 0;
 let RUN_EM = 0;
-let STARTING_BANKROLL = 500;
-let SMALL_BLIND;
-let BIG_BLIND;
+let STARTING_BANKROLL = 5000;
+let SMALL_BLIND = 50;
+let BIG_BLIND = 100;
 
 let Bots = [];
 let cards = new Array(52);
@@ -15,6 +15,9 @@ let players,
 	board,
 	deckIndex,
 	buttonIndex;
+let currentBettorIndex,
+	currentBetAmount,
+	currentMinRaise;
 
 
 let Poker = {
@@ -60,7 +63,7 @@ let Poker = {
 		}
 		// reset all
 		for (let i=0; i<players.length; i++) {
-			players[i].reset({
+			players[i].update({
 				index: i === 0 ? 0 : seats.pop(),
 				carda: "",
 				cardb: "",
@@ -70,20 +73,105 @@ let Poker = {
 				bankroll: STARTING_BANKROLL,
 			});
 		}
-		buttonIndex = Math.floor(Math.random() * players.length);
+		// update dealer button
+		this.setDealer(Math.floor(Math.random() * players.length));
+		// start new round
+		this.newRound();
+	},
+	setDealer(index) {
+		buttonIndex = index;
+		// update UI
+		holdem.els.dealer.data({ pos: `p${index}` });
 	},
 	restoreState(data) {
-		let entries = Object.keys(data);
+		let entries = Object.keys(data.players);
 		// reset players array
 		players = new Array(entries.length);
 		// resurrect players
 		entries.map((num, i) => {
-			players[i] = new Player({ ...data[num], index: +num });
+			players[i] = new Player({ ...data.players[num], index: +num });
 		});
-
-		// console.log( players );
+		// restore dealer index
+		buttonIndex = data.dealer;
+		// start new round
+		this.newRound();
+		this.shuffle();
+		this.blindsAndDeal();
+	},
+	getNextPlayerPosition(i, delta) {
+		let seats = players.filter(p => !["BUST", "FOLD"].includes(p.status)).map(p => p.index),
+			index = seats.indexOf(i),
+			add = seats.length * seats.length;
+		return seats[(index + delta + add) % seats.length]
+	},
+	getPlayer(pos) {
+		return players.find(p => p.index === pos);
 	},
 	newRound() {
+		RUN_EM = 0;
+		NUM_ROUNDS++;
+		HUMAN_GOES_ALL_IN = 0;
+		currentMinRaise = 0;
+		buttonIndex = this.getNextPlayerPosition(buttonIndex, 1);
+		// update dealer button
+		this.setDealer(buttonIndex);
+	},
+	shuffle() {
+		let rndInt = m => Math.floor(Math.random() * m);
+		for (let i=0, il=cards.length; i<il; ++i) {
+			let j = i + rndInt(il - i);
+			let tmp = cards[i];
+			cards[i] = cards[j];
+			cards[j] = tmp;
+		}
+		deckIndex = 0;
+	},
+	blindsAndDeal() {
+		let smallBlind = this.getNextPlayerPosition(buttonIndex, 1),
+			bigBlind = this.getNextPlayerPosition(smallBlind, 1),
+			bettor = this.getNextPlayerPosition(bigBlind, 1),
+			playerSmallBlind = this.getPlayer(smallBlind),
+			playerBigBlind = this.getPlayer(bigBlind),
+			playerBettor = this.getPlayer(bettor);
+		playerSmallBlind.bet(SMALL_BLIND);
+		playerBigBlind.bet(BIG_BLIND);
+		// flag player as "thinking"
+		playerBettor.update({ status: "OPTION" });
 
+		this.dealAndWriteA();
+	},
+	dealAndWriteA() {
+		let currentPlayer;
+		let startPlayer;
+
+		startPlayer =
+		currentPlayer = this.getNextPlayerPosition(buttonIndex, 1);
+		// Deal cards to players still active
+		do {
+			players[currentPlayer].carda = cards[deckIndex++];
+			currentPlayer = this.getNextPlayerPosition(currentPlayer, 1);
+		} while (currentPlayer != startPlayer);
+
+		// and now show the cards
+		currentPlayer = this.getNextPlayerPosition(buttonIndex, 1);
+		this.unrollPlayer(currentPlayer, currentPlayer, this.dealAndWriteB);
+	},
+	dealAndWriteB() {
+		let currentPlayer = buttonIndex;
+		for (let i=0; i<players.length; i++) {
+			currentPlayer = this.getNextPlayerPosition(currentPlayer, 1);
+			if (players[currentPlayer].cardb) break;
+			
+			players[currentPlayer].cardb = cards[deckIndex++];
+		}
+
+		currentPlayer = this.getNextPlayerPosition(buttonIndex, 1);
+		unroll_player(currentPlayer, currentPlayer, delayForMain);
+	},
+	unrollPlayer(startingPlayer, playerPos, finalCall) {
+		let nextPlayer = this.getNextPlayerPosition(player_pos, 1);
+	},
+	delayForMain() {
+		console.log( "main" );
 	}
 };

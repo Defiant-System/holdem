@@ -23,7 +23,7 @@ class Player {
 		if (this.index !== undefined) this.syncEl();
 	}
 
-	reset(data) {
+	update(data) {
 		//reset values
 		Object.keys(data).map(key => this[key] = data[key]);
 		// update UI
@@ -34,7 +34,15 @@ class Player {
 		// this.element
 		this.el = holdem.els.seats.get(this.index);
 		this.el.find(".name").data({ name: this.name });
-		this.el.find(".chips").html(this.bankroll);
+		this.el.find(".chips").html(this.bankroll.format(" "));
 		this.el.addClass(`p${this.index}`);
+	}
+
+	bet(val) {
+		this.totalBet += val;
+		this.bankroll -= val;
+		this.el.find(".bet").html(this.totalBet.format(" "));
+		this.el.find(".chips").html(this.bankroll.format(" "));
+		this.el.data({ state: "betting" });
 	}
 }
