@@ -31,6 +31,7 @@ let Poker = {
 	dispatch(event) {
 		let APP = holdem,
 			Self = Poker,
+			seats,
 			value,
 			el;
 		switch (event.type) {
@@ -59,6 +60,35 @@ let Poker = {
 				// shuffle bots
 				Bots.sort(() => .5 - Math.random());
 				break;
+			case "set-opponents":
+				// player seats indices
+				seats = [...Array(7)].map((j,i) => i+1).sort(() => .5 - Math.random());
+				// reset players array
+				players = new Array(event.value + 1);
+				// player user
+				players[0] = new Player({ name: ME.firstName, img: ME.avatar });
+				// player bots
+				for (let i=1; i<players.length; i++) {
+					players[i] = Bots[i-1];
+				}
+				// reset all
+				for (let i=0; i<players.length; i++) {
+					players[i].update({
+						index: i === 0 ? 0 : seats.pop(),
+						status: "",
+						totalBet: 0,
+						subtotalBet: 0,
+						bankroll: STARTING_BANKROLL,
+					});
+				}
+				// start new round
+				Self.dispatch({ type: "start-new-round" });
+				break;
+			case "start-new-round":
+				Self.newRound();
+				Self.shuffle();
+				Self.blindsAndDeal();
+				break;
 			case "hole-cards-dealt":
 				// reset deck
 				APP.els.deck.cssSequence("disappear", "transitionend", el => el.removeClass("appear disappear"));
@@ -66,32 +96,6 @@ let Poker = {
 				APP.els.seats.get(0).find(".cards").addClass("hole-flip");
 				break;
 		}
-	},
-	opponents(num) {
-		// player seats indices
-		let seats = [...Array(7)].map((j,i) => i+1).sort(() => .5 - Math.random());
-		// reset players array
-		players = new Array(num + 1);
-		// player user
-		players[0] = new Player({ name: ME.firstName, img: ME.avatar });
-		// player bots
-		for (let i=1; i<players.length; i++) {
-			players[i] = Bots[i-1];
-		}
-		// reset all
-		for (let i=0; i<players.length; i++) {
-			players[i].update({
-				index: i === 0 ? 0 : seats.pop(),
-				status: "",
-				totalBet: 0,
-				subtotalBet: 0,
-				bankroll: STARTING_BANKROLL,
-			});
-		}
-		// update dealer button
-		this.setDealer(Math.floor(Math.random() * players.length));
-		// start new round
-		this.newRound();
 	},
 	setDealer(index) {
 		buttonIndex = index;
@@ -108,9 +112,7 @@ let Poker = {
 		// restore dealer index
 		buttonIndex = data.dealer;
 		// start new round
-		this.newRound();
-		this.shuffle();
-		this.blindsAndDeal();
+		this.dispatch({ type: "start-new-round" });
 	},
 	getNextPlayerPosition(i, delta) {
 		let seats = players.filter(p => !["BUST", "FOLD"].includes(p.status)).map(p => p.index),

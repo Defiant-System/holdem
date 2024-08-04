@@ -5,17 +5,17 @@ let Test = {
 		// return;
 
 		// return setTimeout(() => {
-		// 	Poker.opponents(7);
+		// 	Poker.dispatch({ type: "set-opponents", value: 4 });
 
 		// 	// temp
 		// 	// players.map(p => p.bet(1000));
-		// 	players.map(p => p.cardA = 1);
-		// 	players.map(p => p.cardB = 1);
+		// 	// players.map(p => p.cardA = 1);
+		// 	// players.map(p => p.cardB = 1);
 		// }, 500);
 
 		return setTimeout(() => {
 			Poker.restoreState({
-				dealer: 0,
+				dealer: 7,
 				players: {
 					"0": { bankroll: 3000, name: "Hakan" },
 					"1": { bankroll: 4000, name: "Nina" },
