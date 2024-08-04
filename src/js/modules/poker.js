@@ -29,7 +29,7 @@ let Poker = {
 	init() {
 		this.makeDeck();
 		this.newGame();
-		this.opponents(7);
+		this.opponents(3);
 	},
 	makeDeck() {
 		for (let i=2, j=0; i<15; i++) {
@@ -47,6 +47,8 @@ let Poker = {
 		Bots.sort(() => .5 - Math.random());
 	},
 	opponents(num) {
+		// player seats indices
+		let seats = [...Array(7)].map((j,i) => i+1).sort(() => .5 - Math.random());
 		// reset players array
 		players = new Array(num + 1);
 		// player user
@@ -58,7 +60,7 @@ let Poker = {
 		// reset all
 		for (let i=0; i<players.length; i++) {
 			players[i].reset({
-				index: i,
+				index: i === 0 ? 0 : seats.pop(),
 				carda: "",
 				cardb: "",
 				status: "",

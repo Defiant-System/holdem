@@ -159,6 +159,7 @@ content {
 	.seat {
 		display: none;
 		position: absolute;
+		z-index: 2;
 		width: 95px;
 		height: 117px;
 		white-space: nowrap;
@@ -228,7 +229,7 @@ content {
 
 		&.p5 {
 			display: block;
-			top: 77px;
+			top: 97px;
 			left: 670px;
 
 			.bet {
@@ -258,7 +259,7 @@ content {
 		&.p7 {
 			display: block;
 			top: 322px;
-			left: 320px;
+			left: 280px;
 
 			.bet {
 				bottom: auto;
@@ -406,6 +407,7 @@ content {
 		position: absolute;
 		width: 25px;
 		height: 25px;
+		z-index: 1;
 		text-align: center;
 		padding-top: 1px;
 		background: #ddd;
@@ -445,9 +447,9 @@ content {
 		&[data-pos="p2"] { top: 64px; left: 233px; }
 		&[data-pos="p3"] { top: 57px; left: 423px; }
 		&[data-pos="p4"] { top: 69px; left: 605px; }
-		&[data-pos="p5"] { top: 203px; left: 664px; }
+		&[data-pos="p5"] { top: 223px; left: 664px; }
 		&[data-pos="p6"] { top: 308px; left: 604px; }
-		&[data-pos="p7"] { top: 312px; left: 424px; }
+		&[data-pos="p7"] { top: 312px; left: 383px; }
 	}
 
 	.pot {
