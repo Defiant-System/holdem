@@ -138,16 +138,17 @@ let Poker = {
 		playerBettor.update({ status: "OPTION" });
 
 		// hole card 1
-		let cpIndex = buttonIndex;
+		let delay = 0,
+			cpIndex = buttonIndex;
 		for (let i=0; i<players.length; i++) {
 			cpIndex = this.getNextPlayerPosition(cpIndex, 1);
-			this.getPlayer(cpIndex).cardA = cards[deckIndex++];
+			this.getPlayer(cpIndex).setCard("cardA", delay++, cards[deckIndex++]);
 		}
 		// hole card 2
 		cpIndex = buttonIndex;
 		for (let i=0; i<players.length; i++) {
 			cpIndex = this.getNextPlayerPosition(cpIndex, 1);
-			this.getPlayer(cpIndex).cardB = cards[deckIndex++];
+			this.getPlayer(cpIndex).setCard("cardB", delay++, cards[deckIndex++]);
 		}
 
 		// this.dealAndWriteA();

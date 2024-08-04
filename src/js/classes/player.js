@@ -14,8 +14,8 @@ class Player {
 		this.index = opt.index;
 		this.name = opt.name;
 		this.bankroll = opt.bankroll;
-		this._cardA = opt.cardA;
-		this._cardB = opt.cardB;
+		this.cardA = opt.cardA;
+		this.cardB = opt.cardB;
 		this.status = opt.status;
 		this.totalBet = opt.totalBet;
 		this.subtotalBet = opt.subtotalBet;
@@ -23,58 +23,29 @@ class Player {
 		if (this.index !== undefined) this.syncEl();
 	}
 
-	get cardA() {
-		return this._cardA;
-	}
+	setCard(which, delay, card) {
+		// referense
+		this[which] = card;
 
-	set cardA(v) {
-		this._cardA = v;
+		// insert element UI
+		let cname = this.index === 0 ? `card ${card} ${which}` : `${which}`,
+			key = `${which.slice(-1)}El`;
+		this[key] = this.cardsEl.append(`<div class="${cname}"></div>`);
+
 		// calculations
-		let cname = this.index === 0 ? `card ${v} in-deck` : "cardA in-deck",
-			deckOffset = holdem.els.deck.offset(".table"),
-			cardsOffset = this.cardsEl.offset(".table"),
-			t = deckOffset.top - cardsOffset.top,
-			l = deckOffset.left - cardsOffset.left;
-		// update UI
-		this.aEl = this.cardsEl.append(`<div class="${cname}" style="top: ${t}px; left: ${l}px; --delay: ${this.index};"></div>`);
+		let deckOffset = holdem.els.deck.offset(".table"),
+			cOffset = this[key].offset(".table"),
+			l = deckOffset.left - cOffset.left,
+			t = deckOffset.top - cOffset.top;
 
+		this[key].css({ "transform": `translate(${l}px, ${t}px)`, "--delay": delay });
+
+		requestAnimationFrame(() => this[key].addClass("in-deck dealt").css({ transform: "translate(0px, 0px)" }));
 		setTimeout(() => {
-			this.aEl.css({ top: 0, left: -16, width: 31, height: 41 });
-			this.aEl.cssSequence("landing", "transitionend", el => {
-				if (this.index === 0) {
-					// user ME, flip card animation
-				} else {
-					el.removeClass("landing in-deck");
-				}
+			this[key].cssSequence("!in-deck", "transitionend", el => {
+					
 			});
-		}, 100);
-	}
-
-	get cardB() {
-		return this._cardB;
-	}
-
-	set cardB(v) {
-		this._cardB = v;
-		// calculations
-		let cname = this.index === 0 ? `card ${v} in-deck` : "cardB in-deck",
-			deckOffset = holdem.els.deck.offset(".table"),
-			cardsOffset = this.cardsEl.offset(".table"),
-			t = deckOffset.top - cardsOffset.top,
-			l = deckOffset.left - cardsOffset.left;
-		// update UI
-		this.bEl = this.cardsEl.append(`<div class="${cname}" style="top: ${t}px; left: ${l}px; --delay: ${this.index};"></div>`);
-
-		setTimeout(() => {
-			this.bEl.css({ top: 0, left: -7, width: 31, height: 41 });
-			this.bEl.cssSequence("landing", "transitionend", el => {
-				if (this.index === 0) {
-					// user ME, flip card animation
-				} else {
-					el.removeClass("landing in-deck");
-				}
-			});
-		}, 1100);
+		}, 10);
 	}
 
 	update(data) {

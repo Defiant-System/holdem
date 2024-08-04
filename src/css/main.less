@@ -30,6 +30,7 @@ content {
 	// hovering deck dimensions
 	--deckW: 43px;
 	--deckH: 59px;
+	--cardFlight: 450ms;
 
 
 	&[data-theme="brown"] {
@@ -201,19 +202,23 @@ content {
 				left: 106px;
 
 				.card {
-					width: 53px;
-					height: 72px;
+					opacity: .5;
+					width: var( --deckW );
+					height: var( --deckH );
 					background-size: contain;
+					transition: all 0s ease-in-out;
 
-					&:last-child {
-						left: 18px;
+					&.dealt {
+						opacity: 1;
+						width: 53px;
+						height: 72px;
 					}
 
+					&.cardA { left: 0; }
+					&.cardB { left: 18px; }
+
 					&.in-deck {
-						width: var( --deckW );
-						height: var( --deckH );
-						transform: rotateY(180deg);
-						transition: all 300ms ease-in-out;
+						transition-duration: var( --cardFlight );
 
 						&:before {
 							content: "";
@@ -425,20 +430,26 @@ content {
 			.cardB {
 				background: url(~/icons/cb-red.png) 0 0/contain no-repeat;
 				// background-size: 30px auto;
+				opacity: .5;
 				position: absolute;
-				bottom: 0;
+				top: -39px;
 				left: -16px;
-				width: 31px;
-				height: 41px;
+				width: var( --deckW );
+				height: var( --deckH );
 				border-radius: 3px;
 				box-shadow: 0 0 0 1px rgba(#111,.1),
 							0 1px 2px rgba(#000,.2);
+				transition: all 0s ease-in-out;
+
+				&.dealt {
+					opacity: 1;
+					width: 31px;
+					height: 41px;
+				}
 
 				&.in-deck {
-					transition: all 300ms ease-in-out;
-					width: var( --deckW );
-					height: var( --deckH );
-					transition-delay: calc( var( --delay ) * 150ms );
+					transition-duration: var( --cardFlight );
+					transition-delay: calc( var( --delay ) * 200ms );
 				}
 			}
 
