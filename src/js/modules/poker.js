@@ -113,9 +113,6 @@ let Poker = {
 		buttonIndex = this.getNextPlayerPosition(buttonIndex, 1);
 		// update dealer button
 		this.setDealer(buttonIndex);
-		
-		// temp
-		players.map(p => p.bet(1000));
 	},
 	shuffle() {
 		let rndInt = m => Math.floor(Math.random() * m);

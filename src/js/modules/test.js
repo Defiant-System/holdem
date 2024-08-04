@@ -4,7 +4,7 @@ let Test = {
 
 		// return;
 
-		return setTimeout(() => Poker.opponents(7), 500);
+		// return setTimeout(() => Poker.opponents(7), 500);
 
 		return setTimeout(() => {
 			Poker.restoreState({
@@ -16,6 +16,9 @@ let Test = {
 					"7": { bankroll: 2050, name: "Ann" },
 				},
 			});
+
+			// temp
+			// players.map(p => p.bet(1000));
 		}, 500);
 		
 
