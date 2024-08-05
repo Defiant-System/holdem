@@ -18,26 +18,27 @@ content {
 	.hidden {
 		display: none;
 	}
-}
 
-.game {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	user-select: none;
-	border-radius: inherit;
-	transition: width 100ms,
-				height 100ms;
-	padding-left: 50px;
-	// hovering deck dimensions
-	--deckW: 43px;
-	--deckH: 59px;
-	--cardFlight: 450ms;
+	.floor {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		border-radius: inherit;
 
+		&:before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			opacity: .035;
+		}
+	}
 
-	&[data-theme="brown"] {
+	&[data-theme="brown"] .floor {
 		background: #7e3400 radial-gradient(circle at top center, #fbaa6a4f, #2011004f);
 
 		&:before {
@@ -45,7 +46,7 @@ content {
 		}
 	}
 
-	&[data-theme="purple"] {
+	&[data-theme="purple"] .floor {
 		background: #640b6b radial-gradient(circle at top center, #dd6afb4f, #16032d4f);
 
 		&:before {
@@ -53,21 +54,44 @@ content {
 		}
 	}
 
-	&:before {
-		content: "";
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		opacity: .035;
+	&[data-show="start"] {
+		.start-view { display: block; }
+		.game-view { display: none; }
 	}
+
+	&[data-show="game"] {
+		.start-view { display: none; }
+		.game-view { display: block; }
+	}
+}
+
+.start-view {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+.game-view {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	user-select: none;
+	transition: width 100ms,
+				height 100ms;
+	// hovering deck dimensions
+	--deckW: 43px;
+	--deckH: 59px;
+	--cardFlight: 450ms;
 }
 
 .table {
 	position: absolute;
 	top: 73px;
-	left: 43px;
+	left: 47px;
 	width: 745px;
 	height: 400px;
 	background: #444;
@@ -191,6 +215,38 @@ content {
 		backdrop-filter: blur(5px);
 		background: radial-gradient(ellipse at bottom center, #dddddd60, transparent 90%),
 					linear-gradient(180deg, #484579a1, #1c0c5a94);
+		--size: 0;
+
+		&[data-status="thinking"] {
+			svg.outline {
+				rect {
+					--size: 500;
+					stroke-dashoffset: var( --size );
+					animation: 5s animOutline linear forwards;
+				}
+			}
+		}
+
+		svg.outline {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: inherit;
+			height: inherit;
+			overflow: visible;
+			z-index: 3;
+
+			rect {
+				fill: none;
+				stroke: #fff;
+				stroke-linejoin: round;
+				stroke-linecap: round;
+				stroke-width: 3;
+				stroke-dasharray: var( --size );
+				filter: drop-shadow(0 0 3px #fff)
+						drop-shadow(0 0 9px #fff);
+			}
+		}
 
 		&.s0 {
 			display: block;
@@ -520,7 +576,7 @@ content {
 
 		&[data-status="fold"] {
 			// filter: sepia(1) brightness(.75) hue-rotate(305deg);
-			filter: grayscale(1) brightness(.75);
+			filter: grayscale(1) brightness(.65) opacity(.85);
 
 			// .name:after { filter: sepia(1) saturate(3) brightness(.55) hue-rotate(305deg); }
 			.name:before,
@@ -626,9 +682,10 @@ content {
 		&:after {
 			content: "D";
 			position: relative;
+			top: -1px;
 			z-index: 2;
 			font-family: Arial Black;
-			font-size: 17px;
+			font-size: 15px;
 			color: rgba(#222,.5);
 			text-shadow: 0 2px 1px rgba(#fff,.5);
 		}
@@ -1121,6 +1178,11 @@ content {
 	0%   { background-position: 0; }
 	60%  { background-position: 115px; }
 	100% { background-position: 115px; }
+}
+
+@keyframes animOutline {
+	0%   { stroke-dashoffset: var( --size ); }
+	100% { stroke-dashoffset: 0; }
 }
 
 

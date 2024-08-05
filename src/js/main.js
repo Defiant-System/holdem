@@ -51,7 +51,7 @@ const holdem = {
 				Poker.dispatch(event);
 				break;
 			case "set-theme":
-				Self.content.data({ theme: event.arg });
+				Self.els.content.data({ theme: event.arg });
 				break;
 		}
 	}

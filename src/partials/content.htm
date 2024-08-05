@@ -1,5 +1,13 @@
-<content data-context="game-board">
-	<div class="game" data-theme="brown">
+<content data-show="game" data-theme="purple" data-context="game-board">
+	<div class="floor"></div>
+
+	<div class="start-view">
+		<div class="logo">
+			<svg><use xlink:href="#holdem-logo"></use></svg>
+		</div>
+	</div>
+
+	<div class="game-view">
 		<div class="table">
 			<!-- table yellow rim highlights -->
 			<div class="rim"></div>
@@ -74,6 +82,9 @@
 			</span>
 
 			<span class="seat">
+				<svg class="outline" viewBox="0 0 95 117">
+					<rect y="0" y="0" width="95" height="117" rx="6"/>
+				</svg>
 				<span class="bg"></span>
 				<span class="cards"></span>
 				<span class="name"></span>
@@ -103,6 +114,7 @@
 			<span class="pot hidden"></span>
 		</div>
 
+		<!-- actions dialog -->
 		<div class="actions hidden">
 			<span class="button fold">Fold</span>
 			<span class="button check">Check</span>
@@ -123,65 +135,5 @@
 			</span>
 
 		</div>
-
-		<!--
-		<div class="card card-back"></div>
-		
-		<div class="card dA"></div>
-		<div class="card d2"></div>
-		<div class="card d3"></div>
-		<div class="card d4"></div>
-		<div class="card d5"></div>
-		<div class="card d6"></div>
-		<div class="card d7"></div>
-		<div class="card d8"></div>
-		<div class="card d9"></div>
-		<div class="card d10"></div>
-		<div class="card dJ"></div>
-		<div class="card dQ"></div>
-		<div class="card dK"></div>
-
-		<div class="card sA"></div>
-		<div class="card s2"></div>
-		<div class="card s3"></div>
-		<div class="card s4"></div>
-		<div class="card s5"></div>
-		<div class="card s6"></div>
-		<div class="card s7"></div>
-		<div class="card s8"></div>
-		<div class="card s9"></div>
-		<div class="card s10"></div>
-		<div class="card sJ"></div>
-		<div class="card sQ"></div>
-		<div class="card sK"></div>
-				
-		<div class="card hA"></div>
-		<div class="card h2"></div>
-		<div class="card h3"></div>
-		<div class="card h4"></div>
-		<div class="card h5"></div>
-		<div class="card h6"></div>
-		<div class="card h7"></div>
-		<div class="card h8"></div>
-		<div class="card h9"></div>
-		<div class="card h10"></div>
-		<div class="card hJ"></div>
-		<div class="card hQ"></div>
-		<div class="card hK"></div>
-				
-		<div class="card cA"></div>
-		<div class="card c2"></div>
-		<div class="card c3"></div>
-		<div class="card c4"></div>
-		<div class="card c5"></div>
-		<div class="card c6"></div>
-		<div class="card c7"></div>
-		<div class="card c8"></div>
-		<div class="card c9"></div>
-		<div class="card c10"></div>
-		<div class="card cJ"></div>
-		<div class="card cQ"></div>
-		<div class="card cK"></div>
-		-->
 	</div>
 </content>

@@ -210,9 +210,20 @@ let Poker = {
 				players = new Array(entries.length);
 				// resurrect players
 				entries.map((num, i) => players[i] = new Player({ ...event.data.players[num], index: +num }));
-				// restore flop cards
-				value = event.data.flop.map((c, i) => `<div class="card ${c} card-back flop-${i+1} no-anim"></div>`);
-				APP.els.board.addClass("fan-flop flip-flop no-anim").html(value.join());
+				if (event.data.flop) {
+					// restore flop cards
+					value = event.data.flop.map((c, i) => `<div class="card ${c} card-back flop-${i+1} no-anim"></div>`);
+					APP.els.board.addClass("fan-flop flip-flop no-anim").html(value.join());
+					
+					if (event.data.turn) {
+						// append turn
+						APP.els.board.addClass("flip-turn").append(`<div class="card turn ${event.data.turn} no-anim"></div>`);
+					}
+					if (event.data.river) {
+						// append river
+						APP.els.board.addClass("flip-river").append(`<div class="card river ${event.data.river} no-anim"></div>`);
+					}
+				}
 				// pot size
 				APP.els.pot.removeClass("hidden").html(event.data.pot);
 				// update dealer button
