@@ -2,6 +2,7 @@
 @import "./classes/player.js"
 
 @import "./modules/utils.js"
+@import "./modules/hands.js"
 @import "./modules/poker.js"
 @import "./modules/test.js"
 

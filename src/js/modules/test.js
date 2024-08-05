@@ -4,6 +4,17 @@ let Test = {
 
 		// return;
 
+
+		// return setTimeout(() => {
+		// 	let board = ["c14", "h2", "d14", "c9", "c10"],
+		// 		players = [
+		// 			{ carda: "d12", cardb: "c6" },
+		// 			{ carda: "h7", cardb: "s2" }
+		// 		];
+		// 	let w = Hands.getWinners(board, players);
+		// 	console.log( w );
+		// }, 500);
+
 		// return setTimeout(() => {
 		// 	Poker.dispatch({ type: "set-opponents", value: 4, noStart: true });
 		// 	Poker.dispatch({ type: "shuffle-deck" });
