@@ -11,6 +11,12 @@ const ME = karaqu.user;
 
 const holdem = {
 	init() {
+		// render table seats
+		window.render({
+			template: "table-seats",
+			match: "//Data/Seats",
+			append: window.find(".table"),
+		});
 		// fast references
 		this.els = {
 			content: window.find("content"),

@@ -219,6 +219,8 @@ content {
 
 		&[data-status="thinking"] {
 			svg.outline {
+				display: block;
+
 				rect {
 					--size: 500;
 					stroke-dashoffset: var( --size );
@@ -228,6 +230,7 @@ content {
 		}
 
 		svg.outline {
+			display: none;
 			position: absolute;
 			top: 0;
 			left: 0;
