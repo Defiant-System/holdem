@@ -80,6 +80,8 @@ let Poker = {
 						bankroll: STARTING_BANKROLL,
 					});
 				}
+				// sort players
+				players = players.sort((a, b) => a.index - b.index);
 				// start new round
 				if (!event.noStart) Self.dispatch({ type: "start-new-round" });
 				break;
