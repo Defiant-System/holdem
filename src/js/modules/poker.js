@@ -125,6 +125,9 @@ let Poker = {
 				deckIndex = 0;
 				break;
 			case "blinds-and-deal":
+				// first shuffle deck
+				Self.dispatch({ type: "shuffle-deck" });
+				// pay blinds
 				let smallBlind = Self.getNextPlayerPosition(buttonIndex, 1),
 					bigBlind = Self.getNextPlayerPosition(smallBlind, 1),
 					bettor = Self.getNextPlayerPosition(bigBlind, 1),
@@ -138,19 +141,19 @@ let Poker = {
 
 				// reset deck
 				setTimeout(() => APP.els.deck.cssSequence("appear", "transitionend", el => {
-					// deal hole card 1
 					let delay = 0,
-						cpIndex = buttonIndex;
-
-					for (let i=0, il=players.length; i<il; i++) {
+						cpIndex = buttonIndex,
+						il = players.filter(p => !["bust", "fold"].includes(p.status)).length;
+					// deal hole card 1
+					for (let i=0; i<il; i++) {
 						cpIndex = Self.getNextPlayerPosition(cpIndex, 1);
 						Self.getPlayer(cpIndex).setCard("cardA", cards[deckIndex++], delay++);
 					}
 					// deal hole card 2
 					cpIndex = buttonIndex;
-					for (let i=0, il=players.length; i<il; i++) {
+					for (let i=0; i<il; i++) {
 						cpIndex = Self.getNextPlayerPosition(cpIndex, 1);
-						Self.getPlayer(cpIndex).setCard("cardB", cards[deckIndex++], delay++, delay+1 === il*2);
+						Self.getPlayer(cpIndex).setCard("cardB", cards[deckIndex++], delay++, delay === il*2);
 					}
 				}));
 				break;
@@ -213,6 +216,12 @@ let Poker = {
 				players = new Array(entries.length);
 				// resurrect players
 				entries.map((num, i) => players[i] = new Player({ ...event.data.players[num], index: +num }));
+
+				// if hole cards not have been dealt
+				if (!players[0].cardA) {
+					Self.dispatch({ type: "blinds-and-deal" });
+				}
+
 				if (event.data.flop) {
 					// restore flop cards
 					value = event.data.flop.map((c, i) => `<div class="card ${c} card-back flop-${i+1} no-anim"></div>`);

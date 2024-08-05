@@ -30,6 +30,24 @@ let Test = {
 		// 	// players.map(p => p.cardB = 1);
 		// }, 500);
 
+
+
+		return setTimeout(() => {
+			Poker.dispatch({
+				type: "restore-state",
+				data: {
+					dealer: 0,
+					players: {
+						"0": { bankroll: 3000, name: "Hakan" },
+						"1": { bankroll: 1000, name: "Nina", status: "fold" },
+						"2": { bankroll: 2000, name: "Jenny" },
+						"7": { bankroll: 2050, name: "Daniel" },
+					},
+				}
+			});
+		}, 500);
+
+
 		return setTimeout(() => {
 			Poker.dispatch({
 				type: "restore-state",
@@ -52,11 +70,6 @@ let Test = {
 				}
 			});
 
-			let cpIndex = buttonIndex;
-			console.log( cpIndex );
-			console.log( Poker.getNextPlayerPosition(cpIndex, 1) );
-
-			return;
 			// temp
 			APP.els.board.find(".card:nth(0)").addClass("winner");
 			APP.els.board.find(".card:nth(1)").addClass("winner");
