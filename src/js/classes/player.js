@@ -16,12 +16,23 @@ class Player {
 		this.bankroll = opt.bankroll;
 		this.cardA = opt.cardA;
 		this.cardB = opt.cardB;
-		this.status = opt.status;
+		this._status = opt.status;
 		this.totalBet = opt.totalBet;
 		this.subtotalBet = opt.subtotalBet;
 
 		// update UI
 		if (this.index !== undefined) this.syncEl();
+	}
+
+	get status() {
+		return this._status;
+	}
+
+	set status(v) {
+		// internal value
+		this._status = v;
+		// seat state
+		if (this.el) this.el.data({ status: this._status });
 	}
 
 	setCard(which, card, delay, isLast) {

@@ -22,7 +22,7 @@ let Test = {
 		// }, 500);
 
 		// return setTimeout(() => {
-		// 	Poker.dispatch({ type: "set-opponents", value: 4 });
+		// 	Poker.dispatch({ type: "set-opponents", value: 3 });
 
 		// 	// temp
 		// 	// players.map(p => p.bet(1000));
@@ -52,6 +52,11 @@ let Test = {
 				}
 			});
 
+			let cpIndex = buttonIndex;
+			console.log( cpIndex );
+			console.log( Poker.getNextPlayerPosition(cpIndex, 1) );
+
+			return;
 			// temp
 			APP.els.board.find(".card:nth(0)").addClass("winner");
 			APP.els.board.find(".card:nth(1)").addClass("winner");

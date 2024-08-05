@@ -89,6 +89,8 @@ let Poker = {
 				Self.dispatch({ type: "new-round" });
 				Self.dispatch({ type: "shuffle-deck" });
 				Self.dispatch({ type: "blinds-and-deal" });
+				// start ai
+				// AI.think();
 				break;
 			case "hole-cards-dealt":
 				// reset deck
@@ -132,13 +134,14 @@ let Poker = {
 				playerSmallBlind.bet(SMALL_BLIND);
 				playerBigBlind.bet(BIG_BLIND);
 				// flag player as "thinking"
-				playerBettor.update({ status: "OPTION" });
+				// playerBettor.update({ status: "OPTION" });
 
 				// reset deck
 				setTimeout(() => APP.els.deck.cssSequence("appear", "transitionend", el => {
 					// deal hole card 1
 					let delay = 0,
 						cpIndex = buttonIndex;
+
 					for (let i=0, il=players.length; i<il; i++) {
 						cpIndex = Self.getNextPlayerPosition(cpIndex, 1);
 						Self.getPlayer(cpIndex).setCard("cardA", cards[deckIndex++], delay++);
@@ -243,7 +246,7 @@ let Poker = {
 		}
 	},
 	getNextPlayerPosition(i, delta) {
-		let seats = players.filter(p => !["BUST", "FOLD"].includes(p.status)).map(p => p.index),
+		let seats = players.filter(p => !["bust", "fold"].includes(p.status)).map(p => p.index),
 			index = seats.indexOf(i),
 			add = seats.length * seats.length;
 		return seats[(index + delta + add) % seats.length]

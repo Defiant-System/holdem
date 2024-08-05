@@ -85,7 +85,7 @@ content {
 	// hovering deck dimensions
 	--deckW: 43px;
 	--deckH: 59px;
-	--cardFlight: 450ms;
+	--cardFlight: 1450ms;
 }
 
 .table {
@@ -514,7 +514,7 @@ content {
 
 				&.in-deck {
 					transition-duration: var( --cardFlight );
-					transition-delay: calc( var( --delay ) * 200ms );
+					transition-delay: calc( var( --delay ) * 1200ms );
 				}
 			}
 
@@ -656,7 +656,7 @@ content {
 			margin-top: 17px;
 		}
 
-		&[data-pos="p0"] { top: 215px; left: 63px; }
+		&[data-pos="p0"] { top: 221px; left: 63px; }
 		&[data-pos="p1"] { top: 148px; left: 134px; }
 		&[data-pos="p2"] { top: 68px; left: 186px; }
 		&[data-pos="p3"] { top: 68px; left: 376px; }

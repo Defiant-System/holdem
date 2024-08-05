@@ -80,11 +80,11 @@ This is a list of hands from best to worst.
 </div>
 
 <div class="hand">
-	<span class="card hQ"></span>
-	<span class="card h10"></span>
-	<span class="card h7"></span>
-	<span class="card h6"></span>
-	<span class="card h2"></span>
+	<span class="card sQ"></span>
+	<span class="card s10"></span>
+	<span class="card s7"></span>
+	<span class="card s6"></span>
+	<span class="card s2"></span>
 	<span class="name">Flush</span>
 	<span class="info">Five cards of the same suit that are not in a row</span>
 </div>
