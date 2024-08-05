@@ -1,6 +1,6 @@
 
+background: transparent;
 overflow: visible;
-
 
 content {
 	position: absolute;
@@ -8,6 +8,7 @@ content {
 	left: 0;
 	right: 0;
 	bottom: 0;
+	border-radius: inherit;
 	font-family: BebasNeueRegular, Arial, sans-serif;
 	font-size: 21px;
 	color: #fff;
@@ -669,6 +670,17 @@ content {
 		perspective: 500px;
 		min-height: 0px;
 		transition: min-height var( --s1 ) linear;
+
+		&.no-anim.flip-flop {
+			--s1: 0s;
+			--s2: 0s;
+
+			.card {
+				&.flop-1,
+				&.flop-2,
+				&.flop-3 { animation-delay: 0s; }
+			}
+		}
 
 		&.fan-flop {
 			min-height: 1px;

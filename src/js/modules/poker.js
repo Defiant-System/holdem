@@ -210,6 +210,9 @@ let Poker = {
 				players = new Array(entries.length);
 				// resurrect players
 				entries.map((num, i) => players[i] = new Player({ ...event.data.players[num], index: +num }));
+				// restore flop cards
+				value = event.data.flop.map((c, i) => `<div class="card ${c} card-back flop-${i+1} no-anim"></div>`);
+				APP.els.board.addClass("fan-flop flip-flop no-anim").html(value.join());
 				// restore dealer index
 				buttonIndex = event.data.dealer;
 				// start new round
