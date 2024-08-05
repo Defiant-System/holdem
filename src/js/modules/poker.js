@@ -213,6 +213,11 @@ let Poker = {
 				// restore flop cards
 				value = event.data.flop.map((c, i) => `<div class="card ${c} card-back flop-${i+1} no-anim"></div>`);
 				APP.els.board.addClass("fan-flop flip-flop no-anim").html(value.join());
+				// pot size
+				APP.els.pot.removeClass("hidden").html(event.data.pot);
+				// update dealer button
+				Self.dispatch({ type: "set-dealer", index: event.data.dealer });
+
 				// restore dealer index
 				buttonIndex = event.data.dealer;
 				// start new round
@@ -221,7 +226,7 @@ let Poker = {
 			case "set-dealer":
 				buttonIndex = event.index;
 				// update UI
-				APP.els.dealer.data({ pos: `p${event.index}` });
+				APP.els.dealer.data({ pos: `p${event.index}` }).removeClass("hidden");
 				APP.els.deck.data({ pos: `p${event.index}` });
 				break;
 		}

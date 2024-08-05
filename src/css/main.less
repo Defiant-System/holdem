@@ -202,7 +202,7 @@ content {
 			}
 
 			.cards {
-				top: 2px;
+				top: 37px;
 				left: 106px;
 				perspective: 900px;
 
@@ -255,7 +255,7 @@ content {
 
 			.bet {
 				bottom: auto;
-				top: -33px;
+				top: -37px;
 				left: 93px;
 
 				&:before { filter: hue-rotate(245deg); }
@@ -264,8 +264,8 @@ content {
 
 		&.s1 {
 			display: block;
-			top: 77px;
-			left: -20px;
+			top: 87px;
+			left: -31px;
 
 			.cards {
 				top: 101px;
@@ -323,7 +323,7 @@ content {
 		&.s5 {
 			display: block;
 			top: 97px;
-			left: 670px;
+			left: 681px;
 
 			.cards {
 				top: 96px;
@@ -511,17 +511,26 @@ content {
 			}
 		}
 
-		&[data-state="betting"] {
+		&[data-status="betting"] {
 			.bet {
 				opacity: 1;
 				visibility: visible;
 			}
 		}
 
-		&[data-state="folded"] {
+		&[data-status="fold"] {
+			// filter: sepia(1) brightness(.75) hue-rotate(305deg);
+			filter: grayscale(1) brightness(.75);
+
+			// .name:after { filter: sepia(1) saturate(3) brightness(.55) hue-rotate(305deg); }
+			.name:before,
+			.chips { opacity: .5; }
+			.cards { display: none; }
+			.bg { box-shadow: 0 0 0 2px rgba(#ccc,.75); }
+
 			.bet {
-				font-size: 0;
 				background: rgba(#f00,.35);
+				font-size: 0;
 				color: #fff;
 
 				&:before {
@@ -538,11 +547,11 @@ content {
 			}
 		}
 
-		&[data-state="check"] {
+		&[data-status="check"] {
 
 		}
 
-		&[data-state="all-in"] {
+		&[data-status="all-in"] {
 
 		}
 	}

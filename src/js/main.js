@@ -15,6 +15,7 @@ const holdem = {
 		this.els = {
 			content: window.find("content"),
 			board: window.find(".board"),
+			pot: window.find(".pot"),
 			deck: window.find(".deck"),
 			dealer: window.find(".dealer"),
 			seats: window.find(".seat"),
