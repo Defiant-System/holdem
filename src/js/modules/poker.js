@@ -217,11 +217,11 @@ let Poker = {
 					
 					if (event.data.turn) {
 						// append turn
-						APP.els.board.addClass("flip-turn").append(`<div class="card turn ${event.data.turn} no-anim"></div>`);
+						APP.els.board.addClass("flip-turn").append(`<div class="card card-back turn ${event.data.turn} no-anim"></div>`);
 					}
 					if (event.data.river) {
 						// append river
-						APP.els.board.addClass("flip-river").append(`<div class="card river ${event.data.river} no-anim"></div>`);
+						APP.els.board.addClass("flip-river").append(`<div class="card card-back river ${event.data.river} no-anim"></div>`);
 					}
 				}
 				// pot size

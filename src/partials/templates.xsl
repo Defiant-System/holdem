@@ -4,7 +4,7 @@
 	<xsl:for-each select="./*">
 		<span class="seat">
 			<svg class="outline" viewBox="0 0 95 117">
-				<rect x="0" y="0" width="95" height="117" rx="6"/>
+				<rect x="-1" y="-1" width="97" height="119" rx="6"/>
 			</svg>
 			<span class="bg"></span>
 			<span class="name"></span>
