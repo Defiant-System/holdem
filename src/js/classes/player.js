@@ -19,6 +19,7 @@ class Player {
 		this.status = opt.status;
 		this.totalBet = opt.totalBet;
 		this.subtotalBet = opt.subtotalBet;
+
 		// update UI
 		if (this.index !== undefined) this.syncEl();
 	}
@@ -56,7 +57,7 @@ class Player {
 		//reset values
 		Object.keys(data).map(key => this[key] = data[key]);
 		// if totalBet is set to zero, update UI
-		if (this.totalBet === 0) this.el.data({ state: "" });
+		if (this.el && this.totalBet === 0) this.el.data({ state: "" });
 		// update UI
 		this.syncEl();
 	}
@@ -68,6 +69,13 @@ class Player {
 		this.el.find(".name").data({ name: this.name });
 		this.el.find(".chips").html(this.bankroll.format(" "));
 		this.el.addClass(`s${this.index}`);
+
+		if (this.cardA && this.cardB && !this.cardsEl.find(".card").length) {
+			let cA = this.index === 0 ? `card ${this.cardA} cardA` : `cardA`,
+				cB = this.index === 0 ? `card ${this.cardB} cardB` : `cardB`;
+			this.AEL = this.cardsEl.append(`<div class="${cA} dealt"></div>`);
+			this.BEL = this.cardsEl.append(`<div class="${cB} dealt"></div>`);
+		}
 	}
 
 	bet(val) {

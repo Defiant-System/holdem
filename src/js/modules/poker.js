@@ -213,7 +213,7 @@ let Poker = {
 				// restore dealer index
 				buttonIndex = event.data.dealer;
 				// start new round
-				Self.dispatch({ type: "start-new-round" });
+				// Self.dispatch({ type: "start-new-round" });
 				break;
 			case "set-dealer":
 				buttonIndex = event.index;
