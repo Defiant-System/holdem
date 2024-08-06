@@ -16,18 +16,25 @@
 	dispatch(event) {
 		let APP = holdem,
 			Self = APP.dialog,
+			actions,
 			value,
 			el;
 		// console.log(event);
 		switch (event.type) {
 			// custom events
 			case "show-dialog":
-				value = event.actions || "call-fold";
-				//  check-raise
-				Self.els.el.removeClass("hidden").data({ actions: value });
-				APP.els.table.addClass("shows-user-actions");
+				actions = event.actions || "call-fold";
+				// update UI
+				APP.els.seats.get(0).find(".bet").html(currentBetAmount);
+				// bankroll update
+				value = Math.max(players[0].bankroll - currentBetAmount, 0);
+				APP.els.seats.get(0).find(".bankroll").html(value);
+				// if value is "zero", no need for "raise" slider
+				if (value === 0) actions = "call-fold";
 
-				APP.els.table.find(".seat.s0 .bet").html(10);
+				//  check-raise
+				Self.els.el.removeClass("hidden").data({ actions });
+				APP.els.table.addClass("shows-user-actions");
 				break;
 			case "hide-dialog":
 				// reset UI / hide dialog
@@ -39,17 +46,20 @@
 				Self.els.el.find(".button.raise").addClass("disabled");
 				break;
 			case "player-check":
+				break;
 			case "player-raise":
+				// temp
+				Poker.playerBets(0, Self.drag.bet);
+				// "hide" dialog
+				Self.dispatch({ type: "hide-dialog" });
+				break;
 			case "player-fold":
 				break;
 			case "player-call":
 				// temp
-				Poker.playerBets(0, 10);
+				Poker.playerBets(0, currentBetAmount);
 				// "hide" dialog
 				Self.dispatch({ type: "hide-dialog" });
-				break;
-			case "player-raise":
-				console.log(event);
 				break;
 		}
 	},
@@ -66,12 +76,13 @@
 				let el = Self.els.handle,
 					rollEl = APP.els.seats.get(0).find(".bankroll"),
 					betEl = APP.els.seats.get(0).find(".bet"),
+					minBet = currentBetAmount,
 					bankroll = players[0].bankroll,
 					limit = { min: 1, max: 96 },
 					offsetX = el.offset().left,
 					clickX = event.clientX;
 				// drag details
-				Self.drag = { el, betEl, rollEl, bankroll, clickX, offsetX, limit };
+				Self.drag = { el, betEl, rollEl, minBet, bankroll, clickX, offsetX, limit };
 
 				// enable raise button
 				Self.els.el.find(".button.raise").removeClass("disabled");
@@ -89,7 +100,7 @@
 
 				// resize raise value
 				let perc = (left - Drag.limit.min) / (Drag.limit.max - Drag.limit.min),
-					bet = Math.round(Drag.bankroll * perc);
+					bet = Drag.minBet + Math.round((Drag.bankroll - Drag.minBet) * perc);
 				Drag.betEl.html(bet);
 				Drag.rollEl.html(Drag.bankroll - bet);
 

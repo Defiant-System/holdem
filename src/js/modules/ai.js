@@ -35,7 +35,7 @@ let Main = {
 		} else {
 			nextPlayer.status = "";
 			if (currentBettorIndex == 0) {
-				APP.dialog.dispatch({ type: "show-dialog", actions: "call-fold" });
+				APP.dialog.dispatch({ type: "show-dialog", actions: "call-fold-raise" });
 				return;
 			} else {
 				setTimeout(() => this.getBet(currentBettorIndex), 500);
