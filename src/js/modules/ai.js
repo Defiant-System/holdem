@@ -25,6 +25,7 @@ let Main = {
 	think() {
 		let incrementBettorIndex = 0;
 		let nextPlayer = Poker.getPlayer(currentBettorIndex);
+		console.log( nextPlayer.name );
 		if (nextPlayer.status == "bust" || nextPlayer.status == "fold") {
 			incrementBettorIndex = 1;
 		} else if (!Poker.hasMoney(currentBettorIndex)) {
@@ -50,19 +51,19 @@ let Main = {
 				break;
 			}
 			if (s != "BUST" && s != "FOLD") {
-				if (has_money(j) && players[j].subtotalBet < currentBetAmount) {
+				if (Poker.hasMoney(j) && players[j].subtotalBet < currentBetAmount) {
 					can_break = false;
 					break;
 				}
 			}
 		}
 		if (incrementBettorIndex) {
-			currentBettorIndex = get_next_player_position(currentBettorIndex, 1);
+			currentBettorIndex = Poker.getNextPlayerPosition(currentBettorIndex, 1);
 		}
 		if (can_break) {
-			setTimeout(ready_for_next_card, 999 * global_speed);
+			console.log("ready_for_next_card, 999 * global_speed");
 		} else {
-			setTimeout(main, 999 * global_speed);
+			console.log("main, 999 * global_speed");
 		}
 	},
 	getBet(x) {

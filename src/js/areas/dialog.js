@@ -52,6 +52,11 @@
 				Poker.playerBets(0, Self.drag.bet);
 				// "hide" dialog
 				Self.dispatch({ type: "hide-dialog" });
+
+				players[0].status = "CALL";
+				currentBettorIndex = Poker.getNextPlayerPosition(currentBettorIndex, 1);
+				// think next step AI
+				AI.think();
 				break;
 			case "player-fold":
 				break;
@@ -60,6 +65,11 @@
 				Poker.playerBets(0, currentBetAmount);
 				// "hide" dialog
 				Self.dispatch({ type: "hide-dialog" });
+
+				players[0].status = "CALL";
+				currentBettorIndex = Poker.getNextPlayerPosition(currentBettorIndex, 1);
+				// think next step AI
+				AI.think();
 				break;
 		}
 	},

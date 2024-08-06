@@ -256,7 +256,7 @@ let Poker = {
 				// reset round
 				Self.dispatch({ type: "reset-round" });
 
-				// start ai
+				// think next step AI
 				AI.think();
 				break;
 			case "update-total-pot-value":
