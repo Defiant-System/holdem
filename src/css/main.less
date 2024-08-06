@@ -557,7 +557,7 @@ content {
 			}
 		}
 
-		.chips {
+		.bankroll {
 			position: absolute;
 			bottom: 0;
 			left: 0;
@@ -606,7 +606,7 @@ content {
 
 			// .name:after { filter: sepia(1) saturate(3) brightness(.55) hue-rotate(305deg); }
 			.name:before,
-			.chips { opacity: .5; }
+			.bankroll { opacity: .5; }
 			.cards { display: none; }
 			.bg { box-shadow: 0 0 0 2px rgba(#ccc,.75); }
 
@@ -963,12 +963,12 @@ content {
 	}
 
 	&[data-actions="call-fold"] {
-		.button.raise,
+		// .button.raise,
 		.button.check { display: none; }
 	}
 
 	&[data-actions="check-raise"] {
-		.button.raise,
+		// .button.raise,
 		.button.fold { display: none; }
 	}
 
@@ -1035,9 +1035,9 @@ content {
 
 	.slider {
 		position: relative;
-		width: 187px;
+		width: 137px;
 		height: 29px;
-		margin: 0 0 7px 0;
+		margin: 0 6px 7px 0;
 		display: inline-block;
 		border-radius: 6px;
 		background: radial-gradient(ellipse at bottom center, #343539, transparent 70%),
@@ -1095,7 +1095,7 @@ content {
 			position: absolute;
 			top: 8px;
 			right: 5px;
-			width: 137px;
+			width: 87px;
 			font-size: 16px;
 			text-align: center;
 			color: #fff;
@@ -1104,7 +1104,7 @@ content {
   			background-position: 0;
   			-webkit-background-clip: text;
   			-webkit-text-fill-color: transparent;
-  			animation: textShine 3s infinite linear forwards;
+  			animation: textShine 4s infinite linear forwards;
 		}
 	}
 
@@ -1133,10 +1133,6 @@ content {
 						linear-gradient(180deg, #555864, #333441 50%, #1b1d2a 50%, #1b1c2a);
 		}
 
-		// &:nth-child(2n) {
-		// 	margin-right: 0;
-		// }
-
 		&.fold {
 			background: radial-gradient(circle at bottom center, #ff87878e, transparent 90%),
 						linear-gradient(180deg, #d5747a, #cf5f69 50%, #c6202c 50%, #c1212e);
@@ -1148,12 +1144,20 @@ content {
 		}
 
 		&.raise {
+			width: 45px;
+			height: 27px;
 			background: radial-gradient(circle at bottom center, #dddddd80, transparent 90%),
 						linear-gradient(180deg, #878995, #606270 50%, #474857 50%, #545563);
 
-			&:hover {
+			&:not(.disabled):hover {
 				background: radial-gradient(circle at bottom center, #dddddda0, transparent 90%),
 							linear-gradient(180deg, #878995, #606270 50%, #474857 50%, #545563);
+			}
+
+			&.disabled {
+				cursor: default;
+				color: rgba(#111,.5);
+				text-shadow: 0 1px 0 #a7a7a7;
 			}
 		}
 
@@ -1304,8 +1308,8 @@ content {
 
 @keyframes textShine {
 	0%   { background-position: 0; }
-	60%  { background-position: 115px; }
-	100% { background-position: 115px; }
+	45%  { background-position: 78px; }
+	100% { background-position: 78px; }
 }
 
 @keyframes animOutline {

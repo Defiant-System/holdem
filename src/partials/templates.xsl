@@ -9,7 +9,7 @@
 			<span class="bg"></span>
 			<span class="name"></span>
 			<span class="cards"></span>
-			<span class="chips"></span>
+			<span class="bankroll"></span>
 			<span class="bet"></span>
 		</span>
 	</xsl:for-each>

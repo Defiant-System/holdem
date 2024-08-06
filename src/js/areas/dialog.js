@@ -62,13 +62,14 @@
 				event.preventDefault();
 
 				let el = Self.els.handle,
-					limit = {
-						min: 1,
-						max: 146
-					},
+					rollEl = APP.els.seats.get(0).find(".bankroll"),
+					betEl = APP.els.seats.get(0).find(".bet"),
+					bankroll = players[0].bankroll,
+					limit = { min: 1, max: 96 },
 					offsetX = el.offset().left,
 					clickX = event.clientX;
-				Self.drag = { el, clickX, offsetX, limit };
+				// drag details
+				Self.drag = { el, betEl, rollEl, bankroll, clickX, offsetX, limit };
 
 				// pause slider highlight
 				el.parent().addClass("dragged");
@@ -82,10 +83,17 @@
 				left = Math.max(Math.min(Drag.limit.max, left), Drag.limit.min);
 				Drag.el.css({ left });
 
-				// TODO: resize raise value
+				// resize raise value
+				let perc = (left - Drag.limit.min) / (Drag.limit.max - Drag.limit.min),
+					bet = Math.round(Drag.bankroll * perc);
+				Drag.betEl.html(bet);
+				Drag.rollEl.html(Drag.bankroll - bet);
 
+				// save value for "mouseup"
+				Drag.bet = bet;
 				break;
 			case "mouseup":
+				if (Drag.bet === 0) Drag.el.parent().removeClass("dragged");
 				// cover UI
 				Self.els.content.removeClass("cover");
 				// unbind event handlers

@@ -79,7 +79,7 @@ class Player {
 		this.el = holdem.els.seats.get(this.index);
 		this.cardsEl = this.el.find(".cards");
 		this.el.find(".name").data({ name: this.name });
-		this.el.find(".chips").html(this.bankroll.format(" "));
+		this.el.find(".bankroll").html(this.bankroll.format(" "));
 		this.el.addClass(`s${this.index}`);
 		// seat state
 		this.el.data({ status: this.status });
@@ -98,7 +98,7 @@ class Player {
 		// this.totalBet += val;
 		// this.bankroll -= val;
 		this.el.find(".bet").html(this.subtotalBet.format(" "));
-		this.el.find(".chips").html(this.bankroll.format(" "));
+		this.el.find(".bankroll").html(this.bankroll.format(" "));
 		this.el.addClass("betting");
 	}
 }
