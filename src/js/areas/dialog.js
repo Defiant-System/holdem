@@ -118,7 +118,7 @@
 				Drag.bet = bet;
 				break;
 			case "mouseup":
-				if (Drag.bet === 0) {
+				if (Drag.bet === Drag.minBet) {
 					// reset slider element
 					Drag.el.parent().removeClass("dragged");
 					// reset "raise" button
