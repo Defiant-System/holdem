@@ -30,112 +30,7 @@ let Main = {
 		} else {
 			nextPlayer.status = "";
 			if (currentBettorIndex == 0) {
-				let call_button_text = "<u>C</u>all";
-				let fold_button_text = "<font color=red><u>F</u>old</font>";
-				let to_call = currentBetAmount - players[0].subtotalBet;
-				if (to_call > players[0].bankroll) {
-					to_call = players[0].bankroll;
-				}
-
-				call_button_text += " $" + to_call;
-				let that_is_not_the_key_you_are_looking_for;
-				if (to_call == 0) {
-					call_button_text = "<u>C</u>heck";
-					fold_button_text = 0;
-					that_is_not_the_key_you_are_looking_for = function (key) {
-						if (key == 67) {         // Check
-							human_call();
-						} else {
-							return true;           // Not my business
-						}
-						return false;
-					};
-				} else {
-					that_is_not_the_key_you_are_looking_for = function (key) {
-						if (key == 67) {         // Call
-							human_call();
-						} else if (key == 70) {  // Fold
-							human_fold();
-						} else {
-							return true;           // Not my business
-						}
-						return false;
-					};
-				}
-				// Fix the shortcut keys - structured and simple
-				// Called through a key event
-				let ret_function = function (key_event) {
-					actual_function(key_event.keyCode, key_event);
-				}
-
-				// Called both by a key press and click on button.
-				// Why? Because we want to disable the shortcut keys when done
-				let actual_function = function (key, key_event) {
-					if (that_is_not_the_key_you_are_looking_for(key)) {
-						return;
-					}
-					gui_disable_shortcut_keys(ret_function);
-					if (key_event != null) {
-						key_event.preventDefault();
-					}
-				};
-
-				// And now set up so the key click also go to 'actual_function'
-				let do_fold = function () {
-					actual_function(70, null);
-				};
-				let do_call = function () {
-					actual_function(67, null);
-				};
-				// Trigger the shortcut keys
-				gui_enable_shortcut_keys(ret_function);
-
-				// And enable the buttons
-				gui_setup_fold_call_click(fold_button_text, call_button_text, do_fold, do_call);
-
-				let quick_values = new Array(6);
-				if (to_call < players[0].bankroll) {
-					quick_values[0] = currentMinRaise;
-				}
-				let quick_start = quick_values[0];
-				if (quick_start < 20) {
-					quick_start = 20;
-				} else {
-					quick_start = currentMinRaise + 20;
-				}
-				let i;
-				for (i = 0; i < 5; i++) {
-					if (quick_start + 20 * i < players[0].bankroll) {
-						quick_values[i + 1] = quick_start + 20 * i;
-					}
-				}
-				let bet_or_raise = "Bet";
-				if (to_call > 0) {
-					bet_or_raise = "Raise";
-				}
-				let quick_bets = "<b>Quick " + bet_or_raise + "s</b><br>";
-				for (i = 0; i < 6; i++) {
-					if (quick_values[i]) {
-						quick_bets += "<a href='javascript:parent.handle_human_bet(" +
-										quick_values[i] + ")'>" + quick_values[i] + "</a>" +
-										"&nbsp;&nbsp;&nbsp;";
-					}
-				}
-				quick_bets += "<a href='javascript:parent.handle_human_bet(" +
-											players[0].bankroll + ")'>All In!</a>";
-				let html9 = "<td><table align=center><tr><td align=center>";
-				let html10 = quick_bets +
-										 "</td></tr></table></td></tr></table></body></html>";
-				gui_write_guick_raise(html9 + html10);
-
-				let hi_lite_color = gui_get_theme_mode_highlite_color();
-				let message = "<tr><td><font size=+2><b>Current raise: " +
-								currentBetAmount +
-								"</b><br> You need <font color=" + hi_lite_color +
-								" size=+3>" + to_call +
-								"</font> more to call.</font></td></tr>";
-				gui_write_game_response(message);
-				write_player(0, 1, 0);
+				console.log( "show dialog" );
 				return;
 			} else {
 				setTimeout(() => this.getBet(currentBettorIndex), 500);
@@ -191,24 +86,26 @@ let Main = {
 			player.status = "FOLD";
 			this.betFunction(x, 0);
 		}
-		console.log(player.cardA, player.cardB, b);
-		console.log(player.status);
+		// console.log(player.cardA, player.cardB, b);
+		// console.log(player.status);
 		// console.log( "getBet", currentBettorIndex, player.status, b );
+
 		// go to next player
 		currentBettorIndex = Poker.getNextPlayerPosition(currentBettorIndex, 1);
+		
 		// next thing to do (!?)
-		// this.think();
+		this.think();
 	},
 	betFunction(playerIndex, betAmount) {
 		let player = Poker.getPlayer(playerIndex);
 		if (player.status == "FOLD") {
 			return 0;
 			// FOLD ;
-		} else if (betAmount >= player.bankroll) { // ALL IN
+		} else if (betAmount >= player.bankroll) {
+			console.log("ALL IN");
 			betAmount = player.bankroll;
 
 			var oldCurrentBet = currentBetAmount;
-
 			if (player.subtotalBet + betAmount > currentBetAmount) {
 				currentBetAmount = player.subtotalBet + betAmount;
 			}
@@ -219,29 +116,27 @@ let Main = {
 				currentMinRaise = new_currentMinRaise;
 			}
 			player.status = "CALL";
-		} else if (betAmount + player.subtotalBet ==
-							 currentBetAmount) { // CALL
+		} else if (betAmount + player.subtotalBet == currentBetAmount) {
+			console.log("CALL");
 			player.status = "CALL";
-		} else if (currentBetAmount >
-							 player.subtotalBet + betAmount) { // 2 SMALL
+		} else if (currentBetAmount > player.subtotalBet + betAmount) {
+			console.log("2 SMALL");
 			// COMMENT OUT TO FIND BUGS
 			if (playerIndex == 0) {
-				consolt.log("The current bet to match is " + currentBetAmount +
-								"\nYou must bet a total of at least " +
-								(currentBetAmount - player.subtotalBet) +
-								" or fold.");
+				let minBet = currentBetAmount - player.subtotalBet;
+				console.log(`The current bet to match is ${currentBetAmount} \nYou must bet a total of at least ${minBet} or fold`);
 			}
 			return 0;
-		} else if (betAmount + player.subtotalBet >
-							 currentBetAmount && // RAISE 2 SMALL
-							 Poker.getPotSize() > 0 &&
-							 betAmount + player.subtotalBet - currentBetAmount < currentMinRaise) {
+		} else if (betAmount + player.subtotalBet > currentBetAmount
+					&& Poker.getPotSize() > 0
+					&& betAmount + player.subtotalBet - currentBetAmount < currentMinRaise) {
 			// COMMENT OUT TO FIND BUGS
 			if (playerIndex == 0) {
 				consolt.log("Minimum raise is currently " + currentMinRaise + ".");
 			}
 			return 0;
-		} else { // RAISE
+		} else {
+			console.log("RAISE");
 			player.status = "CALL";
 
 			var previousCurrentBet = currentBetAmount;
@@ -256,8 +151,11 @@ let Main = {
 		}
 		player.subtotalBet += betAmount;
 		player.bankroll -= betAmount;
-		var current_pot_size = Poker.getPotSize();
-		// gui_write_basic_general(current_pot_size);
+		player.bet(player.subtotalBet);
+
+		// UI show pot size
+		Poker.dispatch({ type: "update-total-pot-value" });
+
 		return 1;
 	},
 	getPreFlopBet() {

@@ -38,11 +38,11 @@ let Test = {
 				data: {
 					dealer: 0,
 					players: {
-						"0": { bankroll: 500, name: "Hakan", cardA: "h5", cardB: "c14", totalBet: 0 },
-						"1": { bankroll: 500, name: "Nina", cardA: "c6", cardB: "s5", totalBet: 5, },
-						"2": { bankroll: 500, name: "Jenny", cardA: "c5", cardB: "h4", totalBet: 10, },
-						"7": { bankroll: 500, name: "Daniel", cardA: "s4", cardB: "d6", totalBet: 0 },
-						// "7": { bankroll: 500, name: "Daniel", cardA: "s11", cardB: "s10", totalBet: 0 },
+						"0": { bankroll: 500, name: "Hakan", cardA: "h5", cardB: "c14", totalBet: 0, subtotalBet: 0 },
+						"1": { bankroll: 495, name: "Nina", cardA: "c6", cardB: "s5", totalBet: 5, subtotalBet: 5, },
+						"2": { bankroll: 490, name: "Jenny", cardA: "c5", cardB: "h4", totalBet: 10, subtotalBet: 10, },
+						// "4": { bankroll: 500, name: "Daniel", cardA: "d4", cardB: "d6", totalBet: 0, subtotalBet: 0 },
+						"4": { bankroll: 500, name: "Daniel", cardA: "d11", cardB: "s10", totalBet: 0, subtotalBet: 0 },
 					},
 				}
 			});
@@ -56,14 +56,14 @@ let Test = {
 				data: {
 					dealer: 0,
 					players: {
-						"0": { bankroll: 3000, name: "Hakan", cardA: "c6", cardB: "s5", totalBet: 300, status: "betting" },
-						"1": { bankroll: 1000, name: "Nina", cardA: "c5", cardB: "s4", totalBet: 500, status: "fold" },
-						"2": { bankroll: 2000, name: "Jenny", cardA: "c4", cardB: "s3", totalBet: 700, status: "betting" },
-						// "3": { bankroll: 3000, name: "Ricardo", cardA: "c3", cardB: "s2", totalBet: 600, status: "all-in" },
-						// "4": { bankroll: 4000, name: "Mary", cardA: "c2", cardB: "d9", totalBet: 1300, status: "check" },
-						// "5": { bankroll: 5000, name: "Ann", cardA: "h6", cardB: "d8", totalBet: 2100, status: "fold" },
-						"6": { bankroll: 6000, name: "Jack", cardA: "h6", cardB: "d7", totalBet: 3000, status: "fold" },
-						"7": { bankroll: 2050, name: "Daniel", cardA: "h6", cardB: "d6", totalBet: 100, status: "" },
+						"0": { bankroll: 3000, name: "Hakan", cardA: "c6", cardB: "s5", subtotalBet: 300, status: "betting" },
+						"1": { bankroll: 1000, name: "Nina", cardA: "c5", cardB: "s4", subtotalBet: 500, status: "fold" },
+						"2": { bankroll: 2000, name: "Jenny", cardA: "c4", cardB: "s3", subtotalBet: 700, status: "betting" },
+						// "3": { bankroll: 3000, name: "Ricardo", cardA: "c3", cardB: "s2", subtotalBet: 600, status: "all-in" },
+						// "4": { bankroll: 4000, name: "Mary", cardA: "c2", cardB: "d9", subtotalBet: 1300, status: "check" },
+						// "5": { bankroll: 5000, name: "Ann", cardA: "h6", cardB: "d8", subtotalBet: 2100, status: "fold" },
+						"6": { bankroll: 6000, name: "Jack", cardA: "h6", cardB: "d7", subtotalBet: 3000, status: "fold" },
+						"7": { bankroll: 2050, name: "Daniel", cardA: "h6", cardB: "d6", subtotalBet: 100, status: "" },
 					},
 					flop: ["h10", "s9", "c11"],
 					turn: "h7",

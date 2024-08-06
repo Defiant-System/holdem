@@ -38,7 +38,8 @@ const holdem = {
 	},
 	dispatch(event) {
 		let Self = holdem,
-			value;
+			value,
+			el;
 		switch (event.type) {
 			// system events
 			case "window.init":
@@ -61,8 +62,21 @@ const holdem = {
 			case "set-theme":
 				Self.els.content.data({ theme: event.arg });
 				break;
+			default:
+				el = event.el;
+				if (!el && event.origin) el = event.origin.el;
+				if (el) {
+					let pEl = el.parents(`?div[data-area]`);
+					if (pEl.length) {
+						let name = pEl.data("area");
+						return Self[name].dispatch(event);
+					}
+				}
 		}
-	}
+	},
+	start: @import "./areas/start.js",
+	table: @import "./areas/table.js",
+	dialog: @import "./areas/dialog.js",
 };
 
 window.exports = holdem;

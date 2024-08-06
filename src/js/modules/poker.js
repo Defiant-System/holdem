@@ -241,7 +241,7 @@ let Poker = {
 					}
 				}
 				// pot size
-				if (event.data.pot) APP.els.pot.removeClass("hidden").html(event.data.pot);
+				if (event.data.pot) Self.dispatch({ type: "update-total-pot-value", value: event.data.pot });
 
 				// update dealer button
 				Self.dispatch({ type: "set-dealer", index: event.data.dealer });
@@ -249,8 +249,6 @@ let Poker = {
 				buttonIndex = event.data.dealer;
 				// next player for action
 				currentBettorIndex = Self.getNextPlayerPosition(buttonIndex, 3);
-
-				// console.log(  );
 
 				// start new round
 				// Self.dispatch({ type: "start-new-round" });
@@ -260,6 +258,10 @@ let Poker = {
 
 				// start ai
 				AI.think();
+				break;
+			case "update-total-pot-value":
+				value = event.value || Self.getPotSize();
+				APP.els.pot.removeClass("hidden").html(value);
 				break;
 			case "set-dealer":
 				buttonIndex = event.index;

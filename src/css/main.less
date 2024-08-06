@@ -846,8 +846,8 @@ content {
 
 .actions {
 	position: absolute;
-	top: 336px;
-	left: 200px;
+	top: 426px;
+	left: 244px;
 	width: 212px;
 	border-radius: 6px;
 	backdrop-filter: blur(5px);
@@ -883,6 +883,16 @@ content {
 		height: 1px;
 		top: 1px;
 		background: linear-gradient(90deg, transparent, rgba(#fff,.5), transparent);
+	}
+
+	&[data-actions="call-fold"] {
+		.button.raise,
+		.button.check { display: none; }
+	}
+
+	&[data-actions="check-raise"] {
+		.button.raise,
+		.button.fold { display: none; }
 	}
 
 	.options {
@@ -1028,16 +1038,21 @@ content {
 		font-size: 17px;
 		cursor: pointer;
 		text-shadow: 0 1px 1px rgba(#000,.25);
-		background: radial-gradient(circle at bottom center, #dddddd80, transparent 90%),
-					linear-gradient(180deg, #878995, #606270 50%, #474857 50%, #545563);
+		background: radial-gradient(circle at bottom center, #8585857a, transparent 90%),
+					linear-gradient(180deg, #555864, #333441 50%, #1b1d2a 50%, #1b1c2a);
 		box-shadow: 0 0 0 1px rgba(#000,.25),
 					inset 0 1px 0 rgba(#fff,.2),
 					inset 0 -1px 0 rgba(#000,.1),
 					0 1px 1px rgba(#000,.2);
 
-		&:nth-child(2n) {
-			margin-right: 0;
+		&:hover {
+			background: radial-gradient(circle at bottom center, #8585859a, transparent 90%),
+						linear-gradient(180deg, #555864, #333441 50%, #1b1d2a 50%, #1b1c2a);
 		}
+
+		// &:nth-child(2n) {
+		// 	margin-right: 0;
+		// }
 
 		&.fold {
 			background: radial-gradient(circle at bottom center, #ff87878e, transparent 90%),
@@ -1049,13 +1064,13 @@ content {
 			}
 		}
 
-		&.check {
-			background: radial-gradient(circle at bottom center, #8585857a, transparent 90%),
-						linear-gradient(180deg, #555864, #333441 50%, #1b1d2a 50%, #1b1c2a);
+		&.raise {
+			background: radial-gradient(circle at bottom center, #dddddd80, transparent 90%),
+						linear-gradient(180deg, #878995, #606270 50%, #474857 50%, #545563);
 
 			&:hover {
-				background: radial-gradient(circle at bottom center, #8585859a, transparent 90%),
-							linear-gradient(180deg, #555864, #333441 50%, #1b1d2a 50%, #1b1c2a);
+				background: radial-gradient(circle at bottom center, #dddddda0, transparent 90%),
+							linear-gradient(180deg, #878995, #606270 50%, #474857 50%, #545563);
 			}
 		}
 
@@ -1069,7 +1084,7 @@ content {
 			}
 		}
 
-		&.raise {
+		&.check {
 			background: radial-gradient(circle at bottom center, #aeffc260, transparent 90%),
 						linear-gradient(180deg, #83a3e9, #5f86e5 50%, #4472e0 50%, #4973d2);
 
