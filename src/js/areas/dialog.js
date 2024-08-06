@@ -35,6 +35,8 @@
 				APP.els.table.removeClass("shows-user-actions");
 				// reset slider highlight
 				Self.els.handle.parent().removeClass("dragged");
+				// reset "raise" button
+				Self.els.el.find(".button.raise").addClass("disabled");
 				break;
 			case "player-check":
 			case "player-raise":
@@ -71,6 +73,8 @@
 				// drag details
 				Self.drag = { el, betEl, rollEl, bankroll, clickX, offsetX, limit };
 
+				// enable raise button
+				Self.els.el.find(".button.raise").removeClass("disabled");
 				// pause slider highlight
 				el.parent().addClass("dragged");
 				// cover UI
@@ -93,7 +97,12 @@
 				Drag.bet = bet;
 				break;
 			case "mouseup":
-				if (Drag.bet === 0) Drag.el.parent().removeClass("dragged");
+				if (Drag.bet === 0) {
+					// reset slider element
+					Drag.el.parent().removeClass("dragged");
+					// reset "raise" button
+					Self.els.el.find(".button.raise").addClass("disabled");
+				}
 				// cover UI
 				Self.els.content.removeClass("cover");
 				// unbind event handlers
