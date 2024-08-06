@@ -5,9 +5,9 @@ let HUMAN_WINS_AGAIN;
 let HUMAN_GOES_ALL_IN;
 let STOP_AUTOPLAY = 0;
 let RUN_EM = 0;
-let STARTING_BANKROLL = 5000;
-let SMALL_BLIND = 50;
-let BIG_BLIND = 100;
+let STARTING_BANKROLL = 500;
+let SMALL_BLIND = 5;
+let BIG_BLIND = 10;
 
 let globalSpeed = 600;
 
@@ -94,12 +94,6 @@ let Poker = {
 				// start ai
 				// AI.think();
 				break;
-			case "hole-cards-dealt":
-				// reset deck
-				APP.els.deck.cssSequence("disappear", "transitionend", el => el.removeClass("appear disappear"));
-				// flip users hole cards
-				APP.els.seats.get(0).find(".cards").addClass("hole-flip");
-				break;
 			case "reset-table":
 				// remove card elements
 				APP.els.seats.find(".cards > *").remove();
@@ -133,15 +127,13 @@ let Poker = {
 				Self.dispatch({ type: "shuffle-deck" });
 				// pay blinds
 				let smallBlind = Self.getNextPlayerPosition(buttonIndex, 1),
-					bigBlind = Self.getNextPlayerPosition(smallBlind, 1),
-					bettor = Self.getNextPlayerPosition(bigBlind, 1),
-					playerSmallBlind = Self.getPlayer(smallBlind),
-					playerBigBlind = Self.getPlayer(bigBlind),
-					playerBettor = Self.getPlayer(bettor);
-				playerSmallBlind.bet(SMALL_BLIND);
-				playerBigBlind.bet(BIG_BLIND);
-				// flag player as "thinking"
-				// playerBettor.update({ status: "OPTION" });
+					bigBlind = Self.getNextPlayerPosition(smallBlind, 1);
+				
+				// next player in turn
+				currentBettorIndex = Self.getNextPlayerPosition(bigBlind, 1);
+
+				Self.playerBets(smallBlind, SMALL_BLIND);
+				Self.playerBets(bigBlind, BIG_BLIND);
 
 				// reset deck
 				setTimeout(() => APP.els.deck.cssSequence("appear", "transitionend", el => {
@@ -160,6 +152,16 @@ let Poker = {
 						Self.getPlayer(cpIndex).setCard("cardB", cards[deckIndex++], delay++, delay === il*2);
 					}
 				}));
+				break;
+			case "hole-cards-dealt":
+				// reset deck
+				APP.els.deck.cssSequence("disappear", "transitionend", el => el.removeClass("appear disappear"));
+				// flip users hole cards
+				// APP.els.seats.get(0).find(".cards").addClass("hole-flip");
+				APP.els.seats.get(0).find(".cards").cssSequence("hole-flip", "transitionend", el => {
+					// think next step AI
+					AI.think();
+				});
 				break;
 			case "deal-flop":
 				// reset deck
@@ -352,7 +354,6 @@ let Poker = {
 			}
 			return 0;
 		} else {
-			console.log("RAISE");
 			player.status = "CALL";
 
 			var previousCurrentBet = currentBetAmount;

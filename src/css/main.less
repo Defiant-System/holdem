@@ -288,8 +288,12 @@ content {
 				top: 63px;
 				left: 106px;
 				perspective: 900px;
+				min-height: 0px;
 
 				&.hole-flip {
+					min-height: 1px;
+					transition: min-height 700ms linear;
+
 					.card {
 						&.cardA { animation: cardFlip 500ms ease-in-out forwards 100ms; }
 						&.cardB { animation: cardFlip 500ms ease-in-out forwards 200ms; }

@@ -21,14 +21,14 @@ let Test = {
 		// 	Poker.dispatch({ type: "deal-flop" });
 		// }, 500);
 
-		// return setTimeout(() => {
-		// 	Poker.dispatch({ type: "set-opponents", value: 3 });
+		return setTimeout(() => {
+			Poker.dispatch({ type: "set-opponents", value: 3 });
 
-		// 	// temp
-		// 	// players.map(p => p.bet(1000));
-		// 	// players.map(p => p.cardA = 1);
-		// 	// players.map(p => p.cardB = 1);
-		// }, 500);
+			// temp
+			// players.map(p => p.bet(1000));
+			// players.map(p => p.cardA = 1);
+			// players.map(p => p.cardB = 1);
+		}, 500);
 
 
 
@@ -41,8 +41,8 @@ let Test = {
 						"0": { bankroll: 500, name: "Hakan", cardA: "h5", cardB: "c14", totalBet: 0, subtotalBet: 0 },
 						"1": { bankroll: 495, name: "Nina", cardA: "c6", cardB: "s5", totalBet: 5, subtotalBet: 5, },
 						"2": { bankroll: 490, name: "Jenny", cardA: "c5", cardB: "h4", totalBet: 10, subtotalBet: 10, },
-						// "5": { bankroll: 500, name: "Daniel", cardA: "d4", cardB: "d6", totalBet: 0, subtotalBet: 0 },
-						"5": { bankroll: 500, name: "Daniel", cardA: "d14", cardB: "s13", totalBet: 0, subtotalBet: 0 },
+						"5": { bankroll: 500, name: "Daniel", cardA: "d4", cardB: "d6", totalBet: 0, subtotalBet: 0 },
+						// "5": { bankroll: 500, name: "Daniel", cardA: "d14", cardB: "s13", totalBet: 0, subtotalBet: 0 },
 					},
 				}
 			});
