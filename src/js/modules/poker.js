@@ -80,7 +80,7 @@ let Poker = {
 						bankroll: STARTING_BANKROLL,
 					});
 				}
-				// sort players
+				// sort players by seat index
 				players = players.sort((a, b) => a.index - b.index);
 				// start new round
 				if (!event.noStart) Self.dispatch({ type: "start-new-round" });
@@ -145,7 +145,7 @@ let Poker = {
 				setTimeout(() => APP.els.deck.cssSequence("appear", "transitionend", el => {
 					let delay = 0,
 						cpIndex = buttonIndex,
-						il = players.filter(p => !["bust", "fold"].includes(p.status)).length;
+						il = Self.activePlayers.length;
 					// deal hole card 1
 					for (let i=0; i<il; i++) {
 						cpIndex = Self.getNextPlayerPosition(cpIndex, 1);
@@ -164,7 +164,7 @@ let Poker = {
 				setTimeout(() => APP.els.deck.cssSequence("appear", "transitionend", el => {
 					let flop = [];
 					for (let i=0; i<3; i++) {
-						flop.push(`<div class="card ${cards[deckIndex++]} card-back flop-${i+1} in-deck"></div>`);
+						flop.push(`<div class="card ${cards[deckIndex++]} card-back flop-${i+1} in-deck" data-value="${cards[deckIndex++]}"></div>`);
 					}
 					// prepare for anim
 					flop = APP.els.board.html(flop.join("")).find(".card");
@@ -223,7 +223,7 @@ let Poker = {
 				if (!players[0].cardA) {
 					Self.dispatch({ type: "blinds-and-deal" });
 				}
-
+				// restore community cards
 				if (event.data.flop) {
 					// restore flop cards
 					value = event.data.flop.map((c, i) => `<div class="card ${c} card-back flop-${i+1} no-anim"></div>`);
@@ -239,14 +239,22 @@ let Poker = {
 					}
 				}
 				// pot size
-				APP.els.pot.removeClass("hidden").html(event.data.pot);
+				if (event.data.pot) APP.els.pot.removeClass("hidden").html(event.data.pot);
+
 				// update dealer button
 				Self.dispatch({ type: "set-dealer", index: event.data.dealer });
-
 				// restore dealer index
 				buttonIndex = event.data.dealer;
+				// next player for action
+				currentBettorIndex = Self.getNextPlayerPosition(buttonIndex, 3);
+
+				// console.log(  );
+
 				// start new round
 				// Self.dispatch({ type: "start-new-round" });
+
+				// start ai
+				AI.think();
 				break;
 			case "set-dealer":
 				buttonIndex = event.index;
@@ -256,6 +264,14 @@ let Poker = {
 				break;
 		}
 	},
+	get boardCards() {
+		let ret = Array(6);
+		holdem.els.board.find(".card").map((c, i) => ret[i] = c.getAttribute("data-value"));
+		return ret;
+	},
+	get activePlayers() {
+		return players.filter(p => !["bust", "fold"].includes(p.status));
+	},
 	getNextPlayerPosition(i, delta) {
 		let seats = players.filter(p => !["bust", "fold"].includes(p.status)).map(p => p.index),
 			index = seats.indexOf(i),
@@ -264,5 +280,9 @@ let Poker = {
 	},
 	getPlayer(pos) {
 		return players.find(p => p.index === pos);
+	},
+	hasMoney(i) {
+		let player = Poker.getPlayer(i);
+		return player.bankroll >= 0.01;
 	}
 };
