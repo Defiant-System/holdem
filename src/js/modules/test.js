@@ -42,7 +42,7 @@ let Test = {
 						"1": { bankroll: 495, name: "Nina", cardA: "c6", cardB: "s5", totalBet: 5, subtotalBet: 5, },
 						"2": { bankroll: 490, name: "Jenny", cardA: "c5", cardB: "h4", totalBet: 10, subtotalBet: 10, },
 						// "4": { bankroll: 500, name: "Daniel", cardA: "d4", cardB: "d6", totalBet: 0, subtotalBet: 0 },
-						"4": { bankroll: 500, name: "Daniel", cardA: "d11", cardB: "s10", totalBet: 0, subtotalBet: 0 },
+						"4": { bankroll: 500, name: "Daniel", cardA: "d14", cardB: "s13", totalBet: 0, subtotalBet: 0 },
 					},
 				}
 			});

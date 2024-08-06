@@ -1,6 +1,7 @@
 
 let AI = (() => {
 
+let APP;
 let P, HCONF, ID_CONF, CALL_LEVEL, BET_LEVEL, POT_LEVEL, BANKROLL;
 let CALL, SMALL, MED, BIG, ALLIN;
 let RANKA, RANKB;
@@ -17,6 +18,10 @@ let holeRankings =
 
 
 let Main = {
+	init() {
+		// local available reference to application
+		APP = holdem;
+	},
 	think() {
 		let incrementBettorIndex = 0;
 		let nextPlayer = Poker.getPlayer(currentBettorIndex);
@@ -30,7 +35,7 @@ let Main = {
 		} else {
 			nextPlayer.status = "";
 			if (currentBettorIndex == 0) {
-				console.log( "show dialog" );
+				APP.dialog.dispatch({ type: "show-dialog", actions: "call-fold" });
 				return;
 			} else {
 				setTimeout(() => this.getBet(currentBettorIndex), 500);
@@ -82,9 +87,9 @@ let Main = {
 				player.status = ""; // RAISE
 			}
 		}
-		if (this.betFunction(x, b) == 0) {
+		if (Poker.playerBets(x, b) == 0) {
 			player.status = "FOLD";
-			this.betFunction(x, 0);
+			Poker.playerBets(x, 0);
 		}
 		// console.log(player.cardA, player.cardB, b);
 		// console.log(player.status);
@@ -95,68 +100,6 @@ let Main = {
 		
 		// next thing to do (!?)
 		this.think();
-	},
-	betFunction(playerIndex, betAmount) {
-		let player = Poker.getPlayer(playerIndex);
-		if (player.status == "FOLD") {
-			return 0;
-			// FOLD ;
-		} else if (betAmount >= player.bankroll) {
-			console.log("ALL IN");
-			betAmount = player.bankroll;
-
-			var oldCurrentBet = currentBetAmount;
-			if (player.subtotalBet + betAmount > currentBetAmount) {
-				currentBetAmount = player.subtotalBet + betAmount;
-			}
-
-			// currentMinRaise should be calculated earlier ? <--
-			var new_currentMinRaise = currentBetAmount - oldCurrentBet;
-			if (new_currentMinRaise > currentMinRaise) {
-				currentMinRaise = new_currentMinRaise;
-			}
-			player.status = "CALL";
-		} else if (betAmount + player.subtotalBet == currentBetAmount) {
-			console.log("CALL");
-			player.status = "CALL";
-		} else if (currentBetAmount > player.subtotalBet + betAmount) {
-			console.log("2 SMALL");
-			// COMMENT OUT TO FIND BUGS
-			if (playerIndex == 0) {
-				let minBet = currentBetAmount - player.subtotalBet;
-				console.log(`The current bet to match is ${currentBetAmount} \nYou must bet a total of at least ${minBet} or fold`);
-			}
-			return 0;
-		} else if (betAmount + player.subtotalBet > currentBetAmount
-					&& Poker.getPotSize() > 0
-					&& betAmount + player.subtotalBet - currentBetAmount < currentMinRaise) {
-			// COMMENT OUT TO FIND BUGS
-			if (playerIndex == 0) {
-				consolt.log("Minimum raise is currently " + currentMinRaise + ".");
-			}
-			return 0;
-		} else {
-			console.log("RAISE");
-			player.status = "CALL";
-
-			var previousCurrentBet = currentBetAmount;
-			currentBetAmount = player.subtotalBet + betAmount;
-
-			if (Poker.getPotSize() > 0) {
-				currentMinRaise = currentBetAmount - previousCurrentBet;
-				if (currentMinRaise < BIG_BLIND) {
-					currentMinRaise = BIG_BLIND;
-				}
-			}
-		}
-		player.subtotalBet += betAmount;
-		player.bankroll -= betAmount;
-		player.bet(player.subtotalBet);
-
-		// UI show pot size
-		Poker.dispatch({ type: "update-total-pot-value" });
-
-		return 1;
 	},
 	getPreFlopBet() {
 		var num_players_playing_the_hand = this.internal_setup();

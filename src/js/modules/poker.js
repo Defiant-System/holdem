@@ -309,7 +309,69 @@ let Poker = {
 		else if (r == 14) return "A";
 	},
 	hasMoney(i) {
-		let player = Poker.getPlayer(i);
+		let player = this.getPlayer(i);
 		return player.bankroll >= 0.01;
-	}
+	},
+	playerBets(playerIndex, betAmount) {
+		let player = this.getPlayer(playerIndex);
+		if (player.status == "FOLD") {
+			return 0;
+			// FOLD ;
+		} else if (betAmount >= player.bankroll) {
+			console.log("ALL IN");
+			betAmount = player.bankroll;
+
+			var oldCurrentBet = currentBetAmount;
+			if (player.subtotalBet + betAmount > currentBetAmount) {
+				currentBetAmount = player.subtotalBet + betAmount;
+			}
+
+			// currentMinRaise should be calculated earlier ? <--
+			var new_currentMinRaise = currentBetAmount - oldCurrentBet;
+			if (new_currentMinRaise > currentMinRaise) {
+				currentMinRaise = new_currentMinRaise;
+			}
+			player.status = "CALL";
+		} else if (betAmount + player.subtotalBet == currentBetAmount) {
+			console.log("CALL");
+			player.status = "CALL";
+		} else if (currentBetAmount > player.subtotalBet + betAmount) {
+			console.log("2 SMALL");
+			// COMMENT OUT TO FIND BUGS
+			if (playerIndex == 0) {
+				let minBet = currentBetAmount - player.subtotalBet;
+				console.log(`The current bet to match is ${currentBetAmount} \nYou must bet a total of at least ${minBet} or fold`);
+			}
+			return 0;
+		} else if (betAmount + player.subtotalBet > currentBetAmount
+					&& this.getPotSize() > 0
+					&& betAmount + player.subtotalBet - currentBetAmount < currentMinRaise) {
+			// COMMENT OUT TO FIND BUGS
+			if (playerIndex == 0) {
+				consolt.log("Minimum raise is currently " + currentMinRaise + ".");
+			}
+			return 0;
+		} else {
+			console.log("RAISE");
+			player.status = "CALL";
+
+			var previousCurrentBet = currentBetAmount;
+			currentBetAmount = player.subtotalBet + betAmount;
+
+			if (this.getPotSize() > 0) {
+				currentMinRaise = currentBetAmount - previousCurrentBet;
+				if (currentMinRaise < BIG_BLIND) {
+					currentMinRaise = BIG_BLIND;
+				}
+			}
+		}
+		player.subtotalBet += betAmount;
+		player.bankroll -= betAmount;
+		player.bet(player.subtotalBet);
+
+		// UI show pot size
+		this.dispatch({ type: "update-total-pot-value" });
+
+		return 1;
+	},
 };

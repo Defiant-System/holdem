@@ -22,6 +22,7 @@ const holdem = {
 		// fast references
 		this.els = {
 			content: window.find("content"),
+			table: window.find(".table"),
 			board: window.find(".board"),
 			pot: window.find(".pot"),
 			deck: window.find(".deck"),
@@ -30,7 +31,13 @@ const holdem = {
 		};
 
 		// init objects
+		AI.init()
 		Poker.init();
+
+		// init all sub-objects
+		Object.keys(this)
+			.filter(i => typeof this[i].init === "function")
+			.map(i => this[i].init(this));
 
 		// DEV-ONLY-START
 		Test.init(this);
