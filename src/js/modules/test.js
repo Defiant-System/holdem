@@ -38,14 +38,15 @@ let Test = {
 				data: {
 					dealer: 0,
 					players: {
-						"0": { bankroll: 3000, name: "Hakan", cardA: "h5", cardB: "c14", totalBet: 0 },
-						"1": { bankroll: 1000, name: "Nina", cardA: "c6", cardB: "s5", totalBet: 50, status: "betting" },
-						"2": { bankroll: 2000, name: "Jenny", cardA: "c5", cardB: "s4", totalBet: 100, status: "betting" },
-						// "6": { bankroll: 6000, name: "Jack", cardA: "h6", cardB: "d7", totalBet: 3000, status: "fold" },
-						"7": { bankroll: 2050, name: "Daniel", cardA: "c4", cardB: "s3", totalBet: 0 },
+						"0": { bankroll: 500, name: "Hakan", cardA: "h5", cardB: "c14", totalBet: 0 },
+						"1": { bankroll: 500, name: "Nina", cardA: "c6", cardB: "s5", totalBet: 5, },
+						"2": { bankroll: 500, name: "Jenny", cardA: "c5", cardB: "h4", totalBet: 10, },
+						"7": { bankroll: 500, name: "Daniel", cardA: "s4", cardB: "d6", totalBet: 0 },
+						// "7": { bankroll: 500, name: "Daniel", cardA: "s11", cardB: "s10", totalBet: 0 },
 					},
 				}
 			});
+			currentBetAmount = 10;
 		}, 500);
 
 

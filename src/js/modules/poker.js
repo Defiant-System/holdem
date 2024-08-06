@@ -88,7 +88,7 @@ let Poker = {
 			case "start-new-round":
 				Self.dispatch({ type: "reset-table" });
 				Self.dispatch({ type: "new-game" });
-				Self.dispatch({ type: "new-round" });
+				Self.dispatch({ type: "reset-round" });
 				Self.dispatch({ type: "shuffle-deck" });
 				Self.dispatch({ type: "blinds-and-deal" });
 				// start ai
@@ -108,12 +108,14 @@ let Poker = {
 				// reset players
 				players.map(p => p.update({ cardA: "", cardB: "", totalBet: 0 }));
 				break;
-			case "new-round":
+			case "reset-round":
 				RUN_EM = 0;
 				NUM_ROUNDS++;
 				HUMAN_GOES_ALL_IN = 0;
 				currentMinRaise = 0;
 				buttonIndex = Self.getNextPlayerPosition(buttonIndex, 1);
+				// clear player bets + reset minimum bet
+				Self.clearBets();
 				// update dealer button
 				Self.dispatch({ type: "set-dealer", index: buttonIndex });
 				break;
@@ -252,6 +254,9 @@ let Poker = {
 
 				// start new round
 				// Self.dispatch({ type: "start-new-round" });
+				
+				// reset round
+				Self.dispatch({ type: "reset-round" });
 
 				// start ai
 				AI.think();
@@ -270,16 +275,36 @@ let Poker = {
 		return ret;
 	},
 	get activePlayers() {
-		return players.filter(p => !["bust", "fold"].includes(p.status));
+		return players.filter(p => !["BUST", "FOLD"].includes(p.status));
+	},
+	clearBets () {
+		for (var i=0; i<players.length; i++) {
+			players[i].subtotalBet = 0;
+		}
+		currentBetAmount = 0;
+	},
+	getPotSize() {
+		var p = 0;
+		for (var i=0; i<players.length; i++) {
+			p += players[i].totalBet + players[i].subtotalBet;
+		}
+		return p;
 	},
 	getNextPlayerPosition(i, delta) {
-		let seats = players.filter(p => !["bust", "fold"].includes(p.status)).map(p => p.index),
+		let seats = players.filter(p => !["BUST", "FOLD"].includes(p.status)).map(p => p.index),
 			index = seats.indexOf(i),
 			add = seats.length * seats.length;
 		return seats[(index + delta + add) % seats.length]
 	},
 	getPlayer(pos) {
 		return players.find(p => p.index === pos);
+	},
+	makeReadableRank(r) {
+		if (r < 11) return r;
+		else if (r == 11) return "J";
+		else if (r == 12) return "Q";
+		else if (r == 13) return "K";
+		else if (r == 14) return "A";
 	},
 	hasMoney(i) {
 		let player = Poker.getPlayer(i);

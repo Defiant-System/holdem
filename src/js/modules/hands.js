@@ -88,7 +88,7 @@ let Test = {
 		}
 		let numMine = 0;
 		for (let i=0; i<absoluteLongestStretch; i++) {
-			if (suit + (absoluteHighCard - i) == player.carda || suit + (absoluteHighCard - i) == player.cardb) numMine++;
+			if (suit + (absoluteHighCard - i) == player.cardA || suit + (absoluteHighCard - i) == player.cardB) numMine++;
 		}
 		let hashResult = {};
 		hashResult["straight_hi"] = absoluteHighCard;
@@ -114,8 +114,8 @@ let Test = {
 			else if (ranks[i] > 0) kicker = i + 2;
 		}
 		let numMine = 0;
-		if (Utils.getRank(player.carda) == four) numMine++;
-		if (Utils.getRank(player.cardb) == four) numMine++;
+		if (Utils.getRank(player.cardA) == four) numMine++;
+		if (Utils.getRank(player.cardB) == four) numMine++;
 		
 		let numNeeded = 4;
 		if (four) numNeeded = 0;
@@ -154,8 +154,8 @@ let Test = {
 		if (three) {
 			numNeeded -= 3;
 			majorRank = three;
-			if (Utils.getRank(player.carda) == three) numMineMajor += 1;
-			if (Utils.getRank(player.cardb) == three) numMineMajor += 1;
+			if (Utils.getRank(player.cardA) == three) numMineMajor += 1;
+			if (Utils.getRank(player.cardB) == three) numMineMajor += 1;
 		}
 		let hashResult = {};
 		hashResult["major_rank"] = majorRank;
@@ -166,8 +166,8 @@ let Test = {
 		if (two) {
 			numNeeded -= 2;
 			minorRank = two;
-			if (Utils.getRank(player.carda) == two) numMineMinor += 1;
-			if (Utils.getRank(player.cardb) == two) numMineMinor += 1;
+			if (Utils.getRank(player.cardA) == two) numMineMinor += 1;
+			if (Utils.getRank(player.cardB) == two) numMineMinor += 1;
 		}
 		hashResult["minor_rank"] = minorRank;
 		hashResult["num_mine_minor"] = numMineMinor;
@@ -201,7 +201,7 @@ let Test = {
 			let s = workingCards[i];
 			if (!s) s = "";
 			hashResult["flush_" + i] = s;
-			if (suit + workingCards[i] == player.carda || suit + workingCards[i] == player.cardb) numMine++;
+			if (suit + workingCards[i] == player.cardA || suit + workingCards[i] == player.cardB) numMine++;
 		}
 		hashResult["num_needed"] = 5 - numInFlush;
 		hashResult["num_mine"] = numMine;
@@ -255,8 +255,8 @@ let Test = {
 		}
 		let numMine = 0;
 		for (let i=0; i<absoluteLongestStretch; i++) {
-			if (absoluteHighCard - i == Utils.getRank(player.carda) ||
-				absoluteHighCard - i == Utils.getRank(player.cardb)) {
+			if (absoluteHighCard - i == Utils.getRank(player.cardA) ||
+				absoluteHighCard - i == Utils.getRank(player.cardB)) {
 				numMine++;
 			}
 		}
@@ -292,8 +292,8 @@ let Test = {
 			}
 		}
 		let numMine = 0;
-		if (Utils.getRank(player.carda) == three) numMine++;
-		if (Utils.getRank(player.cardb) == three) numMine++;
+		if (Utils.getRank(player.cardA) == three) numMine++;
+		if (Utils.getRank(player.cardB) == three) numMine++;
 
 		let numNeeded = 3;
 		if (three) numNeeded = 0;
@@ -332,8 +332,8 @@ let Test = {
 			}
 		}
 		let numMine = 0;
-		if (Utils.getRank(player.carda) == first || Utils.getRank(player.carda) == second) numMine++;
-		if (Utils.getRank(player.cardb) == first || Utils.getRank(player.cardb) == second) numMine++;
+		if (Utils.getRank(player.cardA) == first || Utils.getRank(player.cardA) == second) numMine++;
+		if (Utils.getRank(player.cardB) == first || Utils.getRank(player.cardB) == second) numMine++;
 		
 		let numNeeded = 2;
 		if (second) numNeeded = 0;
@@ -376,8 +376,8 @@ let Test = {
 			}
 		}
 		let numMine = 0;
-		if (Utils.getRank(player.carda) == pair) numMine++;
-		if (Utils.getRank(player.cardb) == pair) numMine++;
+		if (Utils.getRank(player.cardA) == pair) numMine++;
+		if (Utils.getRank(player.cardB) == pair) numMine++;
 		let numNeeded = 1;
 		if (pair) numNeeded = 0;
 		let hashResult = {};
@@ -564,8 +564,8 @@ let Utils = {
 		for (let i = 0; i < 5; i++) {
 			c[i] = Main.board[i];
 		}
-		c[5] = player.carda;
-		c[6] = player.cardb;
+		c[5] = player.cardA;
+		c[6] = player.cardB;
 		return c;
 	},
 	compNum(a, b) {
@@ -573,5 +573,5 @@ let Utils = {
 	}
 };
 
-	return Main;
+	return { ...Main, ...Utils };
 })();

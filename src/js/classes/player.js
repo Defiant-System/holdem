@@ -29,7 +29,7 @@ class Player {
 	}
 
 	set status(v) {
-		console.log( this.name, "status", v );
+		// console.log( this.name, "status", v );
 		// internal value
 		this._status = v;
 		// seat state
@@ -83,10 +83,8 @@ class Player {
 		this.el.addClass(`s${this.index}`);
 		// seat state
 		this.el.data({ status: this.status });
-
-		if (this.totalBet) {
-			this.el.find(".bet").html(this.totalBet.format(" "));
-		}
+		// update UI
+		if (this.totalBet) this.bet(this.totalBet);
 
 		if (this.cardA && this.cardB && !this.cardsEl.find(".card").length) {
 			let cA = this.index === 0 ? `card ${this.cardA} cardA` : `cardA`,
@@ -101,6 +99,6 @@ class Player {
 		this.bankroll -= val;
 		this.el.find(".bet").html(this.totalBet.format(" "));
 		this.el.find(".chips").html(this.bankroll.format(" "));
-		this.el.data({ status: "betting" });
+		this.el.addClass("betting");
 	}
 }
