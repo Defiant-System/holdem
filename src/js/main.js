@@ -32,6 +32,7 @@ const holdem = {
 
 		// init objects
 		AI.init()
+		Hands.init();
 		Poker.init();
 
 		// init all sub-objects

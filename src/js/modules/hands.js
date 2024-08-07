@@ -2,9 +2,10 @@
 let Hands = (() => {
 
 let Main = {
-	getWinners(board, players) {
-		// save reference
-		this.board = board;
+	init() {
+		
+	},
+	getWinners(players) {
 		// test & compare
 		let winners;
 		let tests = Object.keys(Test);
@@ -560,9 +561,10 @@ let Utils = {
 		return "";
 	},
 	groupCards(player) {
+		let board = window.find(".board .card").map(c => c.getAttribute("data-value"));
 		let c = new Array(7);
 		for (let i = 0; i < 5; i++) {
-			c[i] = Main.board[i];
+			c[i] = board[i];
 		}
 		c[5] = player.cardA;
 		c[6] = player.cardB;
@@ -573,5 +575,5 @@ let Utils = {
 	}
 };
 
-	return { ...Main, ...Utils };
+	return { ...Main, ...Utils, test: Test, compare: Compare };
 })();

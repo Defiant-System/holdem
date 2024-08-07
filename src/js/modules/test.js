@@ -11,7 +11,7 @@ let Test = {
 		// 			{ carda: "d12", cardb: "c6" },
 		// 			{ carda: "h7", cardb: "s2" }
 		// 		];
-		// 	let w = Hands.getWinners(board, players);
+		// 	let w = Hands.getWinners(players);
 		// 	console.log( w );
 		// }, 500);
 
@@ -50,7 +50,7 @@ let Test = {
 						"0": { bankroll: 500, name: "Hakan", cardA: "h5", cardB: "c14", totalBet: 0, subtotalBet: 0 },
 						"1": { bankroll: 495, name: "Nina", cardA: "c6", cardB: "s5", totalBet: 5, subtotalBet: 5, },
 						"2": { bankroll: 490, name: "Jenny", cardA: "c5", cardB: "h4", totalBet: 10, subtotalBet: 10, },
-						"5": { bankroll: 500, name: "Daniel", cardA: "d4", cardB: "d6", totalBet: 0, subtotalBet: 0 },
+						"5": { bankroll: 500, name: "Daniel", cardA: "c2", cardB: "d7", totalBet: 0, subtotalBet: 0 },
 						// "5": { bankroll: 500, name: "Daniel", cardA: "d14", cardB: "s13", totalBet: 0, subtotalBet: 0 },
 					},
 				}

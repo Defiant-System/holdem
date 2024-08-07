@@ -47,26 +47,26 @@
 				break;
 			case "player-check":
 				break;
-			case "player-raise":
-				// temp
-				Poker.playerBets(0, Self.drag.bet);
+			case "player-fold":
+				Poker.playerFolds(currentBettorIndex);
 				// "hide" dialog
 				Self.dispatch({ type: "hide-dialog" });
-
-				players[0].status = "CALL";
+				// go to next player
 				currentBettorIndex = Poker.getNextPlayerPosition(currentBettorIndex, 1);
 				// think next step AI
 				AI.think();
 				break;
-			case "player-fold":
-				break;
+			case "player-raise":
 			case "player-call":
-				// temp
-				Poker.playerBets(0, currentBetAmount);
+				// value of bet
+				value = event.type === "player-raise" ? Self.drag.bet : currentBetAmount;
+				// user bets
+				Poker.playerBets(currentBettorIndex, value);
 				// "hide" dialog
 				Self.dispatch({ type: "hide-dialog" });
 
-				players[0].status = "CALL";
+				players[currentBettorIndex].status = "CALL";
+				// go to next player
 				currentBettorIndex = Poker.getNextPlayerPosition(currentBettorIndex, 1);
 				// think next step AI
 				AI.think();

@@ -241,8 +241,8 @@ let Poker = {
 									// fan & flip flop
 									APP.els.board.cssSequence("fan-flop", "transitionend", el => {
 										el.cssSequence("flip-flop", "transitionend", el => {
-											// continue game
-											// console.log( "continue game" );
+											// think next step AI
+											AI.think();
 										});
 									});
 								}
@@ -378,6 +378,11 @@ let Poker = {
 				case 2: if (players[i].status != "FOLD" && players[i].status != "BUST") players[i].status = ""; break;
 			}
 		}
+	},
+	playerFolds(playerIndex) {
+		let player = this.getPlayer(playerIndex);
+		player.status = "FOLD";
+		player.el.data({ status: "FOLD" });
 	},
 	playerBets(playerIndex, betAmount) {
 		let player = this.getPlayer(playerIndex);
