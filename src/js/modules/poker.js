@@ -255,7 +255,7 @@ let Poker = {
 				setTimeout(() => APP.els.deck.cssSequence("appear", "transitionend", el => {
 					// burn & turn
 					let burn = cards[deckIndex++];
-					APP.els.board.append(`<div class="card card-back turn in-deck"></div>`);
+					APP.els.board.append(`<div class="card card-back turn to-burn"></div>`);
 
 					// append turn
 					// let turn = cards[deckIndex++];
@@ -312,6 +312,9 @@ let Poker = {
 
 				// reset round
 				// Self.dispatch({ type: "reset-round" });
+
+				// temp
+				return Self.dispatch({ type: "deal-turn" });
 
 				// think next step AI
 				AI.think();

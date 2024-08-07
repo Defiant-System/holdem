@@ -42,6 +42,7 @@
 				APP.els.table.removeClass("shows-user-actions");
 				// reset slider highlight
 				Self.els.handle.parent().removeClass("dragged");
+				Self.els.handle.css({ left: "" });
 				// reset "raise" button
 				Self.els.el.find(".button.raise").addClass("disabled");
 				break;

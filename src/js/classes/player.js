@@ -29,7 +29,7 @@ class Player {
 	}
 
 	set status(v) {
-		console.log( this.name, "status", v );
+		// console.log( this.name, "status", v );
 		// internal value
 		this._status = v;
 		// seat state

@@ -636,7 +636,23 @@ content {
 		}
 
 		&[data-status="CHECK"] {
+			.bet {
+				opacity: 1;
+				visibility: visible;
+				padding: 5px 13px;
+				font-size: 0;
+				color: #fff;
 
+				&:before {
+					display: none;
+				}
+
+				&:after {
+					content: "Checked";
+					font-size: 23px;
+					text-shadow: 0 1px 1px rgba(#000,.15);
+				}
+			}
 		}
 
 		&[data-status="ALL-IN"] {
@@ -655,7 +671,7 @@ content {
 			}
 		}
 
-		&[data-status="winner"] {
+		&[data-status="WINNER"] {
 			svg.outline {
 				display: block;
 				--color: #ff0;
@@ -674,7 +690,7 @@ content {
 		position: absolute;
 		width: var( --deckW );
 		height: var( --deckH );
-		z-index: 1;
+		z-index: 3;
 		margin-top: 17px;
 		border-radius: 3px;
 		filter: drop-shadow(0 1px 0 hsl(1, 5%, 77%))
