@@ -45,8 +45,6 @@
 				// reset "raise" button
 				Self.els.el.find(".button.raise").addClass("disabled");
 				break;
-			case "player-check":
-				break;
 			case "player-fold":
 				Poker.playerFolds(currentBettorIndex);
 				// "hide" dialog
@@ -56,10 +54,11 @@
 				// think next step AI
 				AI.think();
 				break;
+			case "player-check":
 			case "player-raise":
 			case "player-call":
 				// value of bet
-				value = event.type === "player-raise" ? Self.drag.bet : currentBetAmount;
+				value = event.type === "player-raise" ? Self.drag.bet : currentBetAmount; // currentBetAmount = 0, when user "checks"
 				// user bets
 				Poker.playerBets(currentBettorIndex, value);
 				// "hide" dialog

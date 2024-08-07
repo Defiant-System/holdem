@@ -36,7 +36,8 @@ let Main = {
 		} else {
 			nextPlayer.status = "";
 			if (currentBettorIndex == 0) {
-				APP.dialog.dispatch({ type: "show-dialog", actions: "call-fold-raise" });
+				let actions = currentBetAmount === 0 ? "check-fold" : "call-fold-raise";
+				APP.dialog.dispatch({ type: "show-dialog", actions });
 				return;
 			} else {
 				setTimeout(() => this.getBet(currentBettorIndex), 500);
@@ -79,7 +80,8 @@ let Main = {
 			b = 0;
 			player.status = "FOLD";
 		} else if (b == n) { // CALL
-			player.status = "CALL";
+			// console.log(player.name, "CHECK");
+			player.status = "CHECK";
 		} else if (b > n) {
 			if (b - n < currentMinRaise) { // RAISE 2 SMALL
 				b = n;
@@ -255,8 +257,6 @@ let Main = {
 		var TWO_PAIR = Hands.test.twoPair(P);
 		var ONE_PAIR = Hands.test.onePair(P);
 		var FLUSH_DRAW = 0;
-		console.log( THREE_OF_A_KIND );
-		console.log( TWO_PAIR );
 
 		if (ROUND < 5) {
 			if (FLUSH["num_needed"] == 1) {
@@ -353,8 +353,9 @@ let Main = {
 			if (ONE_PAIR["num_mine"] > 0) {
 				var my_rank = ONE_PAIR["rank"];
 				var num_overcards = 0;
-				for (var i = 0; i < board.length; i++) {
-					if (board[i] && get_rank(board[i]) > my_rank) num_overcards++;
+				var board = Poker.boardCards;
+				for (var i=0; i<board.length; i++) {
+					if (board[i] && Hands.getRank(board[i]) > my_rank) num_overcards++;
 				}
 				if (num_overcards < 1) {
 					VERDICT = "GOOD";       // Moved from (Comment1) below

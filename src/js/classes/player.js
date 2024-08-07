@@ -29,7 +29,7 @@ class Player {
 	}
 
 	set status(v) {
-		// console.log( this.name, "status", v );
+		console.log( this.name, "status", v );
 		// internal value
 		this._status = v;
 		// seat state
@@ -102,6 +102,6 @@ class Player {
 		// this.bankroll -= val;
 		this.el.find(".bet").html(this.subtotalBet.format(" "));
 		this.el.find(".bankroll").html(this.bankroll.format(" "));
-		this.el.addClass("betting");
+		this.el.toggleClass("betting", this.subtotalBet === 0);
 	}
 }

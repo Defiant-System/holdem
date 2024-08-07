@@ -253,12 +253,16 @@ let Poker = {
 			case "deal-turn":
 				// reset deck
 				setTimeout(() => APP.els.deck.cssSequence("appear", "transitionend", el => {
+					// burn & turn
+					let burn = cards[deckIndex++];
+					APP.els.board.append(`<div class="card card-back turn in-deck"></div>`);
+
 					// append turn
-					let c = cards[deckIndex++];
-					APP.els.board.append(`<div class="card card-back turn ${c}" data-value="${c}"></div>`);
+					// let turn = cards[deckIndex++];
+					// APP.els.board.append(`<div class="card card-back turn ${c}" data-value="${c}"></div>`);
 
 					// TODO: animate turn card
-					
+
 				}));
 				break;
 			case "deal-river":
@@ -412,7 +416,7 @@ let Poker = {
 	playerFolds(playerIndex) {
 		let player = this.getPlayer(playerIndex);
 		player.status = "FOLD";
-		player.el.data({ status: "FOLD" });
+		player.el.removeClass("betting").data({ status: "FOLD" });
 	},
 	playerBets(playerIndex, betAmount) {
 		let player = this.getPlayer(playerIndex);
@@ -435,8 +439,8 @@ let Poker = {
 			}
 			player.status = "CALL";
 		} else if (betAmount + player.subtotalBet == currentBetAmount) {
-			console.log("CALL");
-			player.status = "CALL";
+			// console.log(player.name, "CHECK");
+			player.status = "CHECK";
 		} else if (currentBetAmount > player.subtotalBet + betAmount) {
 			console.log("2 SMALL");
 			// COMMENT OUT TO FIND BUGS

@@ -34,7 +34,7 @@ State["post-flop"] = {
 		},
 		players: {
 			"0": { bankroll: 490, name: "Hakan", cardA: "h5", cardB: "c14", totalBet: 10, subtotalBet: 0, },
-			"1": { bankroll: 490, name: "Nina", cardA: "d10", cardB: "c9", totalBet: 10, subtotalBet: 0, },
+			"1": { bankroll: 490, name: "Nina", cardA: "c6", cardB: "c3", totalBet: 10, subtotalBet: 0, },
 			"2": { bankroll: 490, name: "Jenny", cardA: "c5", cardB: "h4", totalBet: 10, subtotalBet: 0, },
 			"5": { bankroll: 500, name: "Daniel", cardA: "c2", cardB: "d7", totalBet: 0, subtotalBet: 0, status: "FOLD" },
 			// "5": { bankroll: 500, name: "Daniel", cardA: "d14", cardB: "s13", totalBet: 0, subtotalBet: 0 },
