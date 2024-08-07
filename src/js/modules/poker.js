@@ -30,6 +30,7 @@ let Poker = {
 	dispatch(event) {
 		let APP = holdem,
 			Self = Poker,
+			dealer, player,
 			seats,
 			value,
 			el;
@@ -180,10 +181,11 @@ let Poker = {
 				currentMinRaise = BIG_BLIND;
 				Self.resetPlayerStatuses(2);
 
-				if (players[buttonIndex].status == "FOLD") {
+				dealer = Self.getPlayer(buttonIndex);
+				if (dealer.status == "FOLD") {
 					players[Self.getNextPlayerPosition(buttonIndex, -1)].status = "OPTION";
 				} else {
-					players[buttonIndex].status = "OPTION";
+					dealer.status = "OPTION";
 				}
 				currentBettorIndex = Self.getNextPlayerPosition(buttonIndex, 1);
 				let showCards = 0;
@@ -292,18 +294,15 @@ let Poker = {
 				// update dealer button
 				Self.dispatch({ type: "set-dealer", index: event.data.dealer });
 				// restore dealer index
-				buttonIndex = event.data.dealer;
+				// buttonIndex = event.data.dealer;
 				// restore deck / card index
 				cards = event.data.deck.cards.split(" ");
 				deckIndex = event.data.deck.index || 0;
 				// next player for action
 				currentBettorIndex = Self.getNextPlayerPosition(buttonIndex, 3);
 
-				// start new round
-				// Self.dispatch({ type: "start-new-round" });
-				
 				// reset round
-				Self.dispatch({ type: "reset-round" });
+				// Self.dispatch({ type: "reset-round" });
 
 				// think next step AI
 				AI.think();
@@ -416,7 +415,7 @@ let Poker = {
 					&& betAmount + player.subtotalBet - currentBetAmount < currentMinRaise) {
 			// COMMENT OUT TO FIND BUGS
 			if (playerIndex == 0) {
-				consolt.log("Minimum raise is currently " + currentMinRaise + ".");
+				console.log("Minimum raise is currently " + currentMinRaise + ".");
 			}
 			return 0;
 		} else {
