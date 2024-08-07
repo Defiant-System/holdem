@@ -200,11 +200,11 @@ let Poker = {
 				if (numBetting < 2) RUN_EM = 1;
 				
 				if (!board[0]) {
-					console.log("deal_flop");
+					Self.dispatch({ type: "deal-flop" });
 				} else if (!board[3]) {
-					console.log("deal_fourth");
+					Self.dispatch({ type: "deal-turn" });
 				} else if (!board[4]) {
-					console.log("deal_fifth");
+					Self.dispatch({ type: "deal-river" });
 				}
 				break;
 			case "deal-flop":
@@ -293,6 +293,9 @@ let Poker = {
 				Self.dispatch({ type: "set-dealer", index: event.data.dealer });
 				// restore dealer index
 				buttonIndex = event.data.dealer;
+				// restore deck / card index
+				cards = event.data.deck.cards.split(" ");
+				deckIndex = event.data.deck.index || 0;
 				// next player for action
 				currentBettorIndex = Self.getNextPlayerPosition(buttonIndex, 3);
 
@@ -327,7 +330,8 @@ let Poker = {
 	},
 	clearBets () {
 		for (let i=0; i<players.length; i++) {
-			players[i].subtotalBet = 0;
+			// players[i].subtotalBet = 0;
+			players[i].update({ subtotalBet: 0 });
 		}
 		currentBetAmount = 0;
 	},

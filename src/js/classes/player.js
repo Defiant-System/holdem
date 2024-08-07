@@ -69,7 +69,10 @@ class Player {
 		//reset values
 		Object.keys(data).map(key => this[key] = data[key]);
 		// if subtotalBet is set to zero, update UI
-		if (this.el && this.subtotalBet === 0) this.el.data({ status: "" });
+		if (this.el && this.subtotalBet === 0) {
+			this.el.find(".bet").html("");
+			this.el.removeClass("betting");
+		}
 		// update UI
 		this.syncEl();
 	}
