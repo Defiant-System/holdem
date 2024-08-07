@@ -213,7 +213,8 @@ let Poker = {
 				setTimeout(() => APP.els.deck.cssSequence("appear", "transitionend", el => {
 					let flop = [];
 					for (let i=0; i<3; i++) {
-						flop.push(`<div class="card ${cards[deckIndex++]} card-back flop-${i+1} in-deck" data-value="${cards[deckIndex++]}"></div>`);
+						let c = cards[deckIndex++];
+						flop.push(`<div class="card ${c} card-back flop-${i+1} in-deck" data-value="${c}"></div>`);
 					}
 					// prepare for anim
 					flop = APP.els.board.html(flop.join("")).find(".card");
@@ -252,6 +253,11 @@ let Poker = {
 			case "deal-turn":
 				// reset deck
 				setTimeout(() => APP.els.deck.cssSequence("appear", "transitionend", el => {
+					// append turn
+					let c = cards[deckIndex++];
+					APP.els.board.append(`<div class="card card-back turn ${c}" data-value="${c}"></div>`);
+
+					// TODO: animate turn card
 					
 				}));
 				break;
@@ -275,16 +281,16 @@ let Poker = {
 				// restore community cards
 				if (event.data.flop) {
 					// restore flop cards
-					value = event.data.flop.map((c, i) => `<div class="card ${c} card-back flop-${i+1} no-anim"></div>`);
+					value = event.data.flop.map((c, i) => `<div class="card ${c} card-back flop-${i+1} no-anim" data-value="${c}"></div>`);
 					APP.els.board.addClass("fan-flop flip-flop no-anim").html(value.join());
 					
 					if (event.data.turn) {
 						// append turn
-						APP.els.board.addClass("flip-turn").append(`<div class="card card-back turn ${event.data.turn} no-anim"></div>`);
+						APP.els.board.addClass("flip-turn").append(`<div class="card card-back turn ${event.data.turn} no-anim" data-value="${event.data.turn}"></div>`);
 					}
 					if (event.data.river) {
 						// append river
-						APP.els.board.addClass("flip-river").append(`<div class="card card-back river ${event.data.river} no-anim"></div>`);
+						APP.els.board.addClass("flip-river").append(`<div class="card card-back river ${event.data.river} no-anim" data-value="${event.data.river}"></div>`);
 					}
 				}
 				// pot size
@@ -296,7 +302,7 @@ let Poker = {
 				cards = event.data.deck.cards.split(" ");
 				deckIndex = event.data.deck.index || 0;
 				// next player for action
-				currentBettorIndex = Self.getNextPlayerPosition(buttonIndex, 3);
+				currentBettorIndex = event.data.currentBettorIndex || buttonIndex || 0;
 				// current bet amount
 				currentBetAmount = event.data.currentBetAmount || 0;
 

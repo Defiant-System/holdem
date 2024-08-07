@@ -3,6 +3,8 @@ let State = {};
 @import "../states/game-1.js"
 
 
+let DEBUG = false;
+
 let Test = {
 	init(APP) {
 
@@ -41,7 +43,7 @@ let Test = {
 			// Poker.dispatch({ type: "shuffle-deck" });
 			Poker.dispatch({
 				type: "restore-state",
-				data: State["pre-flop"]
+				data: State["post-flop"]
 			});
 
 			// setTimeout(() => Poker.dispatch({ type: "output-pgn" }), 100);

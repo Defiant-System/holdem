@@ -25,7 +25,7 @@ let Main = {
 	think() {
 		let incrementBettorIndex = 0;
 		let nextPlayer = Poker.getPlayer(currentBettorIndex);
-		console.log( currentBettorIndex, nextPlayer.name );
+		if (DEBUG) console.log( currentBettorIndex, nextPlayer.name );
 		if (nextPlayer.status == "BUST" || nextPlayer.status == "FOLD") {
 			incrementBettorIndex = 1;
 		} else if (!Poker.hasMoney(currentBettorIndex)) {
@@ -255,6 +255,8 @@ let Main = {
 		var TWO_PAIR = Hands.test.twoPair(P);
 		var ONE_PAIR = Hands.test.onePair(P);
 		var FLUSH_DRAW = 0;
+		console.log( THREE_OF_A_KIND );
+		console.log( TWO_PAIR );
 
 		if (ROUND < 5) {
 			if (FLUSH["num_needed"] == 1) {
@@ -291,7 +293,7 @@ let Main = {
 		if (VERDICT == "" && STRAIGHT["num_needed"] < 1) { // look for flush, etc.
 			if (STRAIGHT["num_mine"] > 0) VERDICT = "GREAT";
 			else VERDICT = "PLAY BOARD";
-			if (internal_exists_flush_potential() < 3) VERDICT = "MAYBE"; // //////////POTENTIALLY BAD!!!!!!unless i can get it...!!!!!!!!!!!!!!!!!!
+			if (this.internal_exists_flush_potential() < 3) VERDICT = "MAYBE"; // //////////POTENTIALLY BAD!!!!!!unless i can get it...!!!!!!!!!!!!!!!!!!
 		}
 		if (VERDICT == "" && THREE_OF_A_KIND["num_needed"] < 1) { // look for straight, etc.
 			if (THREE_OF_A_KIND["num_mine"] > 0) VERDICT = "GREAT";
@@ -303,10 +305,10 @@ let Main = {
 				else if (k1 > 11 && k2 > 9) VERDICT = "GOOD";
 				else VERDICT = "MAYBE"; // should really bet "POTENTIALLY BAD".............but can i get it?...............!!!!!!!!!!!!!
 			}
-			if (internal_exists_flush_potential() < 3) {
+			if (this.internal_exists_flush_potential() < 3) {
 				VERDICT = "MAYBE"; // //////////POTENTIALLY BAD!!!!!!!!!unless i can get it...!!!!!!!!!!
 			}
-			if (internal_exists_straight_potential() < 2) {
+			if (this.internal_exists_straight_potential() < 2) {
 				VERDICT = "MAYBE"; // //////////"POTENTIALLY BAD!!!!!!!unless i can get it...!!!!!!!!!!!!
 			}
 		}
@@ -340,10 +342,10 @@ let Main = {
 					VERDICT = "MAYBE"; // "POTENTIALLY BAD"????????................................!!!!unless i can get it...!!!!
 				}
 			}
-			if (internal_exists_flush_potential() < 3) {
+			if (this.internal_exists_flush_potential() < 3) {
 				VERDICT = "MAYBE"; // ///////////"POTENTIALLY BAD!!!!!!!!unless i can get it...!!!!!!!!!!!!!!!!
 			}
-			if (internal_exists_straight_potential() < 2) {
+			if (this.internal_exists_straight_potential() < 2) {
 				VERDICT = "MAYBE"; // //////////"POTENTIALLY BAD!!!!!!unless i can get it...!!!!!!!!!!!!!
 			}
 		}
@@ -369,10 +371,10 @@ let Main = {
 				} else {
 					VERDICT = "MAYBE";
 				}
-				if (internal_exists_flush_potential() < 3) {
+				if (this.internal_exists_flush_potential() < 3) {
 					VERDICT = "MAYBE"; // ///////////"POTENTIALLY BAD!!!!!!!!!unless i can get it...!!!!!!!!!!!!!!!
 				}
-				if (internal_exists_straight_potential() < 2) {
+				if (this.internal_exists_straight_potential() < 2) {
 					VERDICT = "MAYBE"; // //////////"POTENTIALLY BAD!!!!!!!unless i can get it...!!!!!!!!!!!!
 				}
 			}
@@ -392,73 +394,73 @@ let Main = {
 			}
 			if (other_making_stand < 1) { // should really check to see if bet_level is big and anyone has called...that's taking a stand too...
 				if (BET_LEVEL > 70) {
-					return internal_what_do_x("40:CALL,60:ALLIN");
+					return this.internal_what_do_x("40:CALL,60:ALLIN");
 				}
-				return internal_what_do_x("10:MED,40:SMALL,50:CALL");
+				return this.internal_what_do_x("10:MED,40:SMALL,50:CALL");
 			}
 			// Don't let the human get away too easy
 			if (VERDICT == "GREAT" || VERDICT == "GOOD") {
-				return internal_what_do_x("10:MED,40:SMALL,50:CALL");
+				return this.internal_what_do_x("10:MED,40:SMALL,50:CALL");
 			}
 		}
 
 		if (VERDICT == "GREAT") {
 			if (ROUND < 5) {
-				return internal_what_do_x("5:ALLIN,5:BIG,25:MED,45:SMALL,20:CALL");
+				return this.internal_what_do_x("5:ALLIN,5:BIG,25:MED,45:SMALL,20:CALL");
 			}
-			return internal_what_do_x("30:ALLIN,40:BIG,30:MED");
+			return this.internal_what_do_x("30:ALLIN,40:BIG,30:MED");
 		}
 		if (VERDICT == "GOOD") {
 			if (ROUND < 4) {
 				if (BET_LEVEL > 79) {
 					if (CALL_LEVEL < 70 || FLUSH_DRAW) return CALL;
-					return internal_what_do_x("59:CALL");
+					return this.internal_what_do_x("59:CALL");
 				}
-				if (P.subtotalBet > 0) return internal_what_do_x("1:ALLIN,2:BIG,5:MED,20:SMALL,72:CALL");
-				return internal_what_do_x("3:ALLIN,40:BIG,42:MED,10:SMALL,5:CALL");
+				if (P.subtotalBet > 0) return this.internal_what_do_x("1:ALLIN,2:BIG,5:MED,20:SMALL,72:CALL");
+				return this.internal_what_do_x("3:ALLIN,40:BIG,42:MED,10:SMALL,5:CALL");
 			}
 			if (BET_LEVEL < 50) {
-				if (P.subtotalBet > 0) return internal_what_do_x("1:BIG,3:MED,21:SMALL,75:CALL");
-				return internal_what_do_x("10:BIG,20:MED,50:SMALL,20:CALL");
+				if (P.subtotalBet > 0) return this.internal_what_do_x("1:BIG,3:MED,21:SMALL,75:CALL");
+				return this.internal_what_do_x("10:BIG,20:MED,50:SMALL,20:CALL");
 			}
 			if (BET_LEVEL < 80) {
 				if (CALL_LEVEL < 50) return CALL;
-				return internal_what_do_x("65:CALL"); // SOME THINGS DEPEND ON THE BOARD,POT ODDS,CONFIDENCE!!!!!!!!!!!!!!!!!!!!!!!
+				return this.internal_what_do_x("65:CALL"); // SOME THINGS DEPEND ON THE BOARD,POT ODDS,CONFIDENCE!!!!!!!!!!!!!!!!!!!!!!!
 			}
 			if (CALL_LEVEL < 70) return CALL;
-			if (ROUND < 5) return internal_what_do_x("35:CALL");
-			return internal_what_do_x("25:CALL");
+			if (ROUND < 5) return this.internal_what_do_x("35:CALL");
+			return this.internal_what_do_x("25:CALL");
 		}
 		if (VERDICT == "MAYBE") {
 			if (BET_LEVEL < 50) {
-				if (CALL > 0) return internal_what_do_x("5:MED,15:SMALL,80:CALL");
-				return internal_what_do_x("5:BIG,20:MED,50:SMALL,25:CALL");
+				if (CALL > 0) return this.internal_what_do_x("5:MED,15:SMALL,80:CALL");
+				return this.internal_what_do_x("5:BIG,20:MED,50:SMALL,25:CALL");
 			}
 			if (BET_LEVEL < 70) {
 				if (ROUND < 4 && FLUSH_DRAW) return CALL;
 				if (CALL_LEVEL < 40) return CALL;
 				if (ID_CONF == "LO") {
-					if (ROUND < 4) return internal_what_do_x("35:CALL");
-					if (ROUND < 5) return internal_what_do_x("65:CALL");
-					return internal_what_do_x("89:CALL");
+					if (ROUND < 4) return this.internal_what_do_x("35:CALL");
+					if (ROUND < 5) return this.internal_what_do_x("65:CALL");
+					return this.internal_what_do_x("89:CALL");
 				}
-				if (ROUND < 4) return internal_what_do_x("61:CALL");
-				if (ROUND < 5) return internal_what_do_x("31:CALL");
-				return internal_what_do_x("19:CALL");
+				if (ROUND < 4) return this.internal_what_do_x("61:CALL");
+				if (ROUND < 5) return this.internal_what_do_x("31:CALL");
+				return this.internal_what_do_x("19:CALL");
 			}
 			if (CALL_LEVEL < 40) return CALL;
 			if (ROUND < 4) {
 				if (CALL_LEVEL < 50) return CALL;
-				return internal_what_do_x("50:CALL");
+				return this.internal_what_do_x("50:CALL");
 			}
-			return internal_what_do_x("11:CALL");
+			return this.internal_what_do_x("11:CALL");
 		}
 		if (FLUSH_DRAW) {
-			if (ROUND < 4) return internal_what_do_x("20:MED,40:SMALL,40:CALL");
+			if (ROUND < 4) return this.internal_what_do_x("20:MED,40:SMALL,40:CALL");
 			if (ROUND < 5) {
-				if (CALL < 1) return internal_what_do_x("10:MED,90:SMALL");
+				if (CALL < 1) return this.internal_what_do_x("10:MED,90:SMALL");
 				if (CALL_LEVEL < 40) return CALL;
-				return internal_what_do_x("33:CALL"); // depends on how good my cards are!!!!
+				return this.internal_what_do_x("33:CALL"); // depends on how good my cards are!!!!
 			}
 			// otherwise, cleanup process handles it
 		}
@@ -478,8 +480,8 @@ let Main = {
 		}
 		if (HCONF > 80) {
 			if (CALL < 1) {
-				if (ROUND < 5) return internal_what_do_x("10:MED,80:SMALL,10:CALL");
-				return internal_what_do_x("20:MED,70:SMALL,10:CALL");
+				if (ROUND < 5) return this.internal_what_do_x("10:MED,80:SMALL,10:CALL");
+				return this.internal_what_do_x("20:MED,70:SMALL,10:CALL");
 			}
 			if (CALL_LEVEL < 50) return CALL;
 			if (CALL_LEVEL < 70 && ROUND < 5) return CALL;
@@ -488,29 +490,38 @@ let Main = {
 		}
 		if (HCONF > 70) {
 			if (CALL < 1) {
-				if (ROUND < 5) return internal_what_do_x("10:MED,75:SMALL,15:CALL");
-				return internal_what_do_x("10:MED,80:SMALL,10:CALL");
+				if (ROUND < 5) return this.internal_what_do_x("10:MED,75:SMALL,15:CALL");
+				return this.internal_what_do_x("10:MED,80:SMALL,10:CALL");
 			}
 			if (CALL_LEVEL < 40) return CALL;
-			if (CALL_LEVEL < 50) return internal_what_do_x("50:CALL");
+			if (CALL_LEVEL < 50) return this.internal_what_do_x("50:CALL");
 			return FOLD;
 		}
 		if (hi_rank > 13 || HCONF > 50) {
 			if (CALL < 1) {
-				if (ROUND < 5) return internal_what_do_x("5:MED,75:SMALL,20:CALL");
-				return internal_what_do_x("5:MED,75:SMALL,20:CALL");
+				if (ROUND < 5) return this.internal_what_do_x("5:MED,75:SMALL,20:CALL");
+				return this.internal_what_do_x("5:MED,75:SMALL,20:CALL");
 			}
 			if (CALL_LEVEL < 30) return CALL;
 			if (CALL_LEVEL < 40 && ROUND < 4) return CALL;
 			return FOLD;
 		}
 		if (CALL < 1) {
-			if (ROUND < 5) return internal_what_do_x("20:SMALL,80:CALL");
-			return internal_what_do_x("5:MED,70:SMALL,25:CALL");
+			if (ROUND < 5) return this.internal_what_do_x("20:SMALL,80:CALL");
+			return this.internal_what_do_x("5:MED,70:SMALL,25:CALL");
 		}
 		if (CALL_LEVEL < 20) return CALL;
-		if (CALL_LEVEL < 30) return internal_what_do_x("10:SMALL,20:CALL");
+		if (CALL_LEVEL < 30) return this.internal_what_do_x("10:SMALL,20:CALL");
+
 		return FOLD;
+	},
+	internal_exists_flush_potential() {
+		var the_hash = Hands.test.flush(new Player());
+		return the_hash["num_needed"];
+	},
+	internal_exists_straight_potential() {
+		var the_hash = Hands.test.straight(new Player());
+		return the_hash["num_needed"];
 	},
 	internal_setup() {
 		// Poker.activePlayers.length;
