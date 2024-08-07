@@ -21,14 +21,14 @@ let Test = {
 		// 	Poker.dispatch({ type: "deal-flop" });
 		// }, 500);
 
-		return setTimeout(() => {
-			Poker.dispatch({ type: "set-opponents", value: 3 });
+		// return setTimeout(() => {
+		// 	Poker.dispatch({ type: "set-opponents", value: 3 });
 
-			// temp
-			// players.map(p => p.bet(1000));
-			// players.map(p => p.cardA = 1);
-			// players.map(p => p.cardB = 1);
-		}, 500);
+		// 	// temp
+		// 	// players.map(p => p.bet(1000));
+		// 	// players.map(p => p.cardA = 1);
+		// 	// players.map(p => p.cardB = 1);
+		// }, 500);
 
 
 

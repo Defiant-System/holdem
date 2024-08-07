@@ -25,13 +25,13 @@ let Main = {
 	think() {
 		let incrementBettorIndex = 0;
 		let nextPlayer = Poker.getPlayer(currentBettorIndex);
-		console.log( nextPlayer.name );
-		if (nextPlayer.status == "bust" || nextPlayer.status == "fold") {
+		console.log( currentBettorIndex, nextPlayer.name );
+		if (nextPlayer.status == "BUST" || nextPlayer.status == "FOLD") {
 			incrementBettorIndex = 1;
 		} else if (!Poker.hasMoney(currentBettorIndex)) {
-			nextPlayer.status = "call";
+			nextPlayer.status = "CALL";
 			incrementBettorIndex = 1;
-		} else if (nextPlayer.status == "call" && nextPlayer.subtotalBet == currentBetAmount) {
+		} else if (nextPlayer.status == "CALL" && nextPlayer.subtotalBet == currentBetAmount) {
 			incrementBettorIndex = 1;
 		} else {
 			nextPlayer.status = "";
@@ -44,14 +44,14 @@ let Main = {
 			}
 		}
 		let can_break = true;
-		for (let j = 0; j < players.length; j++) {
+		for (let j=0; j<players.length; j++) {
 			let s = players[j].status;
 			if (s == "OPTION") {
 				can_break = false;
 				break;
 			}
 			if (s != "BUST" && s != "FOLD") {
-				if (Poker.hasMoney(j) && players[j].subtotalBet < currentBetAmount) {
+				if (Poker.hasMoney(players[j].index) && players[j].subtotalBet < currentBetAmount) {
 					can_break = false;
 					break;
 				}
@@ -61,7 +61,8 @@ let Main = {
 			currentBettorIndex = Poker.getNextPlayerPosition(currentBettorIndex, 1);
 		}
 		if (can_break) {
-			console.log("ready_for_next_card, 999 * global_speed");
+			// console.log("ready_for_next_card, 999 * global_speed");
+			setTimeout(() => Poker.dispatch({ type: "ready-for-next-card" }), 500);
 		} else {
 			console.log("main, 999 * global_speed");
 		}

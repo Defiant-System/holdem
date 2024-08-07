@@ -163,6 +163,50 @@ let Poker = {
 					AI.think();
 				});
 				break;
+			case "ready-for-next-card":
+				let numBetting = Self.getNumBetting(),
+					board = APP.els.board.find(".card");
+				for (let i=0; i<players.length; i++) {
+					players[i].total_bet += players[i].subtotal_bet;
+				}
+
+				// clear player bets + reset minimum bet
+				Self.clearBets();
+				
+				if (board[4]) {
+					return console.log("handle_end_of_round");
+				}
+					
+				currentMinRaise = BIG_BLIND;
+				Self.resetPlayerStatuses(2);
+
+				if (players[buttonIndex].status == "FOLD") {
+					players[Self.getNextPlayerPosition(buttonIndex, -1)].status = "OPTION";
+				} else {
+					players[buttonIndex].status = "OPTION";
+				}
+				currentBettorIndex = Self.getNextPlayerPosition(buttonIndex, 1);
+				let showCards = 0;
+				if (numBetting < 2) showCards = 1;
+
+				if (!RUN_EM) {
+					for (let i=0; i<players.length; i++) { // <-- UNROLL
+						if (players[i].status != "BUST" && players[i].status != "FOLD") {
+							console.log("write_player", i, 0, showCards);
+						}
+					}
+				}
+
+				if (numBetting < 2) RUN_EM = 1;
+				
+				if (!board[0]) {
+					console.log("deal_flop");
+				} else if (!board[3]) {
+					console.log("deal_fourth");
+				} else if (!board[4]) {
+					console.log("deal_fifth");
+				}
+				break;
 			case "deal-flop":
 				// reset deck
 				setTimeout(() => APP.els.deck.cssSequence("appear", "transitionend", el => {
@@ -282,14 +326,23 @@ let Poker = {
 		return players.filter(p => !["BUST", "FOLD"].includes(p.status));
 	},
 	clearBets () {
-		for (var i=0; i<players.length; i++) {
+		for (let i=0; i<players.length; i++) {
 			players[i].subtotalBet = 0;
 		}
 		currentBetAmount = 0;
 	},
+	getNumBetting() {
+		let n = 0;
+		for (let i=0; i<players.length; i++) {
+			if (players[i].status != "FOLD" && players[i].status != "BUST" && this.hasMoney(players[i].index)) {
+				n++;
+			}
+		}
+		return n;
+	},
 	getPotSize() {
-		var p = 0;
-		for (var i=0; i<players.length; i++) {
+		let p = 0;
+		for (let i=0; i<players.length; i++) {
 			p += players[i].totalBet + players[i].subtotalBet;
 		}
 		return p;
@@ -314,6 +367,15 @@ let Poker = {
 		let player = this.getPlayer(i);
 		return player.bankroll >= 0.01;
 	},
+	resetPlayerStatuses(type) {
+		for (let i=0; i<players.length; i++) {
+			switch (type) {
+				case 0: players[i].status = ""; break;
+				case 1: if (players[i].status != "BUST") players[i].status = ""; break;
+				case 2: if (players[i].status != "FOLD" && players[i].status != "BUST") players[i].status = ""; break;
+			}
+		}
+	},
 	playerBets(playerIndex, betAmount) {
 		let player = this.getPlayer(playerIndex);
 		if (player.status == "FOLD") {
@@ -323,13 +385,13 @@ let Poker = {
 			console.log("ALL IN");
 			betAmount = player.bankroll;
 
-			var oldCurrentBet = currentBetAmount;
+			let oldCurrentBet = currentBetAmount;
 			if (player.subtotalBet + betAmount > currentBetAmount) {
 				currentBetAmount = player.subtotalBet + betAmount;
 			}
 
 			// currentMinRaise should be calculated earlier ? <--
-			var new_currentMinRaise = currentBetAmount - oldCurrentBet;
+			let new_currentMinRaise = currentBetAmount - oldCurrentBet;
 			if (new_currentMinRaise > currentMinRaise) {
 				currentMinRaise = new_currentMinRaise;
 			}
@@ -356,7 +418,7 @@ let Poker = {
 		} else {
 			player.status = "CALL";
 
-			var previousCurrentBet = currentBetAmount;
+			let previousCurrentBet = currentBetAmount;
 			currentBetAmount = player.subtotalBet + betAmount;
 
 			if (this.getPotSize() > 0) {
