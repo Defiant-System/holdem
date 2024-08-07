@@ -70,6 +70,8 @@ const holdem = {
 			case "set-theme":
 				Self.els.content.data({ theme: event.arg });
 				break;
+			case "output-pgn":
+				return Poker.dispatch(event);
 			default:
 				el = event.el;
 				if (!el && event.origin) el = event.origin.el;

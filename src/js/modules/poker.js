@@ -30,9 +30,8 @@ let Poker = {
 	dispatch(event) {
 		let APP = holdem,
 			Self = Poker,
-			dealer, player,
-			seats,
-			value,
+			dealer, player, seats,
+			data, value,
 			el;
 		switch (event.type) {
 			case "create-bots":
@@ -300,6 +299,8 @@ let Poker = {
 				deckIndex = event.data.deck.index || 0;
 				// next player for action
 				currentBettorIndex = Self.getNextPlayerPosition(buttonIndex, 3);
+				// current bet amount
+				currentBetAmount = event.data.currentBetAmount || 0;
 
 				// reset round
 				// Self.dispatch({ type: "reset-round" });
@@ -316,6 +317,28 @@ let Poker = {
 				// update UI
 				APP.els.dealer.data({ pos: `p${event.index}` }).removeClass("hidden");
 				APP.els.deck.data({ pos: `p${event.index}` });
+				break;
+			case "output-pgn":
+				data = {};
+				data.dealer = buttonIndex;
+				data.deck = {
+					cards: cards.join(" "),
+					index: deckIndex,
+				};
+				
+				data.players = {};
+				players.map(p => {
+					data.players[p.index] = {
+						bankroll: p.bankroll,
+						name: p.name,
+						cardA: p.cardA,
+						cardB: p.cardB,
+						totalBet: p.totalBet,
+						subtotalBet: p.subtotalBet,
+					};
+				});
+				
+				console.log( JSON.stringify(data, null, "  ") );
 				break;
 		}
 	},
