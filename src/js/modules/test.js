@@ -44,7 +44,7 @@ let Test = {
 				data: State["pre-flop"]
 			});
 
-			setTimeout(() => Poker.dispatch({ type: "output-pgn" }), 100);
+			// setTimeout(() => Poker.dispatch({ type: "output-pgn" }), 100);
 		}, 500);
 
 

@@ -58,6 +58,7 @@ const holdem = {
 				break;
 			case "show-start-view":
 			case "show-game-view":
+				Self.els.content.data({ show: event.type.slice(5) });
 				break;
 			case "new-game":
 				Poker.dispatch({ type: "start-new-round" });

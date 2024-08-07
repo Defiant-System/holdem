@@ -291,9 +291,7 @@ let Poker = {
 				if (event.data.pot) Self.dispatch({ type: "update-total-pot-value", value: event.data.pot });
 
 				// update dealer button
-				Self.dispatch({ type: "set-dealer", index: event.data.dealer });
-				// restore dealer index
-				// buttonIndex = event.data.dealer;
+				Self.dispatch({ type: "set-dealer", index: event.data.buttonIndex });
 				// restore deck / card index
 				cards = event.data.deck.cards.split(" ");
 				deckIndex = event.data.deck.index || 0;
@@ -319,14 +317,16 @@ let Poker = {
 				APP.els.deck.data({ pos: `p${event.index}` });
 				break;
 			case "output-pgn":
-				data = {};
-				data.dealer = buttonIndex;
-				data.deck = {
-					cards: cards.join(" "),
-					index: deckIndex,
+				data = {
+					buttonIndex: buttonIndex,
+					currentBetAmount: currentBetAmount,
+					deck: {
+						cards: cards.join(" "),
+						index: deckIndex,
+					},
+					players: {},
 				};
-				
-				data.players = {};
+				// iterate players
 				players.map(p => {
 					data.players[p.index] = {
 						bankroll: p.bankroll,
@@ -335,6 +335,7 @@ let Poker = {
 						cardB: p.cardB,
 						totalBet: p.totalBet,
 						subtotalBet: p.subtotalBet,
+						status: p.status,
 					};
 				});
 				
