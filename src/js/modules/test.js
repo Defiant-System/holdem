@@ -8,9 +8,9 @@ let DEBUG = false;
 let Test = {
 	init(APP) {
 
-		APP.els.content.data({ show: "start-view" });
-		
-		return;
+		// return;
+
+		// APP.els.content.data({ show: "start-view" });
 
 
 		// return setTimeout(() => {

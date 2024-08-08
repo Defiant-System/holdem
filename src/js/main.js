@@ -26,6 +26,7 @@ const holdem = {
 			board: window.find(".board"),
 			pot: window.find(".pot"),
 			deck: window.find(".deck"),
+			void: window.find(".void"),
 			dealer: window.find(".dealer"),
 			seats: window.find(".seat"),
 		};
