@@ -286,8 +286,12 @@ let Poker = {
 										card.removeClass("in-deck")
 											.css({ transform: `translate(0px, 0px) rotateY(180deg)` })
 											.cssSequence("fly-turn", "transitionend", el => {
-												el.cssSequence("flip-turn", "transitionend", el => {
-													console.log(el);
+												// flip turn card
+												el.cssSequence("flip-turn", "animationend", el => {
+													// reset deck
+													APP.els.deck.cssSequence("disappear", "transitionend", el => el.removeClass("appear disappear"));
+
+													setTimeout(() => Self.dispatch({ type: "deal-river" }), 1500);
 												});
 											});
 									}, 10);
@@ -299,7 +303,51 @@ let Poker = {
 			case "deal-river":
 				// reset deck
 				setTimeout(() => APP.els.deck.cssSequence("appear", "transitionend", el => {
-					
+					// burn & turn
+					let burn = cards[deckIndex++],
+						card = APP.els.void.append(`<div class="card card-back"></div>`),
+						deckOffset = APP.els.deck.offset(".table"),
+						voidOffset = card.offset(".table"),
+						l = deckOffset.left - voidOffset.left,
+						t = deckOffset.top - voidOffset.top;
+					// anim start
+					card.css({ transform: `translate(${l}px, ${t}px)` });
+
+					setTimeout(() => {
+						card.css({ transform: `translate(0px, 0px)` })
+							.cssSequence("to-void", "transitionend", el => {
+								// card / smoke-puff
+								el.removeClass("card").cssSequence("smoke-puffs", "animationend", el => {
+									// remove burn-card / smoke-puff
+									el.remove();
+
+									// append river
+									let river = cards[deckIndex++],
+										card = APP.els.board.append(`<div class="card card-back ${river} river in-deck" data-value="${river}"></div>`),
+										deckOffset = APP.els.deck.offset(".table"),
+										riverOffset = card.offset(".table"),
+										l = deckOffset.left - riverOffset.left,
+										t = deckOffset.top - riverOffset.top;
+
+									// anim start
+									card.css({ transform: `translate(${l}px, ${t}px) rotateY(180deg)` });
+
+									setTimeout(() => {
+										card.removeClass("in-deck")
+											.css({ transform: `translate(0px, 0px) rotateY(180deg)` })
+											.cssSequence("fly-river", "transitionend", el => {
+												// flip river card
+												el.cssSequence("flip-river", "animationend", el => {
+													console.log(el);
+													
+													// reset deck
+													APP.els.deck.cssSequence("disappear", "transitionend", el => el.removeClass("appear disappear"));
+												});
+											});
+									}, 10);
+								});
+							});
+					}, 10);
 				}));
 				break;
 			case "restore-state":

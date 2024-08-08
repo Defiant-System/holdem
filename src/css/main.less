@@ -964,17 +964,17 @@ content {
 			}
 		}
 
-		&.flip-turn {
-			.card.turn {
-				animation: cardFlip var( --s2 ) 40ms ease-in-out forwards;
-			}
-		}
+		// &.flip-turn {
+		// 	.card.turn {
+		// 		animation: cardFlip var( --s2 ) 40ms ease-in-out forwards;
+		// 	}
+		// }
 
-		&.flip-river {
-			.card.river {
-				animation: cardFlip var( --s2 ) 40ms ease-in-out forwards;
-			}
-		}
+		// &.flip-river {
+		// 	.card.river {
+		// 		animation: cardFlip var( --s2 ) 40ms ease-in-out forwards;
+		// 	}
+		// }
 
 		.card {
 			top: 0;
@@ -1005,7 +1005,16 @@ content {
 				transition: all 500ms ease-in-out;
 
 				&.flip-turn {
-					animation: cardFlip 400ms ease-in-out forwards;
+					animation: cardFlip 500ms ease-in-out forwards;
+				}
+			}
+
+			&.fly-river {
+				opacity: 1;
+				transition: all 500ms ease-in-out;
+
+				&.flip-river {
+					animation: cardFlip 500ms ease-in-out forwards;
 				}
 			}
 
