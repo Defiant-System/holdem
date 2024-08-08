@@ -266,16 +266,34 @@ let Poker = {
 					setTimeout(() => {
 						card.css({ transform: `translate(0px, 0px)` })
 							.cssSequence("to-void", "transitionend", el => {
-								el.removeClass("card").addClass("smoke-puffs")
+								// card / smoke-puff
+								el.removeClass("card").cssSequence("smoke-puffs", "animationend", el => {
+									// remove burn-card / smoke-puff
+									el.remove();
+
+									// append turn
+									let turn = cards[deckIndex++],
+										card = APP.els.board.append(`<div class="card card-back ${turn} turn in-deck" data-value="${turn}"></div>`),
+										deckOffset = APP.els.deck.offset(".table"),
+										turnOffset = card.offset(".table"),
+										l = deckOffset.left - turnOffset.left,
+										t = deckOffset.top - turnOffset.top;
+
+									// anim start
+									card.css({ transform: `translate(${l}px, ${t}px) rotateY(180deg)` });
+
+									setTimeout(() => {
+										card.removeClass("in-deck")
+											.css({ transform: `translate(0px, 0px) rotateY(180deg)` })
+											.cssSequence("fly-turn", "transitionend", el => {
+												el.cssSequence("flip-turn", "transitionend", el => {
+													console.log(el);
+												});
+											});
+									}, 10);
+								});
 							});
 					}, 10);
-
-					// append turn
-					// let turn = cards[deckIndex++];
-					// APP.els.board.append(`<div class="card card-back turn ${c}" data-value="${c}"></div>`);
-
-					// TODO: animate turn card
-
 				}));
 				break;
 			case "deal-river":
