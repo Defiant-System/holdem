@@ -255,13 +255,20 @@ let Poker = {
 				setTimeout(() => APP.els.deck.cssSequence("appear", "transitionend", el => {
 					// burn & turn
 					let burn = cards[deckIndex++],
-						card = APP.els.void.append(`<div class="card card-back to-void"></div>`),
+						card = APP.els.void.append(`<div class="card card-back"></div>`),
 						deckOffset = APP.els.deck.offset(".table"),
 						voidOffset = card.offset(".table"),
 						l = deckOffset.left - voidOffset.left,
 						t = deckOffset.top - voidOffset.top;
 					// anim start
 					card.css({ transform: `translate(${l}px, ${t}px)` });
+
+					setTimeout(() => {
+						card.css({ transform: `translate(0px, 0px)` })
+							.cssSequence("to-void", "transitionend", el => {
+								el.removeClass("card").addClass("smoke-puffs")
+							});
+					}, 10);
 
 					// append turn
 					// let turn = cards[deckIndex++];

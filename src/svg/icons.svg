@@ -1,5 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0">
 
+	@import "smoke-puffs.svg"
 	@import "chip-red.svg"
 	@import "card-back.svg"
 	@import "card-diamonds.svg"
