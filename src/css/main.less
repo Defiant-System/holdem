@@ -88,20 +88,36 @@ content {
 	.logo {
 		position: relative;
 		margin: 37px auto;
-		width: 300px;
-		height: 110px;
-		filter: drop-shadow(0 11px 5px rgba(#000,.3));
+		width: 379px;
+		height: 129px;
+		// filter: drop-shadow(0 11px 5px rgba(#000,.3));
 
-		&:before {
-			content: "";
+		.chip {
 			position: absolute;
-			top: 62px;
-			left: 61px;
+			top: 22px;
+			left: 96px;
 			width: 83px;
 			height: 83px;
 			z-index: 2;
 			background: url(~/icons/logo-chip.png) 50% 50%/contain no-repeat;
-			filter: hue-rotate(245deg);
+			filter: hue-rotate(225deg) brightness(1.25) drop-shadow(0 11px 5px rgba(#000,.3));
+
+			&:after {
+				content: "";
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background: url(~/icons/logo-chip-overlay.png) 50% 50%/contain no-repeat;
+				opacity: .75;
+				mix-blend-mode: hard-light;
+				animation: chipRotate 47s linear infinite;
+			}
+		}
+
+		.graffiti {
+			filter: drop-shadow(0 11px 5px rgba(#000,.3));
 		}
 
 		svg {
@@ -110,20 +126,20 @@ content {
 
 			&.poker {
 				top: 0;
-				left: -16px;
-				width: 332px;
-				height: 206px;
-				filter: drop-shadow(0 1px 1px #ffffff99)
-						drop-shadow(0 1px 2px #ffffff88)
-						drop-shadow(0 1px 3px #ffffff77)
-						drop-shadow(0 1px 4px #ffffff66);
+				left: 0;
+				width: inherit;
+				height: inherit;
+				filter: drop-shadow(0 0 1px #44aaffff)
+						drop-shadow(0 0 3px #44aaffee)
+						drop-shadow(0 0 5px #44aaffdd)
+						drop-shadow(0 0 7px #44aaffcc);
 			}
 
 			&.holdem {
-				top: 105px;
-				left: 19px;
-				width: 262px;
-				height: 103px;
+				top: 73px;
+				left: 49px;
+				width: 292px;
+				height: 115px;
 				filter: drop-shadow(0 1px 0 hsl(174, 5%, 80%))
 						drop-shadow(0 2px 0 hsl(174, 5%, 75%))
 						drop-shadow(0 3px 0 hsl(174, 5%, 70%))
@@ -958,6 +974,23 @@ content {
 	z-index: 2;
 	font-size: 0;
 
+	&.oppo {
+		position: relative;
+		top: 73px;
+		left: auto;
+		width: 270px;
+		margin: 0 auto;
+		padding: 19px 0 10px 19px;
+
+		h3 {
+			position: relative;
+			z-index: 2;
+			font-size: 23px;
+			text-align: center;
+			margin-bottom: 7px;
+		}
+	}
+
 	.dlg-bg {
 		position: absolute;
 		top: 0;
@@ -1048,7 +1081,7 @@ content {
 
 	.options {
 		position: relative;
-		width: 187px;
+		width: 233px;
 		height: 29px;
 		margin: 0 0 7px 0;
 		display: flex;
@@ -1391,6 +1424,11 @@ content {
 	100% { stroke-dashoffset: 0; }
 }
 
+@keyframes chipRotate {
+	0%   { transform: rotateZ(0deg); }
+	50%  { transform: rotateZ(180deg); }
+	100% { transform: rotateZ(360deg); }
+}
 
 
 // custom fonts

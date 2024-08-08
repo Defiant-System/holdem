@@ -4,7 +4,24 @@
 	<div class="start-view" data-area="start">
 		<div class="logo">
 			<svg class="poker"><use xlink:href="#holdem-logo-poker"></use></svg>
-			<svg class="holdem"><use xlink:href="#holdem-logo-holdem"></use></svg>
+			<div class="graffiti">
+				<svg class="holdem"><use xlink:href="#holdem-logo-holdem"></use></svg>
+			</div>
+			<div class="chip"></div>
+		</div>
+
+		<div class="actions oppo">
+			<div class="dlg-bg"></div>
+			<h3>Choose opponents</h3>
+			<div class="options">
+				<span data-click="set-oppo" data-arg="1">1</span>
+				<span data-click="set-oppo" data-arg="2">2</span>
+				<span data-click="set-oppo" data-arg="3">3</span>
+				<span data-click="set-oppo" data-arg="4">4</span>
+				<span data-click="set-oppo" data-arg="5">5</span>
+				<span data-click="set-oppo" data-arg="6">6</span>
+				<span data-click="set-oppo" data-arg="7">7</span>
+			</div>
 		</div>
 	</div>
 
@@ -45,14 +62,6 @@
 			<span class="button check" data-click="player-check">Check</span>
 			<span class="button call" data-click="player-call">Call</span>
 			<span class="button fold" data-click="player-fold">Fold</span>
-
-			<!-- <div class="options">
-				<span data-click="player-raise" data-arg="100">40</span>
-				<span data-click="player-raise" data-arg="200">60</span>
-				<span data-click="player-raise" data-arg="300">80</span>
-				<span data-click="player-raise" data-arg="400">100</span>
-				<span data-click="player-raise" data-arg="all-in">All In</span>
-			</div> -->
 
 			<span class="slider">
 				<span class="handle"></span>
