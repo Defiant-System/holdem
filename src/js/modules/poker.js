@@ -338,10 +338,15 @@ let Poker = {
 											.cssSequence("fly-river", "transitionend", el => {
 												// flip river card
 												el.cssSequence("flip-river", "animationend", el => {
-													console.log(el);
-													
 													// reset deck
 													APP.els.deck.cssSequence("disappear", "transitionend", el => el.removeClass("appear disappear"));
+
+													setTimeout(() => {
+														APP.els.board.find(".card:nth(0)").addClass("winner");
+														APP.els.board.find(".card:nth(1)").addClass("winner");
+														APP.els.board.find(".card:nth(4)").addClass("winner");
+													}, 1000);
+
 												});
 											});
 									}, 10);

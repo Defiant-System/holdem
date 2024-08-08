@@ -964,18 +964,6 @@ content {
 			}
 		}
 
-		// &.flip-turn {
-		// 	.card.turn {
-		// 		animation: cardFlip var( --s2 ) 40ms ease-in-out forwards;
-		// 	}
-		// }
-
-		// &.flip-river {
-		// 	.card.river {
-		// 		animation: cardFlip var( --s2 ) 40ms ease-in-out forwards;
-		// 	}
-		// }
-
 		.card {
 			top: 0;
 			transition: left var( --s1 ) ease-in-out;
@@ -1036,6 +1024,14 @@ content {
 				margin-top: -13px;
 
 				&:before { display: none; }
+
+				&.flop-1,
+				&.flop-2,
+				&.flop-3,
+				&.turn,
+				&.river {
+					transition: margin-top 300ms ease-in-out;
+				}
 			}
 		}
 	}
