@@ -291,7 +291,8 @@ let Poker = {
 													// reset deck
 													APP.els.deck.cssSequence("disappear", "transitionend", el => el.removeClass("appear disappear"));
 
-													setTimeout(() => Self.dispatch({ type: "deal-river" }), 1500);
+													// temp
+													// setTimeout(() => Self.dispatch({ type: "deal-river" }), 1500);
 												});
 											});
 									}, 10);
@@ -341,11 +342,12 @@ let Poker = {
 													// reset deck
 													APP.els.deck.cssSequence("disappear", "transitionend", el => el.removeClass("appear disappear"));
 
-													setTimeout(() => {
-														APP.els.board.find(".card:nth(0)").addClass("winner");
-														APP.els.board.find(".card:nth(1)").addClass("winner");
-														APP.els.board.find(".card:nth(4)").addClass("winner");
-													}, 1000);
+													// temp
+													// setTimeout(() => {
+													// 	APP.els.board.find(".card:nth(0)").addClass("winner");
+													// 	APP.els.board.find(".card:nth(1)").addClass("winner");
+													// 	APP.els.board.find(".card:nth(4)").addClass("winner");
+													// }, 1000);
 
 												});
 											});
@@ -398,7 +400,11 @@ let Poker = {
 				// Self.dispatch({ type: "reset-round" });
 
 				// temp
-				return Self.dispatch({ type: "deal-turn" });
+				// return Self.dispatch({ type: "deal-turn" });
+				
+				// players[1].showCards();
+				// players[2].showCards();
+				// return;
 
 				// think next step AI
 				AI.think();
