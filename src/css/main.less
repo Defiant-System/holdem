@@ -1446,6 +1446,29 @@ content {
 	&.c14	{ background-image: url(~/icons/cA.png), url(~/icons/clubs-front.png); }
 }
 
+.smoke-puffs {
+	transform: scale(1.3);
+
+	&:after {
+		content: "";
+		background: url(~/icons/smoke-puffs.png) 0 0 no-repeat;
+		background-size: 100% auto;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 50px;
+		height: 50px;
+		transform: translateY(-50%) translateX(-50%);
+		animation: smokePuffs 400ms steps(8) forwards;
+	}
+}
+
+
+
+@keyframes smokePuffs {
+	0%   { background-position: 0px 0px; }
+	100% { background-position: 0px -400px; }
+}
 
 @keyframes cardFlip {
 	0%   { transform: translateY(0px) rotateY(180deg); }
