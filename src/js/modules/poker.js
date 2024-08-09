@@ -60,10 +60,11 @@ let Poker = {
 				Bots.sort(() => .5 - Math.random());
 				break;
 			case "set-opponents":
+				value = event.value || 1;
 				// player seats indices
 				seats = [...Array(7)].map((j,i) => i+1).sort(() => .5 - Math.random());
 				// reset players array
-				players = new Array(event.value + 1);
+				players = new Array(value + 1);
 				// player user
 				players[0] = new Player({ name: ME.firstName, img: ME.avatar });
 				// player bots
@@ -401,7 +402,7 @@ let Poker = {
 
 				// temp
 				// return Self.dispatch({ type: "deal-turn" });
-				
+
 				// players[1].showCards();
 				// players[2].showCards();
 				// return;

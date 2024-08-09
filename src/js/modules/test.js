@@ -10,7 +10,7 @@ let Test = {
 
 		// return;
 
-		// APP.els.content.data({ show: "start-view" });
+		// return APP.els.content.data({ show: "start-view" });
 
 
 		// return setTimeout(() => {

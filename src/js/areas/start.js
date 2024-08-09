@@ -17,7 +17,9 @@
 		// console.log(event);
 		switch (event.type) {
 			// custom events
-			case "select-world":
+			case "set-opponents":
+				Poker.dispatch({ ...event, value: +event.arg });
+				APP.els.content.data({ show: "game-view" });
 				break;
 		}
 	}
