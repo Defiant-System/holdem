@@ -24,6 +24,8 @@
 			// custom events
 			case "show-dialog":
 				actions = event.actions || "call-fold";
+				// un-highlight highlighted player
+				APP.els.table.find(".highlight").removeClass("highlight");
 				// update UI
 				APP.els.seats.get(0).find(".bet").html(currentBetAmount);
 				// bankroll update

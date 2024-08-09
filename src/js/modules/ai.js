@@ -24,8 +24,12 @@ let Main = {
 	},
 	think() {
 		let incrementBettorIndex = 0;
+		
+		for (let i=0; i<players.length; i++) {
+			players[i].unHighlight();
+		}
+
 		let nextPlayer = Poker.getPlayer(currentBettorIndex);
-		if (DEBUG) console.log( currentBettorIndex, nextPlayer.name );
 		if (nextPlayer.status == "BUST" || nextPlayer.status == "FOLD") {
 			incrementBettorIndex = 1;
 		} else if (!Poker.hasMoney(currentBettorIndex)) {
@@ -40,7 +44,9 @@ let Main = {
 				APP.dialog.dispatch({ type: "show-dialog", actions });
 				return;
 			} else {
-				setTimeout(() => this.getBet(currentBettorIndex), 500);
+				nextPlayer.highlight();
+				
+				setTimeout(() => this.getBet(currentBettorIndex), 1500);
 				return;
 			}
 		}

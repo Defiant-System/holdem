@@ -36,6 +36,14 @@ class Player {
 		if (this.el) this.el.data({ status: this._status });
 	}
 
+	unHighlight() {
+		this.el.removeClass("highlight");
+	}
+
+	highlight() {
+		this.el.addClass("highlight");
+	}
+
 	showCards() {
 		this.AEL.addClass(`card card-back ${this.cardA}`);
 		this.BEL.addClass(`card card-back ${this.cardB}`);

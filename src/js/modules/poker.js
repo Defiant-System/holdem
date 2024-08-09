@@ -193,6 +193,7 @@ let Poker = {
 
 				if (!RUN_EM) {
 					for (let i=0; i<players.length; i++) { // <-- UNROLL
+						players[i].unHighlight();
 						if (players[i].status != "BUST" && players[i].status != "FOLD") {
 							console.log("write_player", i, 0, showCards);
 						}
@@ -243,7 +244,7 @@ let Poker = {
 									APP.els.board.cssSequence("fan-flop", "transitionend", el => {
 										el.cssSequence("flip-flop", "transitionend", el => {
 											// think next step AI
-											AI.think();
+											setTimeout(() => AI.think(), 500);
 										});
 									});
 								}

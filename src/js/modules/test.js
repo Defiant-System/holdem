@@ -54,8 +54,10 @@ let Test = {
 			// Poker.dispatch({ type: "shuffle-deck" });
 			Poker.dispatch({
 				type: "restore-state",
-				data: State["post-flop"]  // pre-flop	post-flop	full-table
+				data: State["pre-flop"]  // pre-flop	post-flop	full-table
 			});
+
+			// setTimeout(() => window.find(`.actions .button.call`).trigger("click"), 400);
 
 			// temp
 			// APP.els.board.find(".card:nth(0)").addClass("winner");
