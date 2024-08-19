@@ -10,6 +10,7 @@ let SMALL_BLIND = 5;
 let BIG_BLIND = 10;
 
 let globalSpeed = 600;
+let globalPotRemainder = 0;
 
 let Bots = [];
 let cards = new Array(52);
@@ -168,7 +169,7 @@ let Poker = {
 				let numBetting = Self.getNumBetting(),
 					board = APP.els.board.find(".card");
 				for (let i=0; i<players.length; i++) {
-					players[i].total_bet += players[i].subtotal_bet;
+					players[i].totalBet += players[i].subtotalBet;
 				}
 
 				// clear player bets + reset minimum bet
@@ -443,6 +444,97 @@ let Poker = {
 						stillActiveCandidates += 1;
 					}
 				}
+
+				let totalPotSize = Self.getPotSize(),
+					bestHandName = "",
+					bestHandPlayers,
+					currentPotToSplit = 0,
+					potRemainder = 0;
+				if (globalPotRemainder) {
+					potRemainder = globalPotRemainder;
+					totalPotSize += globalPotRemainder;
+					globalPotRemainder = 0;
+				}
+
+				while (totalPotSize > (potRemainder + 0.9) && stillActiveCandidates) {
+					// The first round all who not folded or busted are candidates
+					// If that/ose winner(s) cannot get all of the pot then we try
+					// with the remaining players until the pot is emptied
+					let winners = Hands.getWinners(candidates);
+					if (!bestHandPlayers) bestHandPlayers = winners;
+					
+					if (!winners) {
+						console.log("No winners for the pot ");
+						potRemainder = totalPotSize;
+						totalPotSize = 0;
+						break;
+					}
+
+					// Get the lowest winner bet, e.g. an all-in
+					let lowestWinnerBet = totalPotSize * 2;
+					let numWinners = 0;
+					for (let i=0; i<winners.length; i++) {
+						if (!winners[i]) { // Only the winners bets
+							continue;
+						}
+						if (!bestHandName) {
+							bestHandName = winners[i].hand_name;
+						}
+						numWinners++;
+						if (totalBetsPerPlayer[i] < lowestWinnerBet) {
+							lowestWinnerBet = totalBetsPerPlayer[i];
+						}
+					}
+
+					// Compose the pot
+					// If your bet was less than (a fold) or equal to the lowest winner bet:
+					//    then add it to the current pot
+					// If your bet was greater than lowest:
+					//    then just take the 'lowestWinnerBet' to the pot
+
+					// Take in any fraction from a previous split
+					currentPotToSplit = potRemainder;
+					potRemainder = 0;
+
+					for (let i=0; i<players.length; i++) {
+						if (lowestWinnerBet >= totalBetsPerPlayer[i]) {
+							currentPotToSplit += totalBetsPerPlayer[i];
+							totalBetsPerPlayer[i] = 0;
+						} else {
+							currentPotToSplit += lowestWinnerBet;
+							totalBetsPerPlayer[i] -= lowestWinnerBet;
+						}
+					}
+
+					// Divide the pot - in even integrals
+					let share = Math.floor(currentPotToSplit / numWinners);
+					// and save any remainders to next round
+					potRemainder = currentPotToSplit - share * numWinners;
+
+					for (let i=0; i<winners.length; i++) {
+						if (totalBetsPerPlayer[i] < 0.01) {
+							candidates[i] = null;           // You have got your share
+						}
+						// You should not have any
+						if (!winners[i]) continue;
+						
+						totalPotSize -= share;       // Take from the pot
+						allocations[i] += share;          // and give to the winners
+						winningHands[i] = winners[i].hand_name;
+					}
+
+					// Iterate until pot size is zero - or no more candidates
+					for (let i=0; i<candidates.length; i++) {
+						if (candidates[i] == null) continue;
+						
+						stillActiveCandidates += 1
+					}
+					if (stillActiveCandidates == 0) {
+						potRemainder = totalPotSize;
+					}
+					console.log("End of iteration");
+				} // End of pot distribution
+
 				break;
 			case "output-pgn":
 				data = {
