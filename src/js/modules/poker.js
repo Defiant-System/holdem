@@ -175,7 +175,7 @@ let Poker = {
 				Self.clearBets();
 				
 				if (board[4]) {
-					return console.log("handle_end_of_round");
+					return console.log("");
 				}
 					
 				currentMinRaise = BIG_BLIND;
@@ -291,7 +291,11 @@ let Poker = {
 												// flip turn card
 												el.cssSequence("flip-turn", "animationend", el => {
 													// reset deck
-													APP.els.deck.cssSequence("disappear", "transitionend", el => el.removeClass("appear disappear"));
+													APP.els.deck.cssSequence("disappear", "transitionend", el => {
+														el.removeClass("appear disappear");
+														// think next step AI
+														setTimeout(() => AI.think(), 500);
+													});
 
 													// temp
 													// setTimeout(() => Self.dispatch({ type: "deal-river" }), 1500);
@@ -342,7 +346,11 @@ let Poker = {
 												// flip river card
 												el.cssSequence("flip-river", "animationend", el => {
 													// reset deck
-													APP.els.deck.cssSequence("disappear", "transitionend", el => el.removeClass("appear disappear"));
+													APP.els.deck.cssSequence("disappear", "transitionend", el => {
+														el.removeClass("appear disappear");
+														// think next step AI
+														setTimeout(() => AI.think(), 500);
+													});
 
 													// temp
 													// setTimeout(() => {
@@ -420,6 +428,8 @@ let Poker = {
 				// update UI
 				APP.els.dealer.data({ pos: `p${event.index}` }).removeClass("hidden");
 				APP.els.deck.data({ pos: `p${event.index}` });
+				break;
+			case "handle-end-of-round":
 				break;
 			case "output-pgn":
 				data = {
@@ -535,7 +545,7 @@ let Poker = {
 			player.status = "CALL";
 		} else if (betAmount + player.subtotalBet == currentBetAmount) {
 			// console.log(player.name, "CHECK");
-			player.status = "CHECK";
+			player.status = "CALL";
 		} else if (currentBetAmount > player.subtotalBet + betAmount) {
 			console.log("2 SMALL");
 			// COMMENT OUT TO FIND BUGS
