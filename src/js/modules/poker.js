@@ -512,21 +512,20 @@ let Poker = {
 					potRemainder = currentPotToSplit - share * numWinners;
 
 					for (let i=0; i<winners.length; i++) {
-						if (totalBetsPerPlayer[i] < 0.01) {
-							candidates[i] = null;           // You have got your share
-						}
+						// You have got your share
+						if (totalBetsPerPlayer[i] < 0.01) candidates[i] = null;
+						
 						// You should not have any
 						if (!winners[i]) continue;
 						
-						totalPotSize -= share;       // Take from the pot
-						allocations[i] += share;          // and give to the winners
+						totalPotSize -= share; // Take from the pot
+						allocations[i] += share; // and give to the winners
 						winningHands[i] = winners[i].hand_name;
 					}
 
 					// Iterate until pot size is zero - or no more candidates
 					for (let i=0; i<candidates.length; i++) {
 						if (candidates[i] == null) continue;
-						
 						stillActiveCandidates += 1
 					}
 					if (stillActiveCandidates == 0) {
@@ -534,6 +533,43 @@ let Poker = {
 					}
 					console.log("End of iteration");
 				} // End of pot distribution
+
+				globalPotRemainder = potRemainder;
+				potRemainder = 0;
+				let winnerText = "";
+				let humanLoses = 0;
+				// Distribute the pot - and then do too many things
+				for (let i=0; i<allocations.length; i++) {
+					if (allocations[i] > 0) {
+						let aString = "" + allocations[i];
+						let dotIndex = aString.indexOf(".");
+						if (dotIndex > 0) {
+							aString = "" + aString + "00";
+							allocations[i] = aString.substring(0, dotIndex + 3) - 0;
+						}
+						winnerText += winningHands[i] + " gives " + allocations[i] + " to " + players[i].name + ". ";
+						players[i].bankroll += allocations[i];
+						if (bestHandPlayers[i]) {
+							console.log(i, "hilite, show_cards");
+						} else {
+							console.log(i, "hilite, show_cards");
+						}
+					} else {
+						if (!Self.hasMoney(players[i].index) && players[i].status != "BUST") {
+							players[i].status = "BUST";
+							if (i == 0) humanLoses = 1;
+						}
+						if (players[i].status != "FOLD") {
+							console.log("write_player(i, 0, 1)");
+						}
+					}
+				}
+				// Have a more liberal take on winning
+				if (allocations[0] > 5) {
+					HUMAN_WINS_AGAIN++;
+				} else {
+					HUMAN_WINS_AGAIN = 0;
+				}
 
 				break;
 			case "output-pgn":
