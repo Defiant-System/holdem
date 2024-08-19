@@ -174,9 +174,8 @@ let Poker = {
 				// clear player bets + reset minimum bet
 				Self.clearBets();
 				
-				if (board[4]) {
-					return console.log("");
-				}
+				// game finished - handle winning hand, etc
+				if (board[4]) return Self.dispatch({ type: "handle-end-of-round" });
 					
 				currentMinRaise = BIG_BLIND;
 				Self.resetPlayerStatuses(2);
@@ -194,9 +193,9 @@ let Poker = {
 				if (!RUN_EM) {
 					for (let i=0; i<players.length; i++) { // <-- UNROLL
 						players[i].unHighlight();
-						if (players[i].status != "BUST" && players[i].status != "FOLD") {
-							console.log("write_player", i, 0, showCards);
-						}
+						// if (players[i].status != "BUST" && players[i].status != "FOLD") {
+						// 	console.log("write_player", i, 0, showCards);
+						// }
 					}
 				}
 
@@ -386,11 +385,11 @@ let Poker = {
 					
 					if (event.data.turn) {
 						// append turn
-						APP.els.board.addClass("flip-turn").append(`<div class="card card-back turn ${event.data.turn} no-anim" data-value="${event.data.turn}"></div>`);
+						APP.els.board.addClass("flip-turn").append(`<div class="card card-back turn ${event.data.turn} flip no-anim" data-value="${event.data.turn}"></div>`);
 					}
 					if (event.data.river) {
 						// append river
-						APP.els.board.addClass("flip-river").append(`<div class="card card-back river ${event.data.river} no-anim" data-value="${event.data.river}"></div>`);
+						APP.els.board.addClass("flip-river").append(`<div class="card card-back river ${event.data.river} flip no-anim" data-value="${event.data.river}"></div>`);
 					}
 				}
 				// pot size
@@ -430,6 +429,20 @@ let Poker = {
 				APP.els.deck.data({ pos: `p${event.index}` });
 				break;
 			case "handle-end-of-round":
+				let candidates = new Array(players.length),
+					allocations = new Array(players.length),
+					winningHands = new Array(players.length),
+					totalBetsPerPlayer = new Array(players.length),
+					stillActiveCandidates = 0;
+
+				for (let i=0; i<candidates.length; i++) {
+					allocations[i] = 0;
+					totalBetsPerPlayer[i] = players[i].totalBet;
+					if (players[i].status != "FOLD" && players[i].status != "BUST") {
+						candidates[i] = players[i];
+						stillActiveCandidates += 1;
+					}
+				}
 				break;
 			case "output-pgn":
 				data = {
