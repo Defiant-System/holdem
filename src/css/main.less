@@ -760,6 +760,10 @@ content {
 			}
 		}
 
+		&[data-status="LOSER"] {
+			filter: sepia(1) hue-rotate(305deg) saturate(3) brightness(0.85);
+		}
+
 		&[data-status="WINNER"] {
 			svg.outline {
 				display: block;

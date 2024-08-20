@@ -550,9 +550,11 @@ let Poker = {
 						winnerText += winningHands[i] + " gives " + allocations[i] + " to " + players[i].name + ". ";
 						players[i].bankroll += allocations[i];
 						if (bestHandPlayers[i]) {
-							console.log(i, "hilite, show_cards");
+							players[i].status = "WINNER";
+							players[i].showCards();
 						} else {
-							console.log(i, "hilite, show_cards");
+							players[i].status = "LOSER";
+							players[i].showCards();
 						}
 					} else {
 						if (!Self.hasMoney(players[i].index) && players[i].status != "BUST") {
@@ -560,7 +562,9 @@ let Poker = {
 							if (i == 0) humanLoses = 1;
 						}
 						if (players[i].status != "FOLD") {
-							console.log("write_player(i, 0, 1)");
+							players[i].status = "LOSER";
+							players[i].showCards();
+							// console.log("write_player(i, 0, 1)");
 						}
 					}
 				}
