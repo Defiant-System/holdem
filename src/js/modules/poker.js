@@ -636,11 +636,38 @@ let Poker = {
 		}
 		return p;
 	},
+	// getNextPlayerPosition(i, delta) {
+	// 	let j = 0,
+	// 		step = 1;
+	// 	if (delta < 0) step = -1;
+
+	// 	let loopOn = 0;
+	// 	do {
+	// 		i += step;
+	// 		if (i >= players.length) {
+	// 			i = 0;
+	// 		} else {
+	// 			if (i < 0) {
+	// 				i = players.length - 1;
+	// 			}
+	// 		}
+
+	// 		// Check if we can stop
+	// 		loopOn = 0;
+	// 		if (["BUST", "FOLD"].includes(players[i].status)) loopOn = 1;
+	// 		// if (players[i].status == "BUST") loopOn = 1;
+	// 		// if (players[i].status == "FOLD") loopOn = 1;
+	// 		if (++j < delta) loopOn = 1;
+	// 	} while (loopOn);
+
+	// 	return i;
+	// },
 	getNextPlayerPosition(i, delta) {
-		let seats = players.filter(p => !["BUST", "FOLD"].includes(p.status)).map(p => p.index),
+		// let seats = players.filter(p => !["BUST", "FOLD"].includes(p.status)).map(p => p.index),
+		let seats = players.map(p => p.index),
 			index = seats.indexOf(i),
 			add = seats.length * seats.length;
-		return seats[(index + delta + add) % seats.length]
+		return seats[(index + delta + add) % seats.length];
 	},
 	getPlayer(pos) {
 		return players.find(p => p.index === pos);

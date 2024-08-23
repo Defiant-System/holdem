@@ -33,6 +33,7 @@ let Main = {
 		if (nextPlayer.status == "BUST" || nextPlayer.status == "FOLD") {
 			incrementBettorIndex = 1;
 		} else if (!Poker.hasMoney(currentBettorIndex)) {
+			console.log(nextPlayer.name, "CHECK");
 			nextPlayer.status = "CALL";
 			incrementBettorIndex = 1;
 		} else if (nextPlayer.status == "CALL" && nextPlayer.subtotalBet == currentBetAmount) {
@@ -71,7 +72,7 @@ let Main = {
 			// console.log("ready_for_next_card, 999 * global_speed");
 			setTimeout(() => Poker.dispatch({ type: "ready-for-next-card" }), 500);
 		} else {
-			console.log("main, 999 * global_speed");
+			setTimeout(() => Main.think(), 500);
 		}
 	},
 	getBet(x) {
@@ -87,7 +88,7 @@ let Main = {
 			player.status = "FOLD";
 		} else if (b == n) { // CALL
 			// console.log(player.name, "CHECK");
-			player.status = "CHECK";
+			player.status = "CALL";
 		} else if (b > n) {
 			if (b - n < currentMinRaise) { // RAISE 2 SMALL
 				b = n;
