@@ -1,7 +1,8 @@
 
 State["pre-flop"] = {
-		buttonIndex: 0,
+		buttonIndex: 5,
 		currentBetAmount: 10,
+		currentBettorIndex: 7,
 		deck: {
 			cards: "c8 h10 s12 h12 d2 h3 h4 d14 d11 c2 "+
 					"c11 c12 c4 d12 h8 h6 s2 s14 s5 c7 "+
@@ -12,9 +13,9 @@ State["pre-flop"] = {
 		},
 		players: {
 			"0": { bankroll: 500, name: "Hakan", cardA: "h5", cardB: "c14", totalBet: 0, subtotalBet: 0, },
-			"1": { bankroll: 495, name: "Nina", cardA: "c6", cardB: "s5", totalBet: 5, subtotalBet: 5, },
-			"2": { bankroll: 490, name: "Jenny", cardA: "c5", cardB: "h4", totalBet: 10, subtotalBet: 10, },
-			// "5": { bankroll: 500, name: "Daniel", cardA: "c2", cardB: "d7", totalBet: 0, subtotalBet: 0, },
+			"5": { bankroll: 500, name: "Daniel", cardA: "c2", cardB: "d7", totalBet: 0, subtotalBet: 0, },
+			"6": { bankroll: 495, name: "Nina", cardA: "c6", cardB: "s5", totalBet: 5, subtotalBet: 5, },
+			"7": { bankroll: 490, name: "Jenny", cardA: "c5", cardB: "h4", totalBet: 10, subtotalBet: 10, },
 			// "5": { bankroll: 500, name: "Daniel", cardA: "d14", cardB: "s13", totalBet: 0, subtotalBet: 0 },
 		},
 	};

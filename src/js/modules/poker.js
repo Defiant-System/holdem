@@ -373,6 +373,8 @@ let Poker = {
 				players = new Array(entries.length);
 				// resurrect players
 				entries.map((num, i) => players[i] = new Player({ ...event.data.players[num], index: +num }));
+				// make sure game view is shown
+				APP.dispatch({ type: "show-game-view" });
 
 				// if hole cards not have been dealt
 				if (!players[0].cardA) {

@@ -10,7 +10,7 @@ let Test = {
 
 		// return;
 
-		// return APP.els.content.data({ show: "start-view" });
+		// return APP.els.content.data({ show: "game-view" });
 
 
 		// return setTimeout(() => {
@@ -54,7 +54,7 @@ let Test = {
 			// Poker.dispatch({ type: "shuffle-deck" });
 			Poker.dispatch({
 				type: "restore-state",
-				data: State["post-river"]  // pre-flop	post-flop	post-turn	post-river	full-table
+				data: State["pre-flop"]  // pre-flop	post-flop	post-turn	post-river	full-table
 			});
 
 			// setTimeout(() => window.find(`.actions .button.call`).trigger("click"), 400);
