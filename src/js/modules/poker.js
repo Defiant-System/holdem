@@ -93,8 +93,6 @@ let Poker = {
 				Self.dispatch({ type: "reset-round" });
 				Self.dispatch({ type: "shuffle-deck" });
 				Self.dispatch({ type: "blinds-and-deal" });
-				// start ai
-				// AI.think();
 				break;
 			case "reset-table":
 				// remove card elements
@@ -161,9 +159,23 @@ let Poker = {
 				// flip users hole cards
 				// APP.els.seats.get(0).find(".cards").addClass("hole-flip");
 				APP.els.seats.get(0).find(".cards").cssSequence("hole-flip", "transitionend", el => {
-					// think next step AI
-					AI.think();
+					Self.dispatch({ type: "go-to-betting" });
 				});
+				break;
+			case "go-to-betting":
+				// think next step AI
+				setTimeout(() => AI.think(), event.wait || 0);
+				break;
+			case "unroll-table":
+				if (event.currentPos === event.lastPos) {
+					// final call
+					
+				}
+				// Self.dispatch({
+				// 	type: "unroll-table",
+				// 	...event,
+				// 	currentPos: event.currentPos + 1,
+				// });
 				break;
 			case "ready-for-next-card":
 				let numBetting = Self.getNumBetting(),
@@ -245,7 +257,7 @@ let Poker = {
 									APP.els.board.cssSequence("fan-flop", "transitionend", el => {
 										el.cssSequence("flip-flop", "transitionend", el => {
 											// think next step AI
-											setTimeout(() => AI.think(), 500);
+											Self.dispatch({ type: "go-to-betting", wait: 500 });
 										});
 									});
 								}
@@ -295,7 +307,7 @@ let Poker = {
 													APP.els.deck.cssSequence("disappear", "transitionend", el => {
 														el.removeClass("appear disappear");
 														// think next step AI
-														setTimeout(() => AI.think(), 500);
+														Self.dispatch({ type: "go-to-betting", wait: 500 });
 													});
 
 													// temp
@@ -350,7 +362,7 @@ let Poker = {
 													APP.els.deck.cssSequence("disappear", "transitionend", el => {
 														el.removeClass("appear disappear");
 														// think next step AI
-														setTimeout(() => AI.think(), 500);
+														Self.dispatch({ type: "go-to-betting", wait: 500 });
 													});
 
 													// temp
