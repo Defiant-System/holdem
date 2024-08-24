@@ -35,7 +35,7 @@ let Main = {
 		} else if (!Poker.hasMoney(currentBettorIndex)) {
 			nextPlayer.status = "CALL";
 			incrementBettorIndex = 1;
-		} else if (nextPlayer.status == "CALL" && nextPlayer.subtotalBet == currentBetAmount) {
+		} else if (["CALL", "CHECK"].includes(nextPlayer.status) && nextPlayer.subtotalBet == currentBetAmount) {
 			incrementBettorIndex = 1;
 		} else {
 			nextPlayer.status = "";
@@ -46,7 +46,7 @@ let Main = {
 			} else {
 				nextPlayer.highlight();
 				
-				setTimeout(() => this.getBet(currentBettorIndex), 1500);
+				setTimeout(() => this.getBet(currentBettorIndex), 1000);
 				return;
 			}
 		}
@@ -63,6 +63,9 @@ let Main = {
 					break;
 				}
 			}
+		}
+		if (Poker.getNumBetting() === 1) {
+			return Poker.getPlayer(currentBettorIndex).status = "WINNER";
 		}
 		if (incrementBettorIndex) {
 			currentBettorIndex = Poker.getNextPlayerPosition(currentBettorIndex, 1);
@@ -101,9 +104,6 @@ let Main = {
 			player.status = "FOLD";
 			Poker.playerBets(x, 0);
 		}
-		// console.log(player.cardA, player.cardB, b);
-		// console.log(player.status);
-		// console.log( "getBet", currentBettorIndex, player.status, b );
 
 		// go to next player
 		currentBettorIndex = Poker.getNextPlayerPosition(currentBettorIndex, 1);

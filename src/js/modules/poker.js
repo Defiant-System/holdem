@@ -25,34 +25,31 @@ let currentBettorIndex,
 
 let Poker = {
 	init() {
-		this.dispatch({ type: "create-bots" });
-		this.dispatch({ type: "create-deck" });
+		// create bots
+		Bots.push(new Player({ name: "Ricardo" }));
+		Bots.push(new Player({ name: "Ann" }));
+		Bots.push(new Player({ name: "Daniel" }));
+		Bots.push(new Player({ name: "Jack" }));
+		Bots.push(new Player({ name: "Jenny" }));
+		Bots.push(new Player({ name: "Mary" }));
+		Bots.push(new Player({ name: "Nina" }));
+
+		// create deck
+		for (let i=2, j=0; i<15; i++) {
+			cards[j++] = `h${i}`;
+			cards[j++] = `d${i}`;
+			cards[j++] = `c${i}`;
+			cards[j++] = `s${i}`;
+		}
 	},
 	dispatch(event) {
 		let APP = holdem,
 			Self = Poker,
 			dealer, player, seats,
 			data, value,
+			numBetting, boardCards,
 			el;
 		switch (event.type) {
-			case "create-bots":
-				Bots.push(new Player({ name: "Ricardo" }));
-				Bots.push(new Player({ name: "Ann" }));
-				Bots.push(new Player({ name: "Daniel" }));
-				Bots.push(new Player({ name: "Jack" }));
-				Bots.push(new Player({ name: "Jenny" }));
-				Bots.push(new Player({ name: "Mary" }));
-				Bots.push(new Player({ name: "Nina" }));
-				break;
-			case "create-deck":
-				// create deck
-				for (let i=2, j=0; i<15; i++) {
-					cards[j++] = `h${i}`;
-					cards[j++] = `d${i}`;
-					cards[j++] = `c${i}`;
-					cards[j++] = `s${i}`;
-				}
-				break;
 			case "new-game":
 				START_DATE = new Date();
 				NUM_ROUNDS = 0;
@@ -163,23 +160,17 @@ let Poker = {
 				});
 				break;
 			case "go-to-betting":
-				// think next step AI
-				setTimeout(() => AI.think(), event.wait || 0);
-				break;
-			case "unroll-table":
-				if (event.currentPos === event.lastPos) {
-					// final call
-					
+				numBetting = Self.getNumBetting();
+				if (numBetting > 1) {
+					// think next step AI
+					setTimeout(() => AI.think(), event.wait || 0);
+				} else {
+					setTimeout(() => Self.dispatch({ type: "ready-for-next-card" }), 500);
 				}
-				// Self.dispatch({
-				// 	type: "unroll-table",
-				// 	...event,
-				// 	currentPos: event.currentPos + 1,
-				// });
 				break;
 			case "ready-for-next-card":
-				let numBetting = Self.getNumBetting(),
-					board = APP.els.board.find(".card");
+				numBetting = Self.getNumBetting();
+				boardCards = APP.els.board.find(".card");
 				for (let i=0; i<players.length; i++) {
 					players[i].totalBet += players[i].subtotalBet;
 					if (!["BUST", "FOLD"].includes(players[i].status)) players[i].status = "";
@@ -189,7 +180,7 @@ let Poker = {
 				Self.clearBets();
 				
 				// game finished - handle winning hand, etc
-				if (board[4]) return Self.dispatch({ type: "handle-end-of-round" });
+				if (boardCards[4]) return Self.dispatch({ type: "handle-end-of-round" });
 					
 				currentMinRaise = BIG_BLIND;
 				Self.resetPlayerStatuses(2);
@@ -215,11 +206,11 @@ let Poker = {
 
 				if (numBetting < 2) RUN_EM = 1;
 				
-				if (!board[0]) {
+				if (!boardCards[0]) {
 					Self.dispatch({ type: "deal-flop" });
-				} else if (!board[3]) {
+				} else if (!boardCards[3]) {
 					Self.dispatch({ type: "deal-turn" });
-				} else if (!board[4]) {
+				} else if (!boardCards[4]) {
 					Self.dispatch({ type: "deal-river" });
 				}
 				break;
@@ -309,9 +300,6 @@ let Poker = {
 														// think next step AI
 														Self.dispatch({ type: "go-to-betting", wait: 500 });
 													});
-
-													// temp
-													// setTimeout(() => Self.dispatch({ type: "deal-river" }), 1500);
 												});
 											});
 									}, 10);
