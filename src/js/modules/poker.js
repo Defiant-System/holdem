@@ -170,6 +170,7 @@ let Poker = {
 					board = APP.els.board.find(".card");
 				for (let i=0; i<players.length; i++) {
 					players[i].totalBet += players[i].subtotalBet;
+					if (!["BUST", "FOLD"].includes(players[i].status)) players[i].status = "";
 				}
 
 				// clear player bets + reset minimum bet
@@ -636,32 +637,6 @@ let Poker = {
 		}
 		return p;
 	},
-	// getNextPlayerPosition(i, delta) {
-	// 	let j = 0,
-	// 		step = 1;
-	// 	if (delta < 0) step = -1;
-
-	// 	let loopOn = 0;
-	// 	do {
-	// 		i += step;
-	// 		if (i >= players.length) {
-	// 			i = 0;
-	// 		} else {
-	// 			if (i < 0) {
-	// 				i = players.length - 1;
-	// 			}
-	// 		}
-
-	// 		// Check if we can stop
-	// 		loopOn = 0;
-	// 		if (["BUST", "FOLD"].includes(players[i].status)) loopOn = 1;
-	// 		// if (players[i].status == "BUST") loopOn = 1;
-	// 		// if (players[i].status == "FOLD") loopOn = 1;
-	// 		if (++j < delta) loopOn = 1;
-	// 	} while (loopOn);
-
-	// 	return i;
-	// },
 	getNextPlayerPosition(i, delta) {
 		// let seats = players.filter(p => !["BUST", "FOLD"].includes(p.status)).map(p => p.index),
 		let seats = players.map(p => p.index),
@@ -718,8 +693,8 @@ let Poker = {
 			}
 			player.status = "CALL";
 		} else if (betAmount + player.subtotalBet == currentBetAmount) {
-			// console.log(player.name, "CHECK");
-			player.status = "CALL";
+			// console.log(player.name, "CHECK", currentBetAmount);
+			player.status = currentBetAmount > 0 ? "CALL" : "CHECK";
 		} else if (currentBetAmount > player.subtotalBet + betAmount) {
 			console.log("2 SMALL");
 			// COMMENT OUT TO FIND BUGS

@@ -33,7 +33,6 @@ let Main = {
 		if (nextPlayer.status == "BUST" || nextPlayer.status == "FOLD") {
 			incrementBettorIndex = 1;
 		} else if (!Poker.hasMoney(currentBettorIndex)) {
-			console.log(nextPlayer.name, "CHECK");
 			nextPlayer.status = "CALL";
 			incrementBettorIndex = 1;
 		} else if (nextPlayer.status == "CALL" && nextPlayer.subtotalBet == currentBetAmount) {
@@ -51,16 +50,16 @@ let Main = {
 				return;
 			}
 		}
-		let can_break = true;
+		let canBreak = true;
 		for (let j=0; j<players.length; j++) {
 			let s = players[j].status;
 			if (s == "OPTION") {
-				can_break = false;
+				canBreak = false;
 				break;
 			}
 			if (s != "BUST" && s != "FOLD") {
 				if (Poker.hasMoney(players[j].index) && players[j].subtotalBet < currentBetAmount) {
-					can_break = false;
+					canBreak = false;
 					break;
 				}
 			}
@@ -68,7 +67,7 @@ let Main = {
 		if (incrementBettorIndex) {
 			currentBettorIndex = Poker.getNextPlayerPosition(currentBettorIndex, 1);
 		}
-		if (can_break) {
+		if (canBreak) {
 			// console.log("ready_for_next_card, 999 * global_speed");
 			setTimeout(() => Poker.dispatch({ type: "ready-for-next-card" }), 500);
 		} else {
@@ -87,8 +86,8 @@ let Main = {
 			b = 0;
 			player.status = "FOLD";
 		} else if (b == n) { // CALL
-			// console.log(player.name, "CHECK");
-			player.status = "CALL";
+			player.status = b === 0 ? "CHECK" : "CALL";
+			// console.log(player.name, player.status, b, n);
 		} else if (b > n) {
 			if (b - n < currentMinRaise) { // RAISE 2 SMALL
 				b = n;
@@ -124,63 +123,63 @@ let Main = {
 			}
 			if (other_making_stand < 1) { // should really check to see if bet_level is big and anyone has called...that's taking a stand too...
 				if (BET_LEVEL > 70) {
-					return this.internal_what_do_x("40:CALL,60:ALLIN");
+					return this.internalWhatDoX("40:CALL,60:ALLIN");
 				}
-				return this.internal_what_do_x("15:MED,40:SMALL,45:CALL");
+				return this.internalWhatDoX("15:MED,40:SMALL,45:CALL");
 			}
 			if (HCONF > 75) {
-				return this.internal_what_do_x("15:MED,40:SMALL,45:CALL");
+				return this.internalWhatDoX("15:MED,40:SMALL,45:CALL");
 			}
 		}
 
 		if (HCONF > 99) {
-			if (POT_LEVEL > 75) return this.internal_what_do_x("60:ALLIN,10:BIG,20:MED,5:SMALL,5:CALL");
-			if (num_players_playing_the_hand < 4) return this.internal_what_do_x("2:BIG,15:MED,33:SMALL,50:CALL");
-			return this.internal_what_do_x("2:ALLIN,8:BIG,40:MED,40:SMALL,10:CALL");
+			if (POT_LEVEL > 75) return this.internalWhatDoX("60:ALLIN,10:BIG,20:MED,5:SMALL,5:CALL");
+			if (num_players_playing_the_hand < 4) return this.internalWhatDoX("2:BIG,15:MED,33:SMALL,50:CALL");
+			return this.internalWhatDoX("2:ALLIN,8:BIG,40:MED,40:SMALL,10:CALL");
 		}
 		if (HCONF > 90) {
-			if (POT_LEVEL > 50) return this.internal_what_do_x("15:ALLIN,35:BIG,30:MED,15:SMALL,5:CALL");
-			if (num_players_playing_the_hand > 3) return this.internal_what_do_x("5:ALLIN,15:BIG,35:MED,35:SMALL,10:CALL");
-			return this.internal_what_do_x("2:ALLIN,6:BIG,15:MED,55:SMALL,22:CALL");
+			if (POT_LEVEL > 50) return this.internalWhatDoX("15:ALLIN,35:BIG,30:MED,15:SMALL,5:CALL");
+			if (num_players_playing_the_hand > 3) return this.internalWhatDoX("5:ALLIN,15:BIG,35:MED,35:SMALL,10:CALL");
+			return this.internalWhatDoX("2:ALLIN,6:BIG,15:MED,55:SMALL,22:CALL");
 		}
 		if (HCONF > 80) {
 			if (POT_LEVEL > 50) {
-				if (ID_CONF == "LO") return this.internal_what_do_x("100:ALLIN");
-				return this.internal_what_do_x("100:CALL");
+				if (ID_CONF == "LO") return this.internalWhatDoX("100:ALLIN");
+				return this.internalWhatDoX("100:CALL");
 			}
-			return this.internal_what_do_x("5:ALLIN,15:BIG,15:MED,30:SMALL,35:CALL");
+			return this.internalWhatDoX("5:ALLIN,15:BIG,15:MED,30:SMALL,35:CALL");
 		}
 
 		if (P.subtotalBet > 0 && CALL_LEVEL < 40) {
-			if (HCONF > 20 || RANKA > 10 || RANKB > 10) return this.internal_what_do_x("5:SMALL,95:CALL");
+			if (HCONF > 20 || RANKA > 10 || RANKB > 10) return this.internalWhatDoX("5:SMALL,95:CALL");
 		}
 
 		if (HCONF > 70) {
 			if (POT_LEVEL > 75) {
-				if (ID_CONF == "LO") return this.internal_what_do_x("100:ALLIN");
-				return this.internal_what_do_x("100:CALL");
+				if (ID_CONF == "LO") return this.internalWhatDoX("100:ALLIN");
+				return this.internalWhatDoX("100:CALL");
 			}
 			if (POT_LEVEL > 50) {
-				if (ID_CONF == "LO") return this.internal_what_do_x("50:ALLIN,50:BIG");
-				return this.internal_what_do_x("100:CALL");
+				if (ID_CONF == "LO") return this.internalWhatDoX("50:ALLIN,50:BIG");
+				return this.internalWhatDoX("100:CALL");
 			}
-			if (num_players_playing_the_hand > 3) return this.internal_what_do_x("5:ALLIN,15:BIG,30:MED,30:SMALL,20:CALL");
-			return this.internal_what_do_x("2:ALLIN,7:BIG,35:MED,36:SMALL,20:CALL");
+			if (num_players_playing_the_hand > 3) return this.internalWhatDoX("5:ALLIN,15:BIG,30:MED,30:SMALL,20:CALL");
+			return this.internalWhatDoX("2:ALLIN,7:BIG,35:MED,36:SMALL,20:CALL");
 		}
 		if (HCONF > 60) {
 			if (POT_LEVEL > 75) {
-				if (ID_CONF == "LO") return this.internal_what_do_x("100:ALLIN");
+				if (ID_CONF == "LO") return this.internalWhatDoX("100:ALLIN");
 				if (CALL_LEVEL < 70) return CALL;
-				if (ID_CONF == "HI") return this.internal_what_do_x("25:CALL");
-				return this.internal_what_do_x("34:CALL");
+				if (ID_CONF == "HI") return this.internalWhatDoX("25:CALL");
+				return this.internalWhatDoX("34:CALL");
 			}
 			if (POT_LEVEL > 50) {
-				if (ID_CONF == "LO") return this.internal_what_do_x("75:ALLIN,25:BIG");
+				if (ID_CONF == "LO") return this.internalWhatDoX("75:ALLIN,25:BIG");
 				if (CALL_LEVEL < 70) return CALL;
-				return this.internal_what_do_x("65:CALL");
+				return this.internalWhatDoX("65:CALL");
 			}
-			if (num_players_playing_the_hand > 3) return this.internal_what_do_x("3:ALLIN,17:BIG,30:MED,30:SMALL,20:CALL");
-			return this.internal_what_do_x("1:ALLIN,2:BIG,7:MED,40:SMALL,50:CALL");
+			if (num_players_playing_the_hand > 3) return this.internalWhatDoX("3:ALLIN,17:BIG,30:MED,30:SMALL,20:CALL");
+			return this.internalWhatDoX("1:ALLIN,2:BIG,7:MED,40:SMALL,50:CALL");
 		}
 		if (HCONF > 50) {
 			if (POT_LEVEL > 75) {
@@ -189,9 +188,9 @@ let Main = {
 			}
 			if (POT_LEVEL > 50) {
 				if (CALL_LEVEL < 40) return CALL;
-				return this.internal_what_do_x("1:ALLIN,8:CALL");
+				return this.internalWhatDoX("1:ALLIN,8:CALL");
 			}
-			return this.internal_what_do_x("1:ALLIN,1:BIG,5:MED,20:SMALL,73:CALL");
+			return this.internalWhatDoX("1:ALLIN,1:BIG,5:MED,20:SMALL,73:CALL");
 		}
 		if (HCONF > 40) {
 			if (BET_LEVEL > 40) {
@@ -200,10 +199,10 @@ let Main = {
 			}
 			if (BET_LEVEL > 30) {
 				if (CALL_LEVEL < 30) return CALL;
-				if (ID_CONF == "LO") return this.internal_what_do_x("24:CALL");
-				return this.internal_what_do_x("37:CALL");
+				if (ID_CONF == "LO") return this.internalWhatDoX("24:CALL");
+				return this.internalWhatDoX("37:CALL");
 			}
-			return this.internal_what_do_x("1:ALLIN,1:BIG,19:SMALL,79:CALL");
+			return this.internalWhatDoX("1:ALLIN,1:BIG,19:SMALL,79:CALL");
 		}
 		if (HCONF > 30) {
 			if (BET_LEVEL > 40) {
@@ -211,11 +210,11 @@ let Main = {
 				return FOLD;
 			}
 			if (BET_LEVEL > 30) {
-				if (CALL_LEVEL < 30) return this.internal_what_do_x("15:SMALL,85:CALL");
-				if (ID_CONF == "LO") return this.internal_what_do_x("1:CALL");
-				return this.internal_what_do_x("20:CALL");
+				if (CALL_LEVEL < 30) return this.internalWhatDoX("15:SMALL,85:CALL");
+				if (ID_CONF == "LO") return this.internalWhatDoX("1:CALL");
+				return this.internalWhatDoX("20:CALL");
 			}
-			return this.internal_what_do_x("1:ALLIN,1:BIG,9:SMALL,89:CALL");
+			return this.internalWhatDoX("1:ALLIN,1:BIG,9:SMALL,89:CALL");
 		}
 		if (HCONF > 20) {
 			if (BET_LEVEL > 30) {
@@ -224,21 +223,21 @@ let Main = {
 			}
 			if (BET_LEVEL > 20) {
 				if (CALL_LEVEL < 20) return CALL;
-				if (ID_CONF == "LO") return this.internal_what_do_x("1:CALL");
-				return this.internal_what_do_x("20:CALL");
+				if (ID_CONF == "LO") return this.internalWhatDoX("1:CALL");
+				return this.internalWhatDoX("20:CALL");
 			}
-			return this.internal_what_do_x("1:ALLIN,99:CALL");
+			return this.internalWhatDoX("1:ALLIN,99:CALL");
 		}
 		if (CALL_LEVEL > 20) return FOLD;
 		if (CALL_LEVEL > 10) {
-			if (ID_CONF == "LO") return this.internal_what_do_x("20:CALL");
-			return this.internal_what_do_x("1:MED,40:CALL");
+			if (ID_CONF == "LO") return this.internalWhatDoX("20:CALL");
+			return this.internalWhatDoX("1:MED,40:CALL");
 		}
 		if (CALL_LEVEL > 5) {
-			if (ID_CONF == "LO") return this.internal_what_do_x("1:BIG,15:CALL");
-			return this.internal_what_do_x("35:CALL");
+			if (ID_CONF == "LO") return this.internalWhatDoX("1:BIG,15:CALL");
+			return this.internalWhatDoX("35:CALL");
 		}
-		if (ID_CONF == "LO") return this.internal_what_do_x("1:ALLIN,79:CALL");
+		if (ID_CONF == "LO") return this.internalWhatDoX("1:ALLIN,79:CALL");
 
 		return CALL;
 	},
@@ -402,73 +401,73 @@ let Main = {
 			}
 			if (other_making_stand < 1) { // should really check to see if bet_level is big and anyone has called...that's taking a stand too...
 				if (BET_LEVEL > 70) {
-					return this.internal_what_do_x("40:CALL,60:ALLIN");
+					return this.internalWhatDoX("40:CALL,60:ALLIN");
 				}
-				return this.internal_what_do_x("10:MED,40:SMALL,50:CALL");
+				return this.internalWhatDoX("10:MED,40:SMALL,50:CALL");
 			}
 			// Don't let the human get away too easy
 			if (VERDICT == "GREAT" || VERDICT == "GOOD") {
-				return this.internal_what_do_x("10:MED,40:SMALL,50:CALL");
+				return this.internalWhatDoX("10:MED,40:SMALL,50:CALL");
 			}
 		}
 
 		if (VERDICT == "GREAT") {
 			if (ROUND < 5) {
-				return this.internal_what_do_x("5:ALLIN,5:BIG,25:MED,45:SMALL,20:CALL");
+				return this.internalWhatDoX("5:ALLIN,5:BIG,25:MED,45:SMALL,20:CALL");
 			}
-			return this.internal_what_do_x("30:ALLIN,40:BIG,30:MED");
+			return this.internalWhatDoX("30:ALLIN,40:BIG,30:MED");
 		}
 		if (VERDICT == "GOOD") {
 			if (ROUND < 4) {
 				if (BET_LEVEL > 79) {
 					if (CALL_LEVEL < 70 || FLUSH_DRAW) return CALL;
-					return this.internal_what_do_x("59:CALL");
+					return this.internalWhatDoX("59:CALL");
 				}
-				if (P.subtotalBet > 0) return this.internal_what_do_x("1:ALLIN,2:BIG,5:MED,20:SMALL,72:CALL");
-				return this.internal_what_do_x("3:ALLIN,40:BIG,42:MED,10:SMALL,5:CALL");
+				if (P.subtotalBet > 0) return this.internalWhatDoX("1:ALLIN,2:BIG,5:MED,20:SMALL,72:CALL");
+				return this.internalWhatDoX("3:ALLIN,40:BIG,42:MED,10:SMALL,5:CALL");
 			}
 			if (BET_LEVEL < 50) {
-				if (P.subtotalBet > 0) return this.internal_what_do_x("1:BIG,3:MED,21:SMALL,75:CALL");
-				return this.internal_what_do_x("10:BIG,20:MED,50:SMALL,20:CALL");
+				if (P.subtotalBet > 0) return this.internalWhatDoX("1:BIG,3:MED,21:SMALL,75:CALL");
+				return this.internalWhatDoX("10:BIG,20:MED,50:SMALL,20:CALL");
 			}
 			if (BET_LEVEL < 80) {
 				if (CALL_LEVEL < 50) return CALL;
-				return this.internal_what_do_x("65:CALL"); // SOME THINGS DEPEND ON THE BOARD,POT ODDS,CONFIDENCE!!!!!!!!!!!!!!!!!!!!!!!
+				return this.internalWhatDoX("65:CALL"); // SOME THINGS DEPEND ON THE BOARD,POT ODDS,CONFIDENCE!!!!!!!!!!!!!!!!!!!!!!!
 			}
 			if (CALL_LEVEL < 70) return CALL;
-			if (ROUND < 5) return this.internal_what_do_x("35:CALL");
-			return this.internal_what_do_x("25:CALL");
+			if (ROUND < 5) return this.internalWhatDoX("35:CALL");
+			return this.internalWhatDoX("25:CALL");
 		}
 		if (VERDICT == "MAYBE") {
 			if (BET_LEVEL < 50) {
-				if (CALL > 0) return this.internal_what_do_x("5:MED,15:SMALL,80:CALL");
-				return this.internal_what_do_x("5:BIG,20:MED,50:SMALL,25:CALL");
+				if (CALL > 0) return this.internalWhatDoX("5:MED,15:SMALL,80:CALL");
+				return this.internalWhatDoX("5:BIG,20:MED,50:SMALL,25:CALL");
 			}
 			if (BET_LEVEL < 70) {
 				if (ROUND < 4 && FLUSH_DRAW) return CALL;
 				if (CALL_LEVEL < 40) return CALL;
 				if (ID_CONF == "LO") {
-					if (ROUND < 4) return this.internal_what_do_x("35:CALL");
-					if (ROUND < 5) return this.internal_what_do_x("65:CALL");
-					return this.internal_what_do_x("89:CALL");
+					if (ROUND < 4) return this.internalWhatDoX("35:CALL");
+					if (ROUND < 5) return this.internalWhatDoX("65:CALL");
+					return this.internalWhatDoX("89:CALL");
 				}
-				if (ROUND < 4) return this.internal_what_do_x("61:CALL");
-				if (ROUND < 5) return this.internal_what_do_x("31:CALL");
-				return this.internal_what_do_x("19:CALL");
+				if (ROUND < 4) return this.internalWhatDoX("61:CALL");
+				if (ROUND < 5) return this.internalWhatDoX("31:CALL");
+				return this.internalWhatDoX("19:CALL");
 			}
 			if (CALL_LEVEL < 40) return CALL;
 			if (ROUND < 4) {
 				if (CALL_LEVEL < 50) return CALL;
-				return this.internal_what_do_x("50:CALL");
+				return this.internalWhatDoX("50:CALL");
 			}
-			return this.internal_what_do_x("11:CALL");
+			return this.internalWhatDoX("11:CALL");
 		}
 		if (FLUSH_DRAW) {
-			if (ROUND < 4) return this.internal_what_do_x("20:MED,40:SMALL,40:CALL");
+			if (ROUND < 4) return this.internalWhatDoX("20:MED,40:SMALL,40:CALL");
 			if (ROUND < 5) {
-				if (CALL < 1) return this.internal_what_do_x("10:MED,90:SMALL");
+				if (CALL < 1) return this.internalWhatDoX("10:MED,90:SMALL");
 				if (CALL_LEVEL < 40) return CALL;
-				return this.internal_what_do_x("33:CALL"); // depends on how good my cards are!!!!
+				return this.internalWhatDoX("33:CALL"); // depends on how good my cards are!!!!
 			}
 			// otherwise, cleanup process handles it
 		}
@@ -488,8 +487,8 @@ let Main = {
 		}
 		if (HCONF > 80) {
 			if (CALL < 1) {
-				if (ROUND < 5) return this.internal_what_do_x("10:MED,80:SMALL,10:CALL");
-				return this.internal_what_do_x("20:MED,70:SMALL,10:CALL");
+				if (ROUND < 5) return this.internalWhatDoX("10:MED,80:SMALL,10:CALL");
+				return this.internalWhatDoX("20:MED,70:SMALL,10:CALL");
 			}
 			if (CALL_LEVEL < 50) return CALL;
 			if (CALL_LEVEL < 70 && ROUND < 5) return CALL;
@@ -498,28 +497,28 @@ let Main = {
 		}
 		if (HCONF > 70) {
 			if (CALL < 1) {
-				if (ROUND < 5) return this.internal_what_do_x("10:MED,75:SMALL,15:CALL");
-				return this.internal_what_do_x("10:MED,80:SMALL,10:CALL");
+				if (ROUND < 5) return this.internalWhatDoX("10:MED,75:SMALL,15:CALL");
+				return this.internalWhatDoX("10:MED,80:SMALL,10:CALL");
 			}
 			if (CALL_LEVEL < 40) return CALL;
-			if (CALL_LEVEL < 50) return this.internal_what_do_x("50:CALL");
+			if (CALL_LEVEL < 50) return this.internalWhatDoX("50:CALL");
 			return FOLD;
 		}
 		if (hi_rank > 13 || HCONF > 50) {
 			if (CALL < 1) {
-				if (ROUND < 5) return this.internal_what_do_x("5:MED,75:SMALL,20:CALL");
-				return this.internal_what_do_x("5:MED,75:SMALL,20:CALL");
+				if (ROUND < 5) return this.internalWhatDoX("5:MED,75:SMALL,20:CALL");
+				return this.internalWhatDoX("5:MED,75:SMALL,20:CALL");
 			}
 			if (CALL_LEVEL < 30) return CALL;
 			if (CALL_LEVEL < 40 && ROUND < 4) return CALL;
 			return FOLD;
 		}
 		if (CALL < 1) {
-			if (ROUND < 5) return this.internal_what_do_x("20:SMALL,80:CALL");
-			return this.internal_what_do_x("5:MED,70:SMALL,25:CALL");
+			if (ROUND < 5) return this.internalWhatDoX("20:SMALL,80:CALL");
+			return this.internalWhatDoX("5:MED,70:SMALL,25:CALL");
 		}
 		if (CALL_LEVEL < 20) return CALL;
-		if (CALL_LEVEL < 30) return this.internal_what_do_x("10:SMALL,20:CALL");
+		if (CALL_LEVEL < 30) return this.internalWhatDoX("10:SMALL,20:CALL");
 
 		return FOLD;
 	},
@@ -572,7 +571,7 @@ let Main = {
 
 		return num_players_playing_the_hand;
 	},
-	internal_what_do_x(q, r) {
+	internalWhatDoX(q, r) {
 		q += ",";
 		if (!r) r = Math.random();
 		var p = 0;

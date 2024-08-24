@@ -54,7 +54,7 @@ let Test = {
 			// Poker.dispatch({ type: "shuffle-deck" });
 			Poker.dispatch({
 				type: "restore-state",
-				data: State["pre-flop"]  // pre-flop	post-flop	post-turn	post-river	full-table
+				data: State["post-flop"]  // pre-flop	post-flop	post-turn	post-river	full-table
 			});
 
 
