@@ -8,8 +8,10 @@
 			el: window.find(".game-view .actions"),
 			content: window.find("content"),
 			handle: window.find(".actions .slider .handle"),
+			btnRaise: window.find(".actions .button.raise"),
 			doc: $(document),
 		};
+		console.log( this.els.btnRaise );
 		// bind event handlers
 		this.els.handle.on("mousedown", this.slide);
 	},
@@ -26,6 +28,9 @@
 				actions = event.actions || "call-fold";
 				// un-highlight highlighted player
 				APP.els.table.find(".highlight").removeClass("highlight");
+				// bet or raise
+				value = currentBetAmount > 0 ? "Raise" : "Bet";
+				Self.els.btnRaise.html(value);
 				// update UI
 				APP.els.seats.get(0).find(".bet").html(currentBetAmount);
 				// bankroll update
