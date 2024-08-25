@@ -154,7 +154,6 @@ let Poker = {
 				// reset deck
 				APP.els.deck.cssSequence("disappear", "transitionend", el => el.removeClass("appear disappear"));
 				// flip users hole cards
-				// APP.els.seats.get(0).find(".cards").addClass("hole-flip");
 				APP.els.seats.get(0).find(".cards").cssSequence("hole-flip", "transitionend", el => {
 					Self.dispatch({ type: "go-to-betting" });
 				});
@@ -352,14 +351,6 @@ let Poker = {
 														// think next step AI
 														Self.dispatch({ type: "go-to-betting", wait: 500 });
 													});
-
-													// temp
-													// setTimeout(() => {
-													// 	APP.els.board.find(".card:nth(0)").addClass("winner");
-													// 	APP.els.board.find(".card:nth(1)").addClass("winner");
-													// 	APP.els.board.find(".card:nth(4)").addClass("winner");
-													// }, 1000);
-
 												});
 											});
 									}, 10);
@@ -534,7 +525,6 @@ let Poker = {
 					if (stillActiveCandidates == 0) {
 						potRemainder = totalPotSize;
 					}
-					console.log("End of iteration");
 				} // End of pot distribution
 
 				globalPotRemainder = potRemainder;
@@ -578,6 +568,16 @@ let Poker = {
 					HUMAN_WINS_AGAIN = 0;
 				}
 
+				console.log("End of iteration");
+				// temp
+				setTimeout(() => {
+					let cards = APP.els.board.find(".card");
+					cards.get(0).addClass("winner");
+					cards.get(1).addClass("winner");
+					cards.get(2).addClass("loser");
+					cards.get(3).addClass("loser");
+					cards.get(4).addClass("winner");
+				}, 1500);
 				break;
 			case "output-pgn":
 				data = {

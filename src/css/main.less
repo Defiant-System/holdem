@@ -761,7 +761,22 @@ content {
 		}
 
 		&[data-status="LOSER"] {
-			filter: sepia(1) hue-rotate(305deg) saturate(3) brightness(0.85);
+			.name {
+				filter: sepia(1) hue-rotate(305deg) saturate(3) brightness(0.85);
+			}
+
+			.cards .card {
+				&:after {
+					content: "";
+					position: absolute;
+					top: 0;
+					left: 0;
+					right: 0;
+					bottom: 0;
+					border-radius: inherit;
+					background: rgba(#000,.25);
+				}
+			}
 		}
 
 		&[data-status="WINNER"] {
@@ -773,6 +788,11 @@ content {
 					stroke-dasharray: 0;
 					stroke-dashoffset: 0;
 				}
+			}
+
+			.cards {
+				filter: drop-shadow(0 0 2px #ff0)
+						drop-shadow(0 0 5px rgba(#ff0,.95));
 			}
 		}
 	}
@@ -1047,6 +1067,19 @@ content {
 				filter: brightness(.6);
 
 				&:before { display: none; }
+			}
+
+			&.loser {
+				&:after {
+					content: "";
+					position: absolute;
+					top: 0;
+					left: 0;
+					right: 0;
+					bottom: 0;
+					border-radius: inherit;
+					background: rgba(#000,.025);
+				}
 			}
 
 			&.winner {
