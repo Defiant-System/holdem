@@ -44,9 +44,9 @@ class Player {
 		this.el.addClass("highlight");
 	}
 
-	showCards() {
-		this.AEL.addClass(`card card-back ${this.cardA}`);
-		this.BEL.addClass(`card card-back ${this.cardB}`);
+	showCards(winnerCards=[]) {
+		this.AEL.addClass(`card card-back ${this.cardA} ${winnerCards.includes("a") ? "winner" : "loser"}`);
+		this.BEL.addClass(`card card-back ${this.cardB} ${winnerCards.includes("b") ? "winner" : "loser"}`);
 		this.cardsEl.addClass("show");
 	}
 

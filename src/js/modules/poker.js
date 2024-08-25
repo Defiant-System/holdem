@@ -544,7 +544,7 @@ let Poker = {
 						players[i].bankroll += allocations[i];
 						if (bestHandPlayers[i]) {
 							players[i].status = "WINNER";
-							players[i].showCards();
+							players[i].showCards(["a", "b1"]);
 						} else {
 							players[i].status = "LOSER";
 							players[i].showCards();
