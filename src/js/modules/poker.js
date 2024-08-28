@@ -468,9 +468,9 @@ let Poker = {
 					let lowestWinnerBet = totalPotSize * 2;
 					let numWinners = 0;
 					for (let i=0; i<winners.length; i++) {
-						if (!winners[i]) { // Only the winners bets
-							continue;
-						}
+						// Only the winners bets
+						if (!winners[i]) continue;
+						
 						if (!bestHandName) {
 							bestHandName = winners[i].hand_name;
 						}
@@ -529,22 +529,25 @@ let Poker = {
 
 				globalPotRemainder = potRemainder;
 				potRemainder = 0;
-				let winnerText = "";
+				// let winnerText = "";
 				let humanLoses = 0;
 				// Distribute the pot - and then do too many things
 				for (let i=0; i<allocations.length; i++) {
 					if (allocations[i] > 0) {
-						let aString = "" + allocations[i];
+						let aString = allocations[i].toString();
 						let dotIndex = aString.indexOf(".");
 						if (dotIndex > 0) {
-							aString = "" + aString + "00";
+							aString = aString + "00";
 							allocations[i] = aString.substring(0, dotIndex + 3) - 0;
 						}
-						winnerText += winningHands[i] + " gives " + allocations[i] + " to " + players[i].name + ". ";
+						// winnerText += winningHands[i] + " gives " + allocations[i] + " to " + players[i].name + ". ";
 						players[i].bankroll += allocations[i];
 						if (bestHandPlayers[i]) {
-							players[i].status = "WINNER";
-							players[i].showCards(["a", "b1"]);
+							Self.dispatch({
+								type: "highlight-winning-hand",
+								bestHandPlayers: bestHandPlayers[i],
+								player: players[i],
+							});
 						} else {
 							players[i].status = "LOSER";
 							players[i].showCards();
@@ -567,17 +570,28 @@ let Poker = {
 				} else {
 					HUMAN_WINS_AGAIN = 0;
 				}
-
 				console.log("End of iteration");
+				break;
+			case "highlight-winning-hand":
+				event.player.status = "WINNER";
+				// event.player.showCards(["a", "b"]);
+				event.player.showCards();
+
 				// temp
 				setTimeout(() => {
-					let cards = APP.els.board.find(".card");
-					cards.get(0).addClass("winner");
-					cards.get(1).addClass("winner");
-					cards.get(2).addClass("loser");
-					cards.get(3).addClass("loser");
-					cards.get(4).addClass("winner");
-				}, 1500);
+					event.bestHandPlayers.highlight.map(c => {
+						let wCard = APP.els.board.find(`.card[data-value="${c}"]`);
+						if (!wCard.length) wCard = event.player.el.find(`.card[data-value="${c}"]`);
+						console.log(wCard.length, `.card[data-value="${c}"]`);
+						wCard.addClass("winner");
+					});
+
+					// cards.get(0).addClass("winner");
+					// cards.get(1).addClass("winner");
+					// cards.get(2).addClass("loser");
+					// cards.get(3).addClass("loser");
+					// cards.get(4).addClass("winner");
+				}, 500);
 				break;
 			case "output-pgn":
 				data = {

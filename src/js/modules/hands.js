@@ -381,6 +381,15 @@ let Test = {
 		if (Utils.getRank(player.cardB) == pair) numMine++;
 		let numNeeded = 1;
 		if (pair) numNeeded = 0;
+		
+		let highlight = [];
+		cards.map(c => {
+			if (Utils.getRank(c) === pair) highlight.push(c);
+			if (Utils.getRank(c) === kicker1) highlight.push(c);
+			if (Utils.getRank(c) === kicker2) highlight.push(c);
+			if (Utils.getRank(c) === kicker3) highlight.push(c);
+		});
+
 		let hashResult = {};
 		hashResult["rank"] = pair;
 		hashResult["num_needed"] = numNeeded;
@@ -388,6 +397,7 @@ let Test = {
 		hashResult["kicker_1"] = kicker1;
 		hashResult["kicker_2"] = kicker2;
 		hashResult["kicker_3"] = kicker3;
+		hashResult["highlight"] = highlight;
 		hashResult["hand_name"] = "One Pair";
 
 		return hashResult;

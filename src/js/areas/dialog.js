@@ -11,7 +11,6 @@
 			btnRaise: window.find(".actions .button.raise"),
 			doc: $(document),
 		};
-		console.log( this.els.btnRaise );
 		// bind event handlers
 		this.els.handle.on("mousedown", this.slide);
 	},

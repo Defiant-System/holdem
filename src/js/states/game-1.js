@@ -88,9 +88,9 @@ State["post-river"] = {
 			index: 2,
 		},
 		players: {
-			"0": { bankroll: 490, name: "Hakan", cardA: "h5", cardB: "c14", totalBet: 10, subtotalBet: 0, },
-			"1": { bankroll: 490, name: "Nina", cardA: "c6", cardB: "c2", totalBet: 10, subtotalBet: 0, },
-			"2": { bankroll: 490, name: "Jenny", cardA: "c5", cardB: "h4", totalBet: 10, subtotalBet: 0, },
+			"0": { bankroll: 490, name: "Hakan", cardA: "c3", cardB: "c14", totalBet: 10, subtotalBet: 20, },
+			"1": { bankroll: 490, name: "Nina", cardA: "h6", cardB: "c2", totalBet: 10, subtotalBet: 20, },
+			"2": { bankroll: 490, name: "Jenny", cardA: "c5", cardB: "h4", totalBet: 10, subtotalBet: 0, status: "FOLD" },
 			"5": { bankroll: 500, name: "Daniel", cardA: "c2", cardB: "d7", totalBet: 0, subtotalBet: 0, status: "FOLD" },
 		},
 		flop: ["h10", "s9", "c11"],
