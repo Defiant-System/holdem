@@ -95,7 +95,7 @@ let Test = {
 		let highlight = [],
 			len = 5;
 		while (len--) {
-			cards.map(c => (c.slice(0,1) === suit && Utils.getRank(c) === absoluteHighCard - len) ? highlight.push(c) : void(0));
+			cards.filter(c => c).map(c => (c.slice(0,1) === suit && Utils.getRank(c) === absoluteHighCard - len) ? highlight.push(c) : void(0));
 		}
 
 		let hashResult = {};
@@ -130,7 +130,7 @@ let Test = {
 		if (four) numNeeded = 0;
 
 		let highlight = [];
-		cards.map(c => {
+		cards.filter(c => c).map(c => {
 			if (Utils.getRank(c) === four) highlight.push(c);
 			if (Utils.getRank(c) === kicker) highlight.push(c);
 		});
@@ -188,7 +188,7 @@ let Test = {
 		}
 
 		let highlight = [];
-		cards.map(c => {
+		cards.filter(c => c).map(c => {
 			if (Utils.getRank(c) === minorRank) highlight.push(c);
 			if (Utils.getRank(c) === majorRank) highlight.push(c);
 		});
@@ -233,7 +233,7 @@ let Test = {
 		let highlight = [],
 			len = 5;
 		while (len--) {
-			cards.map(c => (c.slice(0,1) === suit && Utils.getRank(c) === hashResult["flush_"+ len]) ? highlight.push(c) : void(0));
+			cards.filter(c => c).map(c => (c.slice(0,1) === suit && Utils.getRank(c) === hashResult["flush_"+ len]) ? highlight.push(c) : void(0));
 		}
 
 		hashResult["num_needed"] = 5 - numInFlush;
@@ -298,7 +298,7 @@ let Test = {
 		let highlight = [],
 			len = 5;
 		while (len--) {
-			cards.map(c => (Utils.getRank(c) === absoluteHighCard - len) ? highlight.push(c) : void(0));
+			cards.filter(c => c).map(c => (Utils.getRank(c) === absoluteHighCard - len) ? highlight.push(c) : void(0));
 		}
 
 		let hashResult = {};
@@ -341,7 +341,7 @@ let Test = {
 		if (three) numNeeded = 0;
 
 		let highlight = [];
-		cards.map(c => {
+		cards.filter(c => c).map(c => {
 			if (Utils.getRank(c) === three) highlight.push(c);
 			if (Utils.getRank(c) === kicker1) highlight.push(c);
 			if (Utils.getRank(c) === kicker2) highlight.push(c);
@@ -391,7 +391,7 @@ let Test = {
 		else numNeeded = 2;
 
 		let highlight = [];
-		cards.map(c => {
+		cards.filter(c => c).map(c => {
 			if (Utils.getRank(c) === first) highlight.push(c);
 			if (Utils.getRank(c) === second) highlight.push(c);
 			if (Utils.getRank(c) === kicker) highlight.push(c);
@@ -441,7 +441,7 @@ let Test = {
 		if (pair) numNeeded = 0;
 		
 		let highlight = [];
-		cards.map(c => {
+		cards.filter(c => c).map(c => {
 			if (Utils.getRank(c) === pair) highlight.push(c);
 			if (Utils.getRank(c) === kicker1) highlight.push(c);
 			if (Utils.getRank(c) === kicker2) highlight.push(c);
@@ -482,7 +482,7 @@ let Test = {
 		}
 
 		let highlight = [];
-		cards.map(c => {
+		cards.filter(c => c).map(c => {
 			if (Utils.getRank(c) === workingCards[0]) highlight.push(c);
 			if (Utils.getRank(c) === workingCards[1]) highlight.push(c);
 			if (Utils.getRank(c) === workingCards[2]) highlight.push(c);
