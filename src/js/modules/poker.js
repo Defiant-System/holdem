@@ -588,15 +588,21 @@ let Poker = {
 					APP.els.board.find(`.card:not(.winner)`).addClass("loser");
 					event.player.el.find(`.card:not(.winner)`).addClass("loser");
 
-					let toSeat = `to-seat-${event.player.index}`;
+					let toSeat = `to-seat-${event.player.index}`,
+						roll = event.player.bankroll,
+						total = roll + Self.getPotSize();
 					APP.els.table.find(".pot").cssSequence(toSeat, "transitionend", el => {
 						// reset pot element
 						el.removeClass(toSeat).addClass("hidden").html("");
 						// player bankroll ticker
-						event.player.el.find(".bankroll")//.css({ "--roll": 520 })
+						event.player.el.find(".bankroll")
+							.css({
+								"--roll": roll,
+								"--total": total,
+							})
 							.cssSequence("ticker", "animationend", el => {
 								console.log(el);
-								el.removeClass("ticker").html(520);
+								el.removeClass("ticker").html(total);
 							});
 					});
 				}, 500);

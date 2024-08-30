@@ -661,12 +661,15 @@ content {
 
 			&.ticker {
 				font-size: 0;
+				// --roll: 490;
+				// --total: 520;
 
 				&:after {
 					counter-reset: my-counter var(--roll);
 					content: counter(my-counter);
-					animation: count 3s ease-out;
-					font-size: 17px;
+					animation: count 2s 1s ease-in-out;
+					font-size: 19px;
+					text-shadow: 0 0 3px rgba(#fff,.75);
 				}
 			}
 		}
@@ -1609,11 +1612,11 @@ content {
 @property --roll {
 	syntax: '<integer>';
 	inherits: true;
-	initial-value: 490;
+	initial-value: 0;
 }
   
 @keyframes count {
-	to { --roll: 520; }
+	to { --roll: var( --total ); }
 }
 
 @keyframes smokePuffs {
