@@ -658,6 +658,17 @@ content {
 			left: 0;
 			right: 0;
 			font-size: 17px;
+
+			&.ticker {
+				font-size: 0;
+
+				&:after {
+					counter-reset: my-counter var(--roll);
+					content: counter(my-counter);
+					animation: count 3s ease-out;
+					font-size: 17px;
+				}
+			}
 		}
 
 		.bet {
@@ -997,6 +1008,7 @@ content {
 		filter: drop-shadow(0 1px 0 rgba(#fff,.35));
 		border-radius: 31px;
 		font-size: 23px;
+		--roll: 490;
 
 		&:before {
 			content: "";
@@ -1010,6 +1022,12 @@ content {
 			box-shadow: inset 0 1px 0 rgba(#fff,.5),
 						0 0 0 1px rgba(#000,.15),
 						0 2px 3px rgba(#000,.5);
+		}
+
+		&.to-seat-0 {
+			transition: all 300ms ease-in-out;
+			top: 384px;
+			left: -3px;
 		}
 	}
 
@@ -1586,6 +1604,17 @@ content {
 	&.c14	{ background-image: url(~/icons/cA.png), url(~/icons/clubs-front.png); }
 }
 
+
+
+@property --roll {
+	syntax: '<integer>';
+	inherits: true;
+	initial-value: 490;
+}
+  
+@keyframes count {
+	to { --roll: 520; }
+}
 
 @keyframes smokePuffs {
 	0%   { background-position: 0px 0px; }
