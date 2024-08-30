@@ -208,8 +208,6 @@ let Test = {
 		}
 		workingCards.sort(Utils.compNum);
 
-		let highlight = [];
-
 		let hashResult = {};
 		let numMine = 0;
 		for (let i=0; i<5; i++) {
@@ -218,12 +216,19 @@ let Test = {
 			hashResult["flush_" + i] = s;
 			if (suit + workingCards[i] == player.cardA || suit + workingCards[i] == player.cardB) numMine++;
 		}
+
+		let highlight = [],
+			len = 5;
+		while (len--) {
+			cards.map(c => (c.slice(0,1) === suit && Utils.getRank(c) === hashResult["flush_"+ len]) ? highlight.push(c) : void(0));
+		}
+
 		hashResult["num_needed"] = 5 - numInFlush;
 		hashResult["num_mine"] = numMine;
 		hashResult["suit"] = suit;
 		hashResult["highlight"] = highlight;
 		hashResult["hand_name"] = "Flush";
-
+		
 		return hashResult;
 	},
 	straight(player) {
@@ -277,7 +282,11 @@ let Test = {
 			}
 		}
 
-		let highlight = [];
+		let highlight = [],
+			len = 5;
+		while (len--) {
+			cards.map(c => (Utils.getRank(c) === absoluteHighCard - len) ? highlight.push(c) : void(0));
+		}
 
 		let hashResult = {};
 		hashResult["straight_hi"] = absoluteHighCard;
@@ -319,6 +328,11 @@ let Test = {
 		if (three) numNeeded = 0;
 
 		let highlight = [];
+		cards.map(c => {
+			if (Utils.getRank(c) === three) highlight.push(c);
+			if (Utils.getRank(c) === kicker1) highlight.push(c);
+			if (Utils.getRank(c) === kicker2) highlight.push(c);
+		});
 
 		let hashResult = {};
 		hashResult["rank"] = three;
@@ -445,6 +459,7 @@ let Test = {
 			}
 		}
 		workingCards.sort(Utils.compNum);
+
 		let hashResult = {};
 		for (let i=0; i<5; i++) {
 			if (!workingCards[i]) {
@@ -452,7 +467,18 @@ let Test = {
 			}
 			hashResult["hi_card_"+ i] = workingCards[i];
 		}
+
+		let highlight = [];
+		cards.map(c => {
+			if (Utils.getRank(c) === workingCards[0]) highlight.push(c);
+			if (Utils.getRank(c) === workingCards[1]) highlight.push(c);
+			if (Utils.getRank(c) === workingCards[2]) highlight.push(c);
+			if (Utils.getRank(c) === workingCards[3]) highlight.push(c);
+			if (Utils.getRank(c) === workingCards[4]) highlight.push(c);
+		});
+
 		hashResult["num_needed"] = 0;
+		hashResult["highlight"] = highlight;
 		hashResult["hand_name"] = "High Card";
 
 		return hashResult;

@@ -79,24 +79,44 @@ State["post-turn"] = {
 	};
 
 
-State["post-river-pair"] = {
-	buttonIndex: 0,
-	currentBetAmount: 0,
-	currentBettorIndex: 1,
-	deck: {
-		cards: StateCards,
-		index: 2,
-	},
-	players: {
-		"0": { bankroll: 490, name: "Hakan", cardA: "c3", cardB: "c14", totalBet: 10, subtotalBet: 20, },
-		"1": { bankroll: 490, name: "Nina", cardA: "h6", cardB: "c2", totalBet: 10, subtotalBet: 20, },
-		"2": { bankroll: 490, name: "Jenny", cardA: "c5", cardB: "h4", totalBet: 10, subtotalBet: 0, status: "FOLD" },
-		"5": { bankroll: 500, name: "Daniel", cardA: "c2", cardB: "d7", totalBet: 0, subtotalBet: 0, status: "FOLD" },
-	},
-	flop: ["h10", "s9", "c11"],
-	turn: "h12",
-	river: "h3",
-};
+State["post-river-high-card"] = {
+			buttonIndex: 0,
+			currentBetAmount: 0,
+			currentBettorIndex: 1,
+			deck: {
+				cards: StateCards,
+				index: 2,
+			},
+			players: {
+				"0": { bankroll: 490, name: "Hakan", cardA: "c7", cardB: "c4", totalBet: 10, subtotalBet: 20, },
+				"1": { bankroll: 490, name: "Nina", cardA: "h6", cardB: "c2", totalBet: 10, subtotalBet: 20, },
+				"2": { bankroll: 490, name: "Jenny", cardA: "c5", cardB: "h4", totalBet: 10, subtotalBet: 0, status: "FOLD" },
+				"5": { bankroll: 500, name: "Daniel", cardA: "c2", cardB: "d7", totalBet: 0, subtotalBet: 0, status: "FOLD" },
+			},
+			flop: ["h10", "s9", "c11"],
+			turn: "h12",
+			river: "h3",
+		};
+
+
+State["post-river-one-pair"] = {
+		buttonIndex: 0,
+		currentBetAmount: 0,
+		currentBettorIndex: 1,
+		deck: {
+			cards: StateCards,
+			index: 2,
+		},
+		players: {
+			"0": { bankroll: 490, name: "Hakan", cardA: "c3", cardB: "c14", totalBet: 10, subtotalBet: 20, },
+			"1": { bankroll: 490, name: "Nina", cardA: "h6", cardB: "c2", totalBet: 10, subtotalBet: 20, },
+			"2": { bankroll: 490, name: "Jenny", cardA: "c5", cardB: "h4", totalBet: 10, subtotalBet: 0, status: "FOLD" },
+			"5": { bankroll: 500, name: "Daniel", cardA: "c2", cardB: "d7", totalBet: 0, subtotalBet: 0, status: "FOLD" },
+		},
+		flop: ["h10", "s9", "c11"],
+		turn: "h12",
+		river: "h3",
+	};
 
 State["post-river-two-pair"] = {
 		buttonIndex: 0,
@@ -113,6 +133,82 @@ State["post-river-two-pair"] = {
 			"5": { bankroll: 500, name: "Daniel", cardA: "c2", cardB: "d7", totalBet: 0, subtotalBet: 0, status: "FOLD" },
 		},
 		flop: ["h14", "s9", "c11"],
+		turn: "h12",
+		river: "h3",
+	};
+
+State["post-river-three"] = {
+		buttonIndex: 0,
+		currentBetAmount: 0,
+		currentBettorIndex: 1,
+		deck: {
+			cards: StateCards,
+			index: 2,
+		},
+		players: {
+			"0": { bankroll: 490, name: "Hakan", cardA: "c3", cardB: "d3", totalBet: 10, subtotalBet: 20, },
+			"1": { bankroll: 490, name: "Nina", cardA: "h6", cardB: "c2", totalBet: 10, subtotalBet: 20, },
+			"2": { bankroll: 490, name: "Jenny", cardA: "c5", cardB: "h4", totalBet: 10, subtotalBet: 0, status: "FOLD" },
+			"5": { bankroll: 500, name: "Daniel", cardA: "c2", cardB: "d7", totalBet: 0, subtotalBet: 0, status: "FOLD" },
+		},
+		flop: ["h14", "s9", "c11"],
+		turn: "h12",
+		river: "h3",
+	};
+
+State["post-river-straight"] = {
+		buttonIndex: 0,
+		currentBetAmount: 0,
+		currentBettorIndex: 1,
+		deck: {
+			cards: StateCards,
+			index: 2,
+		},
+		players: {
+			"0": { bankroll: 490, name: "Hakan", cardA: "c8", cardB: "d10", totalBet: 10, subtotalBet: 20, },
+			"1": { bankroll: 490, name: "Nina", cardA: "h6", cardB: "c2", totalBet: 10, subtotalBet: 20, },
+			"2": { bankroll: 490, name: "Jenny", cardA: "c5", cardB: "h4", totalBet: 10, subtotalBet: 0, status: "FOLD" },
+			"5": { bankroll: 500, name: "Daniel", cardA: "c2", cardB: "d7", totalBet: 0, subtotalBet: 0, status: "FOLD" },
+		},
+		flop: ["h14", "s9", "c11"],
+		turn: "h12",
+		river: "h3",
+	};
+
+State["post-river-flush"] = {
+		buttonIndex: 0,
+		currentBetAmount: 0,
+		currentBettorIndex: 1,
+		deck: {
+			cards: StateCards,
+			index: 2,
+		},
+		players: {
+			"0": { bankroll: 490, name: "Hakan", cardA: "h8", cardB: "h10", totalBet: 10, subtotalBet: 20, },
+			"1": { bankroll: 490, name: "Nina", cardA: "h6", cardB: "c2", totalBet: 10, subtotalBet: 20, },
+			"2": { bankroll: 490, name: "Jenny", cardA: "c5", cardB: "h4", totalBet: 10, subtotalBet: 0, status: "FOLD" },
+			"5": { bankroll: 500, name: "Daniel", cardA: "c2", cardB: "d7", totalBet: 0, subtotalBet: 0, status: "FOLD" },
+		},
+		flop: ["h14", "s9", "c11"],
+		turn: "h12",
+		river: "h3",
+	};
+
+State["post-river-full-house"] = {
+		buttonIndex: 0,
+		currentBetAmount: 0,
+		currentBettorIndex: 1,
+		deck: {
+			cards: StateCards,
+			index: 2,
+		},
+		players: {
+			"0": { bankroll: 490, name: "Hakan", cardA: "d3", cardB: "c3", totalBet: 10, subtotalBet: 20, },
+			"1": { bankroll: 490, name: "Nina", cardA: "h6", cardB: "c2", totalBet: 10, subtotalBet: 20, },
+			"2": { bankroll: 490, name: "Jenny", cardA: "c5", cardB: "h4", totalBet: 10, subtotalBet: 0, status: "FOLD" },
+			"5": { bankroll: 500, name: "Daniel", cardA: "c2", cardB: "d7", totalBet: 0, subtotalBet: 0, status: "FOLD" },
+		},
+		flop: ["d11", "s9", "c11"],
 		turn: "h12",
 		river: "h3",
 	};
