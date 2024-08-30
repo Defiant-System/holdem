@@ -91,10 +91,14 @@ let Test = {
 		for (let i=0; i<absoluteLongestStretch; i++) {
 			if (suit + (absoluteHighCard - i) == player.cardA || suit + (absoluteHighCard - i) == player.cardB) numMine++;
 		}
+
+		let highlight = [];
+
 		let hashResult = {};
 		hashResult["straight_hi"] = absoluteHighCard;
 		hashResult["num_needed"] = 5 - absoluteLongestStretch;
 		hashResult["num_mine"] = numMine;
+		hashResult["highlight"] = highlight;
 		hashResult["hand_name"] = "Straight Flush";
 
 		return hashResult;
@@ -121,11 +125,14 @@ let Test = {
 		let numNeeded = 4;
 		if (four) numNeeded = 0;
 
+		let highlight = [];
+
 		let hashResult = {};
 		hashResult["rank"] = four;
 		hashResult["kicker"] = kicker;
 		hashResult["num_needed"] = numNeeded;
 		hashResult["num_mine"] = numMine;
+		hashResult["highlight"] = highlight;
 		hashResult["hand_name"] = "Four of a Kind";
 
 		return hashResult;
@@ -158,6 +165,9 @@ let Test = {
 			if (Utils.getRank(player.cardA) == three) numMineMajor += 1;
 			if (Utils.getRank(player.cardB) == three) numMineMajor += 1;
 		}
+
+		let highlight = [];
+
 		let hashResult = {};
 		hashResult["major_rank"] = majorRank;
 		hashResult["num_mine_major"] = numMineMajor;
@@ -174,6 +184,7 @@ let Test = {
 		hashResult["num_mine_minor"] = numMineMinor;
 		hashResult["num_mine"] = numMineMinor + numMineMajor;
 		hashResult["num_needed"] = numNeeded;
+		hashResult["highlight"] = highlight;
 		hashResult["hand_name"] = "Full House";
 
 		return hashResult;
@@ -196,6 +207,9 @@ let Test = {
 			}
 		}
 		workingCards.sort(Utils.compNum);
+
+		let highlight = [];
+
 		let hashResult = {};
 		let numMine = 0;
 		for (let i=0; i<5; i++) {
@@ -207,6 +221,7 @@ let Test = {
 		hashResult["num_needed"] = 5 - numInFlush;
 		hashResult["num_mine"] = numMine;
 		hashResult["suit"] = suit;
+		hashResult["highlight"] = highlight;
 		hashResult["hand_name"] = "Flush";
 
 		return hashResult;
@@ -261,10 +276,14 @@ let Test = {
 				numMine++;
 			}
 		}
+
+		let highlight = [];
+
 		let hashResult = {};
 		hashResult["straight_hi"] = absoluteHighCard;
 		hashResult["num_needed"] = 5 - absoluteLongestStretch;
 		hashResult["num_mine"] = numMine;
+		hashResult["highlight"] = highlight;
 		hashResult["hand_name"] = "Straight";
 
 		return hashResult;
@@ -298,13 +317,16 @@ let Test = {
 
 		let numNeeded = 3;
 		if (three) numNeeded = 0;
-		
+
+		let highlight = [];
+
 		let hashResult = {};
 		hashResult["rank"] = three;
 		hashResult["num_needed"] = numNeeded;
 		hashResult["num_mine"] = numMine;
 		hashResult["kicker_1"] = kicker1;
 		hashResult["kicker_2"] = kicker2;
+		hashResult["highlight"] = highlight;
 		hashResult["hand_name"] = "Three of a Kind";
 
 		return hashResult;
@@ -340,12 +362,21 @@ let Test = {
 		if (second) numNeeded = 0;
 		else if (first) numNeeded = 1;
 		else numNeeded = 2;
+
+		let highlight = [];
+		cards.map(c => {
+			if (Utils.getRank(c) === first) highlight.push(c);
+			if (Utils.getRank(c) === second) highlight.push(c);
+			if (Utils.getRank(c) === kicker) highlight.push(c);
+		});
+
 		let hashResult = {};
 		hashResult["rank_1"] = first;
 		hashResult["rank_2"] = second;
 		hashResult["num_needed"] = numNeeded;
 		hashResult["num_mine"] = numMine;
 		hashResult["kicker"] = kicker;
+		hashResult["highlight"] = highlight;
 		hashResult["hand_name"] = "Two Pair";
 
 		return hashResult;
