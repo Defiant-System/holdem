@@ -213,6 +213,63 @@ State["post-river-full-house"] = {
 		river: "h3",
 	};
 
+State["post-river-four"] = {
+		buttonIndex: 0,
+		currentBetAmount: 0,
+		currentBettorIndex: 1,
+		deck: {
+			cards: StateCards,
+			index: 2,
+		},
+		players: {
+			"0": { bankroll: 490, name: "Hakan", cardA: "d3", cardB: "c3", totalBet: 10, subtotalBet: 20, },
+			"1": { bankroll: 490, name: "Nina", cardA: "h6", cardB: "c2", totalBet: 10, subtotalBet: 20, },
+			"2": { bankroll: 490, name: "Jenny", cardA: "c5", cardB: "h4", totalBet: 10, subtotalBet: 0, status: "FOLD" },
+			"5": { bankroll: 500, name: "Daniel", cardA: "c2", cardB: "d7", totalBet: 0, subtotalBet: 0, status: "FOLD" },
+		},
+		flop: ["d11", "s9", "s3"],
+		turn: "h12",
+		river: "h3",
+	};
+
+State["post-river-straight-flush"] = {
+		buttonIndex: 0,
+		currentBetAmount: 0,
+		currentBettorIndex: 1,
+		deck: {
+			cards: StateCards,
+			index: 2,
+		},
+		players: {
+			"0": { bankroll: 490, name: "Hakan", cardA: "h10", cardB: "h8", totalBet: 10, subtotalBet: 20, },
+			"1": { bankroll: 490, name: "Nina", cardA: "h6", cardB: "c2", totalBet: 10, subtotalBet: 20, },
+			"2": { bankroll: 490, name: "Jenny", cardA: "c5", cardB: "h4", totalBet: 10, subtotalBet: 0, status: "FOLD" },
+			"5": { bankroll: 500, name: "Daniel", cardA: "c2", cardB: "d7", totalBet: 0, subtotalBet: 0, status: "FOLD" },
+		},
+		flop: ["h11", "h9", "s3"],
+		turn: "h12",
+		river: "h3",
+	};
+
+State["post-river-royal-flush"] = {
+		buttonIndex: 0,
+		currentBetAmount: 0,
+		currentBettorIndex: 1,
+		deck: {
+			cards: StateCards,
+			index: 2,
+		},
+		players: {
+			"0": { bankroll: 490, name: "Hakan", cardA: "h10", cardB: "h14", totalBet: 10, subtotalBet: 20, },
+			"1": { bankroll: 490, name: "Nina", cardA: "h6", cardB: "c2", totalBet: 10, subtotalBet: 20, },
+			"2": { bankroll: 490, name: "Jenny", cardA: "c5", cardB: "h4", totalBet: 10, subtotalBet: 0, status: "FOLD" },
+			"5": { bankroll: 500, name: "Daniel", cardA: "c2", cardB: "d7", totalBet: 0, subtotalBet: 0, status: "FOLD" },
+		},
+		flop: ["h11", "h13", "s3"],
+		turn: "h12",
+		river: "h3",
+	};
+
 
 State["full-table"] = {
 		buttonIndex: 0,

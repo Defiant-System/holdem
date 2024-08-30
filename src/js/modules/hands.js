@@ -92,7 +92,11 @@ let Test = {
 			if (suit + (absoluteHighCard - i) == player.cardA || suit + (absoluteHighCard - i) == player.cardB) numMine++;
 		}
 
-		let highlight = [];
+		let highlight = [],
+			len = 5;
+		while (len--) {
+			cards.map(c => (c.slice(0,1) === suit && Utils.getRank(c) === absoluteHighCard - len) ? highlight.push(c) : void(0));
+		}
 
 		let hashResult = {};
 		hashResult["straight_hi"] = absoluteHighCard;
@@ -126,6 +130,10 @@ let Test = {
 		if (four) numNeeded = 0;
 
 		let highlight = [];
+		cards.map(c => {
+			if (Utils.getRank(c) === four) highlight.push(c);
+			if (Utils.getRank(c) === kicker) highlight.push(c);
+		});
 
 		let hashResult = {};
 		hashResult["rank"] = four;
@@ -166,8 +174,6 @@ let Test = {
 			if (Utils.getRank(player.cardB) == three) numMineMajor += 1;
 		}
 
-		let highlight = [];
-
 		let hashResult = {};
 		hashResult["major_rank"] = majorRank;
 		hashResult["num_mine_major"] = numMineMajor;
@@ -180,6 +186,13 @@ let Test = {
 			if (Utils.getRank(player.cardA) == two) numMineMinor += 1;
 			if (Utils.getRank(player.cardB) == two) numMineMinor += 1;
 		}
+
+		let highlight = [];
+		cards.map(c => {
+			if (Utils.getRank(c) === minorRank) highlight.push(c);
+			if (Utils.getRank(c) === majorRank) highlight.push(c);
+		});
+
 		hashResult["minor_rank"] = minorRank;
 		hashResult["num_mine_minor"] = numMineMinor;
 		hashResult["num_mine"] = numMineMinor + numMineMajor;
