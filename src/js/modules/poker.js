@@ -582,15 +582,12 @@ let Poker = {
 					event.bestHandPlayers.highlight.map(c => {
 						let wCard = APP.els.board.find(`.card[data-value="${c}"]`);
 						if (!wCard.length) wCard = event.player.el.find(`.card[data-value="${c}"]`);
-						console.log(wCard.length, `.card[data-value="${c}"]`);
+						// console.log(wCard.length, `.card[data-value="${c}"]`);
 						wCard.addClass("winner");
 					});
-
-					// cards.get(0).addClass("winner");
-					// cards.get(1).addClass("winner");
-					// cards.get(2).addClass("loser");
-					// cards.get(3).addClass("loser");
-					// cards.get(4).addClass("winner");
+					// loser cards
+					APP.els.board.find(`.card:not(.winner)`).addClass("loser");
+					event.player.el.find(`.card:not(.winner)`).addClass("loser");
 				}, 500);
 				break;
 			case "output-pgn":
