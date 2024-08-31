@@ -92,6 +92,10 @@ let Poker = {
 				Self.dispatch({ type: "blinds-and-deal" });
 				break;
 			case "reset-table":
+				// remove community cards
+				APP.els.table.find(".cards .card").remove();
+				// update pot value
+				APP.els.pot.addClass("hidden").html(0);
 				// remove card elements
 				APP.els.seats.find(".cards > *").remove();
 				// reset user0 seat
@@ -120,6 +124,10 @@ let Poker = {
 				deckIndex = 0;
 				break;
 			case "blinds-and-deal":
+				// reset players
+				players
+					.filter(p => p.status !== "BUST")
+					.map(p => p.update({ cardA: "", cardB: "", totalBet: 0, subtotalBet: 0, status: "" }));
 				// first shuffle deck
 				Self.dispatch({ type: "shuffle-deck" });
 				// pay blinds
@@ -169,9 +177,8 @@ let Poker = {
 				break;
 			case "ready-for-next-card":
 				numBetting = Self.getNumBetting();
-				if (numBetting <= 1) {
-					return console.log("End of iteration 2");
-				}
+				if (numBetting <= 1) return Self.dispatch({ type: "handle-end-of-round" });
+				
 				boardCards = APP.els.board.find(".card");
 				for (let i=0; i<players.length; i++) {
 					players[i].totalBet += players[i].subtotalBet;
@@ -198,13 +205,13 @@ let Poker = {
 				if (!RUN_EM) {
 					for (let i=0; i<players.length; i++) { // <-- UNROLL
 						players[i].unHighlight();
-						// if (players[i].status != "BUST" && players[i].status != "FOLD") {
-						// 	console.log("write_player", i, 0, showCards);
-						// }
+						if (players[i].status != "BUST" && players[i].status != "FOLD") {
+							players[i].subtotalBet = 0;
+						}
 					}
 				}
 
-				if (numBetting < 2) RUN_EM = 1;
+				// if (numBetting < 2) RUN_EM = 1;
 				
 				if (!boardCards[0]) {
 					APP.els.pot.removeClass("hidden").html(0);
@@ -219,15 +226,12 @@ let Poker = {
 						.css({ "--roll": value, "--total": total })
 						.cssSequence("ticker "+ doTick, "animationend", potEl => {
 							// reset elements
-							potEl.removeClass("ticker no-tick").html(total);
+							potEl.removeClass("ticker no-tick").html(total).removeAttr("style");
 							// reset table
 							tEl.removeClass("bets-to-pot");
-
 							// clear player bets + reset minimum bet
 							Self.clearBets();
 							
-
-
 							if (!boardCards[0]) {
 								Self.dispatch({ type: "deal-flop" });
 							} else if (!boardCards[3]) {
@@ -425,16 +429,6 @@ let Poker = {
 				// current bet amount
 				currentBetAmount = event.data.currentBetAmount || 0;
 
-				// reset round
-				// Self.dispatch({ type: "reset-round" });
-
-				// temp
-				// return Self.dispatch({ type: "deal-turn" });
-
-				// players[1].showCards();
-				// players[2].showCards();
-				// return;
-
 				// think next step AI
 				AI.think();
 				break;
@@ -473,6 +467,10 @@ let Poker = {
 					potRemainder = globalPotRemainder;
 					totalPotSize += globalPotRemainder;
 					globalPotRemainder = 0;
+				}
+
+				if (Self.activePlayers.length === 1) {
+					return Self.activePlayers[0].wins(totalPotSize);
 				}
 
 				while (totalPotSize > (potRemainder + 0.9) && stillActiveCandidates) {
@@ -554,6 +552,7 @@ let Poker = {
 
 				globalPotRemainder = potRemainder;
 				potRemainder = 0;
+
 				// let winnerText = "";
 				let humanLoses = 0;
 				// Distribute the pot - and then do too many things
@@ -626,8 +625,9 @@ let Poker = {
 								"--total": total,
 							})
 							.cssSequence("ticker", "animationend", el => {
-								// console.log(el);
-								el.removeClass("ticker").html(total);
+								console.log(el);
+								// update pot content
+								el.removeClass("ticker").html(total).cssProp({ "--roll": "", "--total": "" });
 							});
 					});
 				}, 500);
@@ -686,8 +686,7 @@ let Poker = {
 	getPotSize() {
 		let p = 0;
 		for (let i=0; i<players.length; i++) {
-			p += players[i].totalBet;
-			// p += players[i].totalBet + players[i].subtotalBet;
+			p += players[i].totalBet + players[i].subtotalBet;
 		}
 		return p;
 	},

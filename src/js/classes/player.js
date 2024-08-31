@@ -51,7 +51,7 @@ class Player {
 	}
 
 	setCard(which, card, delay, isLast) {
-		// referense
+		// reference
 		this[which] = card;
 
 		// insert element UI
@@ -111,6 +111,26 @@ class Player {
 		}
 		if (!this.AEL || !this.AEL.length) this.AEL = this.cardsEl.find(".cardA");
 		if (!this.BEL || !this.BEL.length) this.BEL = this.cardsEl.find(".cardB");
+	}
+
+	wins(v) {
+		let roll = this.bankroll,
+			total = roll + v;
+		this.update({ subtotalBet: 0 });
+		// player bankroll ticker
+		this.el.find(".bankroll")
+			.css({
+				"--roll": roll,
+				"--total": total,
+			})
+			.cssSequence("ticker", "animationend", el => {
+				// update internal bankroll value
+				this.bankroll = total;
+				// reset seat UI
+				el.removeClass("ticker").html(total);
+				// start new round
+				Poker.dispatch({ type: "start-new-round" });
+			});
 	}
 
 	bet() {
