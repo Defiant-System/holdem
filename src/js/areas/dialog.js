@@ -94,8 +94,8 @@
 				AI.think();
 				break;
 			case "finish-round":
-				Self.els.finish.find("h3").html(`Jenny wins!`);
-				Self.els.finish.find("h4").html(`Straight gives 250 to Jenny`);
+				Self.els.finish.find("h3").html(event.head);
+				Self.els.finish.find("h4").html(event.text);
 				Self.els.finish.removeClass("hidden");
 				break;
 			case "new-round":

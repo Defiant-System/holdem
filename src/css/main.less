@@ -805,12 +805,12 @@ content {
 			}
 		}
 
-		&[data-status="ALL-IN"] {
+		&[data-status="ALLIN"] {
 
 		}
 
 		&.thinking {
-			--thinkTime: 11s;
+			--thinkTime: 1s;
 			min-height: 1px;
 			transition: min-height var( --thinkTime ) linear;
 		}
@@ -822,6 +822,9 @@ content {
 				rect {
 					--outline: 424;
 					stroke-dashoffset: var( --outline );
+					filter: drop-shadow(0 0 3px var( --color ))
+							drop-shadow(0 0 5px var( --color ))
+							drop-shadow(0 0 9px var( --color ));
 					animation: var( --thinkTime ) animOutline linear forwards;
 				}
 			}

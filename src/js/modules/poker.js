@@ -102,7 +102,7 @@ let Poker = {
 				// reset user0 seat
 				APP.els.seats.removeClass("hole-flip");
 				// reset players
-				players.map(p => p.update({ cardA: "", cardB: "", totalBet: 0 }));
+				players.map(p => p.update({ cardA: "", cardB: "", totalBet: 0, status: "" }));
 				break;
 			case "reset-round":
 				RUN_EM = 0;
@@ -169,8 +169,8 @@ let Poker = {
 				break;
 			case "go-to-betting":
 				numBetting = Self.getNumBetting();
-				isEveryoneAllIn = true;
-				Self.activePlayers.map(p => isEveryoneAllIn && p.status === "ALL-IN");
+				isEveryoneAllIn = Self.activePlayers.filter(p => p.status === "ALLIN").length === Self.activePlayers.length;
+				
 				if (isEveryoneAllIn) {
 					// show players cards
 					Self.activePlayers.map(p => p.showCards());
@@ -516,7 +516,7 @@ let Poker = {
 				}
 
 				isEveryoneAllIn = true;
-				Self.activePlayers.map(p => isEveryoneAllIn && p.status === "ALL-IN");
+				Self.activePlayers.map(p => isEveryoneAllIn && p.status === "ALLIN");
 				if (isEveryoneAllIn && APP.els.board.find(".card").length < 5) {
 					return Self.dispatch({ type: "go-to-betting" });
 				}
@@ -619,7 +619,10 @@ let Poker = {
 								bestHandPlayers: bestHandPlayers[i],
 								winnings: allocations[i],
 								bankroll,
-								text: `${winningHands[i]} gives ${allocations[i]} to ${players[i].name}`,
+								dialog: {
+									head: `${players[i].name} wins!`,
+									text: `${winningHands[i]} gives ${allocations[i]} to ${players[i].name}`,
+								}
 							});
 						} else {
 							if (allocations[i] > 0) {
@@ -648,6 +651,19 @@ let Poker = {
 					HUMAN_WINS_AGAIN = 0;
 				}
 				console.log("End of iteration");
+				break;
+			case "highlight-single-winner":
+				event.player.status = "WINNER";
+
+				// UI update
+				setTimeout(() => {
+					let toSeat = `to-seat-${event.player.index}`;
+					APP.els.table.find(".pot").cssSequence(toSeat, "transitionend", el => {
+						// reset pot element
+						el.removeClass(toSeat).addClass("hidden").html("");
+
+					});
+				}, globalSpeed);
 				break;
 			case "highlight-winning-hand":
 				event.player.status = "WINNER";
@@ -680,10 +696,10 @@ let Poker = {
 								// update pot content
 								el.removeClass("ticker").html(total).cssProp({ "--roll": "", "--total": "" });
 								// show winnings dialog
-								APP.dialog.dispatch({ ...event, type: "finish-round" });
+								APP.dialog.dispatch({ type: "finish-round", ...event.dialog });
 							});
 					});
-				}, 500);
+				}, globalSpeed);
 				break;
 			case "output-pgn":
 				data = {
@@ -796,7 +812,7 @@ let Poker = {
 			if (new_currentMinRaise > currentMinRaise) {
 				currentMinRaise = new_currentMinRaise;
 			}
-			player.status = "ALL-IN";
+			player.status = "ALLIN";
 		} else if (betAmount + player.subtotalBet == currentBetAmount) {
 			// console.log(player.name, "CHECK", currentBetAmount);
 			player.status = currentBetAmount > 0 ? "CALL" : "CHECK";

@@ -33,7 +33,7 @@ let Main = {
 		if (nextPlayer.status == "BUST" || nextPlayer.status == "FOLD") {
 			incrementBettorIndex = 1;
 		} else if (!Poker.hasMoney(currentBettorIndex)) {
-			nextPlayer.status = "CALL";
+			nextPlayer.status = nextPlayer.status || "CALL";
 			incrementBettorIndex = 1;
 		} else if (["CALL", "CHECK"].includes(nextPlayer.status) && nextPlayer.subtotalBet == currentBetAmount) {
 			incrementBettorIndex = 1;
@@ -65,7 +65,10 @@ let Main = {
 			}
 		}
 		if (Poker.getNumBetting() === 1) {
-			return Poker.getPlayer(currentBettorIndex).status = "WINNER";
+			return Poker.dispatch({
+				type: "highlight-single-winner",
+				player: Poker.getPlayer(currentBettorIndex),
+			});
 		}
 		if (incrementBettorIndex) {
 			currentBettorIndex = Poker.getNextPlayerPosition(currentBettorIndex, 1);
@@ -536,10 +539,10 @@ let Main = {
 		CALL = currentBetAmount - P.subtotalBet;
 		RANKA = Hands.getRank(P.cardA);
 		RANKB = Hands.getRank(P.cardB);
-		HCONF = this.internal_get_hole_ranking();
-		CALL_LEVEL = this.internal_get_bet_level(CALL);
-		BET_LEVEL = this.internal_get_bet_level(currentBetAmount);
-		POT_LEVEL = this.internal_get_pot_level();
+		HCONF = this.internalGetHoleRanking();
+		CALL_LEVEL = this.internalGetBetLevel(CALL);
+		BET_LEVEL = this.internalGetBetLevel(currentBetAmount);
+		POT_LEVEL = this.internalGetPotLevel();
 		BANKROLL = P.bankroll;
 		var total_bankrolls = Poker.getPotSize();
 		var number_of_players_in_game = 0;
@@ -564,8 +567,8 @@ let Main = {
 			BIG = CALL + BIG_BLIND * 10;
 		} else {
 			SMALL += 5;
-			MED = this.internal_round5(CALL + 0.1 * BANKROLL); // consider minimum raise!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-			BIG = this.internal_round5(CALL + 0.2 * BANKROLL); // consider minimum raise!
+			MED = this.internalRound5(CALL + 0.1 * BANKROLL); // consider minimum raise!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			BIG = this.internalRound5(CALL + 0.2 * BANKROLL); // consider minimum raise!
 		}
 		ALLIN = BANKROLL;
 
@@ -578,20 +581,19 @@ let Main = {
 		while (1) {
 			var a = q.indexOf(":");
 			var b = q.indexOf(",", a);
-			if (a < 0 || b < 0) {
-				return FOLD;
-			}
+			if (a < 0 || b < 0) return FOLD;
+			
 			var probability = (q.substring(0, a) - 0) / 100;
 			var action = q.substring(a + 1, b);
 			q = q.substring(b + 1);
 			p += probability;
 			if (r <= p) {
-				return this.internal_tokenize_string(action);
+				return this.internalTokenizeString(action);
 			}
 		}
 		// Never reached
 	},
-	internal_tokenize_string(string) {
+	internalTokenizeString(string) {
 		switch (string) {
 			case "FOLD": return FOLD;
 			case "CALL": return CALL;
@@ -600,9 +602,9 @@ let Main = {
 			case "BIG": return BIG;
 			case "ALLIN": return ALLIN;
 		}
-		// console.error("internal_tokenize_string() cannot tokenize " + string);
+		// console.error("internalTokenizeString() cannot tokenize " + string);
 	},
-	internal_get_hole_ranking() {
+	internalGetHoleRanking() {
 		var player = Poker.getPlayer(currentBettorIndex);
 		var a = player.cardA;
 		var b = player.cardB;
@@ -614,8 +616,8 @@ let Main = {
 			n_rank_a = Hands.getRank(a);
 			n_rank_b = Hands.getRank(b);
 		}
-		var r_rank_a = this.internal_my_make_readable_rank(n_rank_a);
-		var r_rank_b = this.internal_my_make_readable_rank(n_rank_b);
+		var r_rank_a = this.internalMakeReadableRank(n_rank_a);
+		var r_rank_b = this.internalMakeReadableRank(n_rank_b);
 		var suited = "";
 		if (Hands.getSuit(a) == Hands.getSuit(b)) suited = "s";
 		var h = "";
@@ -628,7 +630,7 @@ let Main = {
 		}
 		return q;
 	},
-	internal_get_bet_level(b) {
+	internalGetBetLevel(b) {
 		var size = b / P.bankroll;
 		if (size <= 0.015 || b <= 5) return 5;
 		if (size <= 0.02 || b <= 10) return 10;
@@ -640,7 +642,7 @@ let Main = {
 		if (size <= 0.41 || b <= 200) return 80;
 		return 100;
 	},
-	internal_get_pot_level() {
+	internalGetPotLevel() {
 		var p = Poker.getPotSize();
 		var b = Poker.getPlayer(currentBettorIndex).bankroll;
 		if (p > 0.5 * b) return 100;
@@ -654,7 +656,7 @@ let Main = {
 		var r = holeRankings.substring(i + h.length + 1, j);
 		return r - 0;
 	},
-	internal_round5(n) {
+	internalRound5(n) {
 		if (n < 5) return 5;
 		var s = "" + n;
 		var i = s.indexOf(".");
@@ -663,7 +665,7 @@ let Main = {
 		while (n % 5 != 0) n++;
 		return n;
 	},
-	internal_my_make_readable_rank(r) {
+	internalMakeReadableRank(r) {
 		var rank = Poker.makeReadableRank(r);
 		if (rank == 10) rank = "T";
 		return rank;
