@@ -520,6 +520,7 @@ let Poker = {
 				if (isEveryoneAllIn && APP.els.board.find(".card").length < 5) {
 					return Self.dispatch({ type: "go-to-betting" });
 				}
+				
 				while (totalPotSize > (potRemainder + 0.9) && stillActiveCandidates) {
 					// The first round all who not folded or busted are candidates
 					// If that/ose winner(s) cannot get all of the pot then we try
@@ -595,11 +596,10 @@ let Poker = {
 						potRemainder = totalPotSize;
 					}
 				} // End of pot distribution
-
+				
 				globalPotRemainder = potRemainder;
 				potRemainder = 0;
 
-				// let winnerText = "";
 				let humanLoses = 0;
 				// Distribute the pot - and then do too many things
 				for (let i=0; i<allocations.length; i++) {
@@ -610,15 +610,22 @@ let Poker = {
 							aString = aString + "00";
 							allocations[i] = aString.substring(0, dotIndex + 3) - 0;
 						}
-						// winnerText += winningHands[i] + " gives " + allocations[i] + " to " + players[i].name + ". ";
-						players[i].bankroll += allocations[i];
+						let bankroll = players[i].bankroll;
+						// players[i].bankroll += allocations[i];
 						if (bestHandPlayers[i]) {
 							Self.dispatch({
 								type: "highlight-winning-hand",
-								bestHandPlayers: bestHandPlayers[i],
 								player: players[i],
+								bestHandPlayers: bestHandPlayers[i],
+								winnings: allocations[i],
+								bankroll,
 							});
 						} else {
+							if (allocations[i] > 0) {
+								// console.log(`${allocations[i]} is returned to ${players[i].name}`);
+								bankroll += allocations[i];
+								players[i].update({ bankroll });
+							}
 							players[i].status = "LOSER";
 							players[i].showCards();
 						}
@@ -627,17 +634,9 @@ let Poker = {
 							players[i].status = "BUST";
 							if (i == 0) humanLoses = 1;
 						}
-						// if (bestHandPlayers[i]) {
-						// 	Self.dispatch({
-						// 		type: "highlight-winning-hand",
-						// 		bestHandPlayers: bestHandPlayers[i],
-						// 		player: players[i],
-						// 	});
-						// } else 
 						if (players[i].status != "FOLD") {
 							players[i].status = "LOSER";
 							players[i].showCards();
-							// console.log("write_player(i, 0, 1)");
 						}
 					}
 				}
@@ -655,7 +654,6 @@ let Poker = {
 
 				// UI update
 				setTimeout(() => {
-						console.log(event.bestHandPlayers);
 					event.bestHandPlayers.highlight.map(c => {
 						let wCard = APP.els.board.find(`.card[data-value="${c}"]`);
 						if (!wCard.length) wCard = event.player.el.find(`.card[data-value="${c}"]`);
@@ -666,8 +664,8 @@ let Poker = {
 					event.player.el.find(`.card:not(.winner)`).addClass("loser");
 
 					let toSeat = `to-seat-${event.player.index}`,
-						roll = event.player.bankroll,
-						total = roll + Self.getPotSize();
+						roll = event.bankroll || event.player.bankroll,
+						total = event.winnings || (roll + Self.getPotSize());
 					APP.els.table.find(".pot").cssSequence(toSeat, "transitionend", el => {
 						// reset pot element
 						el.removeClass(toSeat).addClass("hidden").html("");
