@@ -9,7 +9,7 @@ let STARTING_BANKROLL = 500;
 let SMALL_BLIND = 5;
 let BIG_BLIND = 10;
 
-let globalSpeed = 500;
+let globalSpeed = 900;
 let globalPotRemainder = 0;
 
 let Bots = [];
@@ -94,7 +94,7 @@ let Poker = {
 				break;
 			case "reset-table":
 				// remove community cards
-				APP.els.table.find(".cards .card").remove();
+				APP.els.table.find(".board .card").remove();
 				// update pot value
 				APP.els.pot.addClass("hidden").html(0);
 				// remove card elements

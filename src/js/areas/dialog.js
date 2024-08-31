@@ -99,7 +99,8 @@
 				Self.els.finish.removeClass("hidden");
 				break;
 			case "new-round":
-				console.log(event);
+				Self.els.finish.addClass("hidden");
+				Poker.dispatch({ type: "start-new-round" });
 				break;
 		}
 	},

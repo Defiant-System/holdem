@@ -810,8 +810,9 @@ content {
 		}
 
 		&.thinking {
+			--thinkTime: 11s;
 			min-height: 1px;
-			transition: min-height 1s linear;
+			transition: min-height var( --thinkTime ) linear;
 		}
 
 		&[data-status="THINKING"] {
@@ -821,7 +822,7 @@ content {
 				rect {
 					--outline: 424;
 					stroke-dashoffset: var( --outline );
-					animation: 1s animOutline linear forwards;
+					animation: var( --thinkTime ) animOutline linear forwards;
 				}
 			}
 		}
