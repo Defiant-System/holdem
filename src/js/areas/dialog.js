@@ -5,10 +5,11 @@
 	init() {
 		// fast references
 		this.els = {
-			el: window.find(".game-view .actions"),
+			el: window.find(".game-view .actions.options"),
+			finish: window.find(".game-view .actions.finish"),
 			content: window.find("content"),
-			handle: window.find(".actions .slider .handle"),
-			btnRaise: window.find(".actions .button.raise"),
+			handle: window.find(".actions.options .slider .handle"),
+			btnRaise: window.find(".actions.options .button.raise"),
 			doc: $(document),
 		};
 		// bind event handlers
@@ -91,6 +92,14 @@
 				currentBettorIndex = Poker.getNextPlayerPosition(currentBettorIndex, 1);
 				// think next step AI
 				AI.think();
+				break;
+			case "finish-round":
+				Self.els.finish.find("h3").html(`Jenny wins!`);
+				Self.els.finish.find("h4").html(`Straight gives 250 to Jenny`);
+				Self.els.finish.removeClass("hidden");
+				break;
+			case "new-round":
+				console.log(event);
 				break;
 		}
 	},

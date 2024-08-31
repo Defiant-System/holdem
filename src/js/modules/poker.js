@@ -619,6 +619,7 @@ let Poker = {
 								bestHandPlayers: bestHandPlayers[i],
 								winnings: allocations[i],
 								bankroll,
+								text: `${winningHands[i]} gives ${allocations[i]} to ${players[i].name}`,
 							});
 						} else {
 							if (allocations[i] > 0) {
@@ -678,6 +679,8 @@ let Poker = {
 							.cssSequence("ticker", "animationend", el => {
 								// update pot content
 								el.removeClass("ticker").html(total).cssProp({ "--roll": "", "--total": "" });
+								// show winnings dialog
+								APP.dialog.dispatch({ ...event, type: "finish-round" });
 							});
 					});
 				}, 500);
