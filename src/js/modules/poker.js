@@ -47,6 +47,7 @@ let Poker = {
 			Self = Poker,
 			dealer, player, seats,
 			data, value,
+			isEveryoneAllIn,
 			numBetting, boardCards,
 			el;
 		switch (event.type) {
@@ -168,11 +169,24 @@ let Poker = {
 				break;
 			case "go-to-betting":
 				numBetting = Self.getNumBetting();
-				if (numBetting > 1) {
+				isEveryoneAllIn = true;
+				Self.activePlayers.map(p => isEveryoneAllIn && p.status === "ALL-IN");
+				if (isEveryoneAllIn) {
+					boardCards = APP.els.board.find(".card");
+					if (!boardCards[0]) {
+						setTimeout(() => Self.dispatch({ type: "deal-flop" }), globalSpeed >> 1);
+					} else if (!boardCards[3]) {
+						setTimeout(() => Self.dispatch({ type: "deal-turn" }), globalSpeed >> 1);
+					} else if (!boardCards[4]) {
+						setTimeout(() => Self.dispatch({ type: "deal-river" }), globalSpeed >> 1);
+					} else {
+						Self.dispatch({ type: "handle-end-of-round" });
+					}
+				} else if (numBetting > 1) {
 					// think next step AI
 					setTimeout(() => AI.think(), event.wait || 0);
 				} else {
-					setTimeout(() => Self.dispatch({ type: "ready-for-next-card" }), 500);
+					setTimeout(() => Self.dispatch({ type: "ready-for-next-card" }), globalSpeed);
 				}
 				break;
 			case "ready-for-next-card":
@@ -473,6 +487,12 @@ let Poker = {
 					return Self.activePlayers[0].wins(totalPotSize);
 				}
 
+				isEveryoneAllIn = true;
+				Self.activePlayers.map(p => isEveryoneAllIn && p.status === "ALL-IN");
+				if (isEveryoneAllIn && APP.els.board.find(".card").length < 5) {
+					return Self.dispatch({ type: "go-to-betting" });
+				}
+
 				while (totalPotSize > (potRemainder + 0.9) && stillActiveCandidates) {
 					// The first round all who not folded or busted are candidates
 					// If that/ose winner(s) cannot get all of the pot then we try
@@ -481,7 +501,6 @@ let Poker = {
 					if (!bestHandPlayers) bestHandPlayers = winners;
 					
 					if (!winners) {
-						console.log("No winners for the pot ");
 						potRemainder = totalPotSize;
 						totalPotSize = 0;
 						break;
@@ -743,7 +762,7 @@ let Poker = {
 			if (new_currentMinRaise > currentMinRaise) {
 				currentMinRaise = new_currentMinRaise;
 			}
-			player.status = "CALL";
+			player.status = "ALL-IN";
 		} else if (betAmount + player.subtotalBet == currentBetAmount) {
 			// console.log(player.name, "CHECK", currentBetAmount);
 			player.status = currentBetAmount > 0 ? "CALL" : "CHECK";

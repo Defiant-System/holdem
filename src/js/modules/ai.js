@@ -65,7 +65,6 @@ let Main = {
 			}
 		}
 		if (Poker.getNumBetting() === 1) {
-			console.log(123);
 			return Poker.getPlayer(currentBettorIndex).status = "WINNER";
 		}
 		if (incrementBettorIndex) {
@@ -150,6 +149,7 @@ let Main = {
 		}
 		// hbi: temp
 		if (P.name === "Jenny") return this.internalWhatDoX("100:ALLIN");
+		if (P.name === "Nina") return this.internalWhatDoX("100:ALLIN");
 
 		if (P.subtotalBet > 0 && CALL_LEVEL < 40) {
 			if (HCONF > 20 || RANKA > 10 || RANKB > 10) return this.internalWhatDoX("5:SMALL,95:CALL");
