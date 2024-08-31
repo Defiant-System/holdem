@@ -174,24 +174,48 @@ let Poker = {
 				if (isEveryoneAllIn) {
 					// show players cards
 					Self.activePlayers.map(p => p.showCards());
-
-					return console.log("collect bets");
-
-					boardCards = APP.els.board.find(".card");
-					if (!boardCards[0]) {
-						setTimeout(() => Self.dispatch({ type: "deal-flop" }), globalSpeed >> 1);
-					} else if (!boardCards[3]) {
-						setTimeout(() => Self.dispatch({ type: "deal-turn" }), globalSpeed >> 1);
-					} else if (!boardCards[4]) {
-						setTimeout(() => Self.dispatch({ type: "deal-river" }), globalSpeed >> 1);
+					if (APP.els.pot.hasClass("hidden")) {
+						// make sure pot is shown
+						APP.els.pot.removeClass("hidden");
+						// get current pot size from DOM
+						value = +APP.els.pot.html();
+						APP.els.table.cssSequence("bets-to-pot", "transitionend", tEl => {
+							let total = Self.getPotSize(),
+								doTick = value !== total ? "" : "no-tick";
+							tEl.find(".pot")
+								.css({ "--roll": value, "--total": total })
+								.cssSequence("ticker "+ doTick, "animationend", potEl => {
+									// reset elements
+									potEl.removeClass("ticker no-tick").html(total).removeAttr("style");
+									// reset table
+									tEl.removeClass("bets-to-pot");
+									// clear player bets + reset minimum bet
+									Self.clearBets();
+									// auto play cards
+									Self.dispatch({ type: "auto-dealer-cards" });
+								});
+						});
 					} else {
-						Self.dispatch({ type: "handle-end-of-round" });
+						// auto play cards
+						Self.dispatch({ type: "auto-dealer-cards" });
 					}
 				} else if (numBetting > 1) {
 					// think next step AI
 					setTimeout(() => AI.think(), event.wait || 0);
 				} else {
 					setTimeout(() => Self.dispatch({ type: "ready-for-next-card" }), globalSpeed);
+				}
+				break;
+			case "auto-dealer-cards":
+				boardCards = APP.els.board.find(".card");
+				if (!boardCards[0]) {
+					setTimeout(() => Self.dispatch({ type: "deal-flop" }), globalSpeed >> 1);
+				} else if (!boardCards[3]) {
+					setTimeout(() => Self.dispatch({ type: "deal-turn" }), globalSpeed >> 1);
+				} else if (!boardCards[4]) {
+					setTimeout(() => Self.dispatch({ type: "deal-river" }), globalSpeed >> 1);
+				} else {
+					Self.dispatch({ type: "handle-end-of-round" });
 				}
 				break;
 			case "ready-for-next-card":
@@ -229,7 +253,6 @@ let Poker = {
 						}
 					}
 				}
-
 				// if (numBetting < 2) RUN_EM = 1;
 				
 				if (!boardCards[0]) {
@@ -497,7 +520,6 @@ let Poker = {
 				if (isEveryoneAllIn && APP.els.board.find(".card").length < 5) {
 					return Self.dispatch({ type: "go-to-betting" });
 				}
-
 				while (totalPotSize > (potRemainder + 0.9) && stillActiveCandidates) {
 					// The first round all who not folded or busted are candidates
 					// If that/ose winner(s) cannot get all of the pot then we try
@@ -605,14 +627,14 @@ let Poker = {
 							players[i].status = "BUST";
 							if (i == 0) humanLoses = 1;
 						}
-						if (bestHandPlayers[i]) {
-							Self.dispatch({
-								type: "highlight-winning-hand",
-								bestHandPlayers: bestHandPlayers[i],
-								player: players[i],
-							});
-							console.log( players[i] );
-						} else if (players[i].status != "FOLD") {
+						// if (bestHandPlayers[i]) {
+						// 	Self.dispatch({
+						// 		type: "highlight-winning-hand",
+						// 		bestHandPlayers: bestHandPlayers[i],
+						// 		player: players[i],
+						// 	});
+						// } else 
+						if (players[i].status != "FOLD") {
 							players[i].status = "LOSER";
 							players[i].showCards();
 							// console.log("write_player(i, 0, 1)");
@@ -633,10 +655,10 @@ let Poker = {
 
 				// UI update
 				setTimeout(() => {
+						console.log(event.bestHandPlayers);
 					event.bestHandPlayers.highlight.map(c => {
 						let wCard = APP.els.board.find(`.card[data-value="${c}"]`);
 						if (!wCard.length) wCard = event.player.el.find(`.card[data-value="${c}"]`);
-						// console.log(wCard.length, `.card[data-value="${c}"]`);
 						wCard.addClass("winner");
 					});
 					// loser cards

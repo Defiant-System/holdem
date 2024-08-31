@@ -80,6 +80,9 @@ class Player {
 	}
 
 	update(data) {
+		if (data.subtotalBet != undefined && data.subtotalBet === 0) {
+			this.totalBet += this.subtotalBet;
+		}
 		//reset values
 		Object.keys(data).map(key => this[key] = data[key]);
 		// if subtotalBet is set to zero, update UI
