@@ -61,16 +61,28 @@ let Test = {
 				data: State["pre-flop"]
 			});
 
+			// setTimeout(() => {
+			// 	APP.els.table.cssSequence("bets-to-pot", "transitionend", tEl => {
+			// 		let roll = 100,
+			// 			total = 520;
+			// 		tEl.find(".pot")
+			// 			.css({
+			// 				"--roll": roll,
+			// 				"--total": total,
+			// 			})
+			// 			.cssSequence("ticker", "animationend", potEl => {
+			// 				// reset elements
+			// 				potEl.removeClass("ticker").html(total);
+			// 				// reset seats
+			// 				tEl.find(".seat.betting .bet").html("");
+			// 				tEl.find(".seat.betting").removeClass("betting");
+			// 				// reset table
+			// 				tEl.removeClass("bets-to-pot");
+			// 			});
+			// 	});
+			// }, 800);
 
 			// setTimeout(() => window.find(`.actions .button.call`).trigger("click"), 400);
-
-			// temp
-			// APP.els.board.find(".card:nth(0)").addClass("winner");
-			// APP.els.board.find(".card:nth(1)").addClass("winner");
-			// APP.els.board.find(".card:nth(2)").addClass("loser");
-			// APP.els.board.find(".card:nth(3)").addClass("loser");
-			// APP.els.board.find(".card:nth(4)").addClass("winner");
-			// APP.els.seats.get(1).data({ status: "WINNER" });
 
 			// setTimeout(() => Poker.dispatch({ type: "output-pgn" }), 100);
 		}, 500);

@@ -46,7 +46,7 @@ let Main = {
 			} else {
 				nextPlayer.highlight();
 				
-				setTimeout(() => this.getBet(currentBettorIndex), 1000);
+				setTimeout(() => this.getBet(currentBettorIndex), globalSpeed);
 				return;
 			}
 		}
@@ -71,9 +71,9 @@ let Main = {
 			currentBettorIndex = Poker.getNextPlayerPosition(currentBettorIndex, 1);
 		}
 		if (canBreak) {
-			setTimeout(() => Poker.dispatch({ type: "ready-for-next-card" }), 500);
+			setTimeout(() => Poker.dispatch({ type: "ready-for-next-card" }), globalSpeed);
 		} else {
-			setTimeout(() => Main.think(), 500);
+			setTimeout(() => Main.think(), globalSpeed);
 		}
 	},
 	getBet(x) {
@@ -106,7 +106,7 @@ let Main = {
 
 		// go to next player
 		currentBettorIndex = Poker.getNextPlayerPosition(currentBettorIndex, 1);
-		
+		console.log( currentBettorIndex );
 		// next thing to do (!?)
 		this.think();
 	},
@@ -148,6 +148,8 @@ let Main = {
 			}
 			return this.internalWhatDoX("5:ALLIN,15:BIG,15:MED,30:SMALL,35:CALL");
 		}
+		// temp
+		if (P.name === "Jenny") return this.internalWhatDoX("100:ALLIN");
 
 		if (P.subtotalBet > 0 && CALL_LEVEL < 40) {
 			if (HCONF > 20 || RANKA > 10 || RANKB > 10) return this.internalWhatDoX("5:SMALL,95:CALL");
@@ -409,7 +411,6 @@ let Main = {
 				return this.internalWhatDoX("10:MED,40:SMALL,50:CALL");
 			}
 		}
-
 		if (VERDICT == "GREAT") {
 			if (ROUND < 5) {
 				return this.internalWhatDoX("5:ALLIN,5:BIG,25:MED,45:SMALL,20:CALL");

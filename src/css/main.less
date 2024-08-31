@@ -173,6 +173,8 @@ content {
 	height: 400px;
 	background: #444;
 	border-radius: 400px;
+	min-height: 0px;
+	transition: min-height 300ms ease-in-out;
 	box-shadow: inset 0 0 13px rgba(#000,.35),
 				0 5px 13px rgba(#000,.35);
 
@@ -300,6 +302,49 @@ content {
 			background: radial-gradient(circle at 0% 50%, rgba(#f8ff47,.2), rgba(#fff,0) 73%);
 			clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
 			transform: rotate(180deg);
+		}
+	}
+
+	&.bets-to-pot {
+		min-height: 10px;
+		
+		.seat.betting {
+			.bet {
+				opacity: 0;
+				transition: top 250ms ease-in-out,
+							left 250ms ease-in-out,
+							right 250ms ease-in-out,
+							bottom 250ms ease-in-out,
+							opacity 280ms;
+			}
+			
+			&.s0 .bet { opacity: 0; top: -62px; left: 308px; }
+			&.s1 .bet { opacity: 0; top: 153px; left: 348px; }
+			&.s2 .bet { opacity: 0; top: 301px; left: 187px; }
+			&.s3 .bet { opacity: 0; top: 303px; left: -1px; }
+			&.s4 .bet { opacity: 0; top: 302px; left: -183px; }
+			&.s5 .bet { opacity: 0; bottom: -55px; right: 401px; }
+			&.s6 .bet { opacity: 0; top: -100px; left: -184px; }
+			&.s7 .bet { opacity: 0; top: -100px; left: 36px; }
+		}
+
+		.pot {
+			&.ticker {
+				font-size: 0;
+				--dur: 500ms;
+				// --roll: 490;
+				// --total: 520;
+
+				&.no-tick { --dur: 0s; }
+
+				&:after {
+					counter-reset: my-counter var(--roll);
+					content: counter(my-counter);
+					animation: count var( --dur ) ease-in-out;
+					font-size: 23px;
+					text-shadow: 0 0 3px rgba(#fff,.5);
+				}
+			}
 		}
 	}
 
@@ -766,7 +811,7 @@ content {
 
 		&.thinking {
 			min-height: 1px;
-			transition: min-height 11s linear;
+			transition: min-height 1s linear;
 		}
 
 		&[data-status="THINKING"] {
@@ -776,7 +821,7 @@ content {
 				rect {
 					--outline: 424;
 					stroke-dashoffset: var( --outline );
-					animation: 11s animOutline linear forwards;
+					animation: 1s animOutline linear forwards;
 				}
 			}
 		}

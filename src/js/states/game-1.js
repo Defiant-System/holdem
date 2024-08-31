@@ -16,7 +16,7 @@ State["pre-flop"] = {
 		players: {
 			"0": { bankroll: 500, name: "Hakan", cardA: "h5", cardB: "c14", totalBet: 0, subtotalBet: 0, },
 			"1": { bankroll: 495, name: "Nina", cardA: "c6", cardB: "s5", totalBet: 0, subtotalBet: 5, },
-			"3": { bankroll: 490, name: "Jenny", cardA: "c5", cardB: "h4", totalBet: 0, subtotalBet: 10, },
+			"3": { bankroll: 490, name: "Jenny", cardA: "c11", cardB: "h12", totalBet: 0, subtotalBet: 10, },
 		},
 	};
 
@@ -272,6 +272,7 @@ State["post-river-royal-flush"] = {
 
 
 State["full-table"] = {
+		pot: 100,
 		buttonIndex: 0,
 		currentBetAmount: 0,
 		currentBettorIndex: 1,
@@ -280,14 +281,14 @@ State["full-table"] = {
 			index: 2,
 		},
 		players: {
-			"0": { bankroll: 500, name: "Hakan", cardA: "c6", cardB: "s5", totalBet: 10, subtotalBet: 0, },
-			"1": { bankroll: 500, name: "Nina", cardA: "c5", cardB: "s4", totalBet: 10, subtotalBet: 0, },
-			"2": { bankroll: 500, name: "Jenny", cardA: "c4", cardB: "s3", totalBet: 10, subtotalBet: 0, },
-			"3": { bankroll: 500, name: "Ricardo", cardA: "c3", cardB: "s2", totalBet: 10, subtotalBet: 0, },
-			"4": { bankroll: 500, name: "Mary", cardA: "c2", cardB: "d9", totalBet: 10, subtotalBet: 0, },
-			"5": { bankroll: 500, name: "Ann", cardA: "h6", cardB: "d8", totalBet: 10, subtotalBet: 0, },
-			"6": { bankroll: 500, name: "Jack", cardA: "h6", cardB: "d7", totalBet: 10, subtotalBet: 0, },
-			"7": { bankroll: 500, name: "Daniel", cardA: "h6", cardB: "d6", totalBet: 10, subtotalBet: 0, },
+			"0": { bankroll: 500, name: "Hakan", cardA: "c6", cardB: "s5", totalBet: 0, subtotalBet: 10, },
+			"1": { bankroll: 500, name: "Nina", cardA: "c5", cardB: "s4", totalBet: 0, subtotalBet: 10, },
+			"2": { bankroll: 500, name: "Jenny", cardA: "c4", cardB: "s3", totalBet: 0, subtotalBet: 10, },
+			"3": { bankroll: 500, name: "Ricardo", cardA: "c3", cardB: "s2", totalBet: 0, subtotalBet: 10, },
+			"4": { bankroll: 500, name: "Mary", cardA: "c2", cardB: "d9", totalBet: 0, subtotalBet: 10, },
+			"5": { bankroll: 500, name: "Ann", cardA: "h6", cardB: "d8", totalBet: 0, subtotalBet: 10, },
+			"6": { bankroll: 500, name: "Jack", cardA: "h6", cardB: "d7", totalBet: 0, subtotalBet: 10, },
+			"7": { bankroll: 500, name: "Daniel", cardA: "h6", cardB: "d6", totalBet: 0, subtotalBet: 10, },
 		},
 		flop: ["h10", "s9", "c11"],
 	};

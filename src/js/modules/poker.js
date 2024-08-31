@@ -9,7 +9,7 @@ let STARTING_BANKROLL = 500;
 let SMALL_BLIND = 5;
 let BIG_BLIND = 10;
 
-let globalSpeed = 600;
+let globalSpeed = 1000;
 let globalPotRemainder = 0;
 
 let Bots = [];
@@ -169,16 +169,15 @@ let Poker = {
 				break;
 			case "ready-for-next-card":
 				numBetting = Self.getNumBetting();
+				if (numBetting <= 1) {
+					return console.log("End of iteration 2");
+				}
 				boardCards = APP.els.board.find(".card");
 				for (let i=0; i<players.length; i++) {
 					players[i].totalBet += players[i].subtotalBet;
 					if (!["BUST", "FOLD"].includes(players[i].status)) players[i].status = "";
 				}
 
-				//return console.log("collect bets to pot");
-				// clear player bets + reset minimum bet
-				Self.clearBets();
-				
 				// game finished - handle winning hand, etc
 				if (boardCards[4]) return Self.dispatch({ type: "handle-end-of-round" });
 					
@@ -208,12 +207,36 @@ let Poker = {
 				if (numBetting < 2) RUN_EM = 1;
 				
 				if (!boardCards[0]) {
-					Self.dispatch({ type: "deal-flop" });
-				} else if (!boardCards[3]) {
-					Self.dispatch({ type: "deal-turn" });
-				} else if (!boardCards[4]) {
-					Self.dispatch({ type: "deal-river" });
+					APP.els.pot.removeClass("hidden").html(0);
 				}
+				
+				// get current pot size from DOM
+				value = +APP.els.pot.html();
+				APP.els.table.cssSequence("bets-to-pot", "transitionend", tEl => {
+					let total = Self.getPotSize(),
+						doTick = value !== total ? "" : "no-tick";
+					tEl.find(".pot")
+						.css({ "--roll": value, "--total": total })
+						.cssSequence("ticker "+ doTick, "animationend", potEl => {
+							// reset elements
+							potEl.removeClass("ticker no-tick").html(total);
+							// reset table
+							tEl.removeClass("bets-to-pot");
+
+							// clear player bets + reset minimum bet
+							Self.clearBets();
+							
+
+
+							if (!boardCards[0]) {
+								Self.dispatch({ type: "deal-flop" });
+							} else if (!boardCards[3]) {
+								Self.dispatch({ type: "deal-turn" });
+							} else if (!boardCards[4]) {
+								Self.dispatch({ type: "deal-river" });
+							}
+						});
+				});
 				break;
 			case "deal-flop":
 				// reset deck
@@ -249,7 +272,7 @@ let Poker = {
 									APP.els.board.cssSequence("fan-flop", "transitionend", el => {
 										el.cssSequence("flip-flop", "transitionend", el => {
 											// think next step AI
-											Self.dispatch({ type: "go-to-betting", wait: 500 });
+											Self.dispatch({ type: "go-to-betting", wait: globalSpeed });
 										});
 									});
 								}
@@ -299,7 +322,7 @@ let Poker = {
 													APP.els.deck.cssSequence("disappear", "transitionend", el => {
 														el.removeClass("appear disappear");
 														// think next step AI
-														Self.dispatch({ type: "go-to-betting", wait: 500 });
+														Self.dispatch({ type: "go-to-betting", wait: globalSpeed });
 													});
 												});
 											});
@@ -351,7 +374,7 @@ let Poker = {
 													APP.els.deck.cssSequence("disappear", "transitionend", el => {
 														el.removeClass("appear disappear");
 														// think next step AI
-														Self.dispatch({ type: "go-to-betting", wait: 500 });
+														Self.dispatch({ type: "go-to-betting", wait: globalSpeed });
 													});
 												});
 											});
@@ -603,7 +626,7 @@ let Poker = {
 								"--total": total,
 							})
 							.cssSequence("ticker", "animationend", el => {
-								console.log(el);
+								// console.log(el);
 								el.removeClass("ticker").html(total);
 							});
 					});
@@ -663,13 +686,14 @@ let Poker = {
 	getPotSize() {
 		let p = 0;
 		for (let i=0; i<players.length; i++) {
-			p += players[i].totalBet + players[i].subtotalBet;
+			p += players[i].totalBet;
+			// p += players[i].totalBet + players[i].subtotalBet;
 		}
 		return p;
 	},
 	getNextPlayerPosition(i, delta) {
-		// let seats = players.filter(p => !["BUST", "FOLD"].includes(p.status)).map(p => p.index),
-		let seats = players.map(p => p.index),
+		let seats = players.filter(p => !["BUST", "FOLD"].includes(p.status)).map(p => p.index),
+		// let seats = players.map(p => p.index),
 			index = seats.indexOf(i),
 			add = seats.length * seats.length;
 		return seats[(index + delta + add) % seats.length];
@@ -708,7 +732,6 @@ let Poker = {
 			return 0;
 			// FOLD ;
 		} else if (betAmount >= player.bankroll) {
-			console.log("ALL IN");
 			betAmount = player.bankroll;
 
 			let oldCurrentBet = currentBetAmount;
