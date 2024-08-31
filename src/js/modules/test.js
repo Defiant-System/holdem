@@ -61,6 +61,8 @@ let Test = {
 				data: State["pre-flop"]
 			});
 
+			// return setTimeout(() => APP.els.table.find(".pot").addClass("to-seat-5"), 1500);
+
 			// setTimeout(() => {
 			// 	APP.els.table.cssSequence("bets-to-pot", "transitionend", tEl => {
 			// 		let roll = 100,

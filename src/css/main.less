@@ -644,7 +644,7 @@ content {
 
 		.cards {
 			position: absolute;
-			z-index: 2;
+			z-index: 3;
 			min-height: 0px;
 
 			&.show {
@@ -1063,6 +1063,7 @@ content {
 		border-radius: 31px;
 		font-size: 23px;
 		--roll: 0;
+		--toSeat: 1300ms;
 
 		&:before {
 			content: "";
@@ -1079,15 +1080,51 @@ content {
 		}
 
 		&.to-seat-0 {
-			transition: all 300ms ease-in-out;
+			transition: all var( --toSeat ) ease-in-out;
 			top: 384px;
 			left: -3px;
 		}
 
 		&.to-seat-1 {
-			transition: all 300ms ease-in-out;
-			top: 384px;
+			transition: all var( --toSeat ) ease-in-out;
+			top: 164px;
 			left: -3px;
+		}
+
+		&.to-seat-2 {
+			transition: all var( --toSeat ) ease-in-out;
+			top: 34px;
+			left: 147px;
+		}
+
+		&.to-seat-3 {
+			transition: all var( --toSeat ) ease-in-out;
+			top: 34px;
+			left: 327px;
+		}
+
+		&.to-seat-4 {
+			transition: all var( --toSeat ) ease-in-out;
+			top: 34px;
+			left: 507px;
+		}
+
+		&.to-seat-5 {
+			transition: all var( --toSeat ) ease-in-out;
+			top: 194px;
+			left: 687px;
+		}
+
+		&.to-seat-6 {
+			transition: all var( --toSeat ) ease-in-out;
+			top: 434px;
+			left: 517px;
+		}
+
+		&.to-seat-7 {
+			transition: all var( --toSeat ) ease-in-out;
+			top: 434px;
+			left: 297px;
 		}
 	}
 

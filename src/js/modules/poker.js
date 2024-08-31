@@ -9,7 +9,7 @@ let STARTING_BANKROLL = 500;
 let SMALL_BLIND = 5;
 let BIG_BLIND = 10;
 
-let globalSpeed = 1000;
+let globalSpeed = 500;
 let globalPotRemainder = 0;
 
 let Bots = [];
@@ -172,6 +172,11 @@ let Poker = {
 				isEveryoneAllIn = true;
 				Self.activePlayers.map(p => isEveryoneAllIn && p.status === "ALL-IN");
 				if (isEveryoneAllIn) {
+					// show players cards
+					Self.activePlayers.map(p => p.showCards());
+
+					return console.log("collect bets");
+
 					boardCards = APP.els.board.find(".card");
 					if (!boardCards[0]) {
 						setTimeout(() => Self.dispatch({ type: "deal-flop" }), globalSpeed >> 1);
@@ -600,7 +605,14 @@ let Poker = {
 							players[i].status = "BUST";
 							if (i == 0) humanLoses = 1;
 						}
-						if (players[i].status != "FOLD") {
+						if (bestHandPlayers[i]) {
+							Self.dispatch({
+								type: "highlight-winning-hand",
+								bestHandPlayers: bestHandPlayers[i],
+								player: players[i],
+							});
+							console.log( players[i] );
+						} else if (players[i].status != "FOLD") {
 							players[i].status = "LOSER";
 							players[i].showCards();
 							// console.log("write_player(i, 0, 1)");
@@ -619,7 +631,7 @@ let Poker = {
 				event.player.status = "WINNER";
 				event.player.showCards();
 
-				// temp
+				// UI update
 				setTimeout(() => {
 					event.bestHandPlayers.highlight.map(c => {
 						let wCard = APP.els.board.find(`.card[data-value="${c}"]`);
@@ -644,7 +656,6 @@ let Poker = {
 								"--total": total,
 							})
 							.cssSequence("ticker", "animationend", el => {
-								console.log(el);
 								// update pot content
 								el.removeClass("ticker").html(total).cssProp({ "--roll": "", "--total": "" });
 							});
