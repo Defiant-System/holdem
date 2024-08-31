@@ -71,7 +71,6 @@ let Main = {
 			currentBettorIndex = Poker.getNextPlayerPosition(currentBettorIndex, 1);
 		}
 		if (canBreak) {
-			// console.log("ready_for_next_card, 999 * global_speed");
 			setTimeout(() => Poker.dispatch({ type: "ready-for-next-card" }), 500);
 		} else {
 			setTimeout(() => Main.think(), 500);

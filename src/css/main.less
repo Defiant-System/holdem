@@ -352,6 +352,7 @@ content {
 			display: block;
 			top: 302px;
 			left: 9px;
+			min-height: 0px;
 
 			.name:after {
 				background-image: url(~/icons/user-placeholder.png);
@@ -763,14 +764,19 @@ content {
 
 		}
 
-		&[data-status="THINKiNG"] {
+		&.thinking {
+			min-height: 1px;
+			transition: min-height 4s linear;
+		}
+
+		&[data-status="THINKING"] {
 			svg.outline {
 				display: block;
 
 				rect {
 					--outline: 424;
 					stroke-dashoffset: var( --outline );
-					animation: 5s animOutline linear forwards;
+					animation: 4s animOutline linear forwards;
 				}
 			}
 		}
@@ -1193,6 +1199,7 @@ content {
 	}
 
 	&.finish {
+		display: none;
 		position: relative;
 		top: 177px;
 		left: auto;
@@ -1662,7 +1669,7 @@ content {
 }
 
 @keyframes animOutline {
-	0%   { stroke-dashoffset: var( --size ); }
+	0%   { stroke-dashoffset: var( --outline ); }
 	100% { stroke-dashoffset: 0; }
 }
 

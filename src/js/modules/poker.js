@@ -175,6 +175,7 @@ let Poker = {
 					if (!["BUST", "FOLD"].includes(players[i].status)) players[i].status = "";
 				}
 
+				//return console.log("collect bets to pot");
 				// clear player bets + reset minimum bet
 				Self.clearBets();
 				
@@ -186,7 +187,8 @@ let Poker = {
 
 				dealer = Self.getPlayer(buttonIndex);
 				if (dealer.status == "FOLD") {
-					players[Self.getNextPlayerPosition(buttonIndex, -1)].status = "OPTION";
+					let player = players[Self.getNextPlayerPosition(buttonIndex, -1)];
+					if (player) player.status = "OPTION";
 				} else {
 					dealer.status = "OPTION";
 				}
@@ -757,7 +759,7 @@ let Poker = {
 		player.bet(player.subtotalBet);
 
 		// UI show pot size
-		this.dispatch({ type: "update-total-pot-value" });
+		// this.dispatch({ type: "update-total-pot-value" });
 
 		return 1;
 	},

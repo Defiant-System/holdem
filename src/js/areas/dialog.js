@@ -32,6 +32,13 @@
 				Self.els.btnRaise.html(value);
 				// update UI
 				APP.els.seats.get(0).find(".bet").html(currentBetAmount);
+				
+				// "thinking" outline
+				players[0].status = "THINKING";
+				setTimeout(() =>
+					players[0].el.cssSequence("thinking", "transitionend", el =>
+						Self.dispatch({ type: "user-think-to-long" })), 20);
+
 				// bankroll update
 				value = Math.max(players[0].bankroll - currentBetAmount, 0);
 				APP.els.seats.get(0).find(".bankroll").html(value);
@@ -42,7 +49,15 @@
 				Self.els.el.removeClass("hidden").data({ actions });
 				APP.els.table.addClass("shows-user-actions");
 				break;
+			case "user-think-to-long":
+				// Self.dispatch({ type: "hide-dialog" });
+				// players[0].status = "CHECK";
+				if (currentBetAmount > 0) Self.els.el.find(".button.fold").trigger("click");
+				else Self.els.el.find(".button.check").trigger("click");
+				break;
 			case "hide-dialog":
+				// reset user
+				players[0].el.removeClass("thinking");
 				// reset UI / hide dialog
 				Self.els.el.addClass("hidden").removeAttr("data-actions");
 				APP.els.table.removeClass("shows-user-actions");
@@ -70,8 +85,8 @@
 				Poker.playerBets(currentBettorIndex, value);
 				// "hide" dialog
 				Self.dispatch({ type: "hide-dialog" });
-
-				players[currentBettorIndex].status = "CALL";
+				// player status
+				players[currentBettorIndex].status = event.type === "player-check" ? "CHECK" : "CALL";
 				// go to next player
 				currentBettorIndex = Poker.getNextPlayerPosition(currentBettorIndex, 1);
 				// think next step AI

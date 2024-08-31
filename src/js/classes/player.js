@@ -106,9 +106,11 @@ class Player {
 		if (this.cardA && this.cardB && !this.cardsEl.find(".card, .cardA").length) {
 			let cA = this.index === 0 ? `card ${this.cardA} cardA` : `cardA`,
 				cB = this.index === 0 ? `card ${this.cardB} cardB` : `cardB`;
-			this.AEL = this.cardsEl.append(`<div class="${cA} dealt"></div>`);
-			this.BEL = this.cardsEl.append(`<div class="${cB} dealt"></div>`);
+			this.cardsEl.append(`<div class="${cA} dealt"></div>`);
+			this.cardsEl.append(`<div class="${cB} dealt"></div>`);
 		}
+		if (!this.AEL || !this.AEL.length) this.AEL = this.cardsEl.find(".cardA");
+		if (!this.BEL || !this.BEL.length) this.BEL = this.cardsEl.find(".cardB");
 	}
 
 	bet() {
