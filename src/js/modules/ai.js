@@ -156,8 +156,8 @@ let Main = {
 			return this.internalWhatDoX("5:ALLIN,15:BIG,15:MED,30:SMALL,35:CALL");
 		}
 		// hbi: temp
-		if (P.name === "Jenny") return this.internalWhatDoX("100:ALLIN");
-		if (P.name === "Nina") return this.internalWhatDoX("100:ALLIN");
+		// if (P.name === "Jenny") return this.internalWhatDoX("100:ALLIN");
+		// if (P.name === "Nina") return this.internalWhatDoX("100:ALLIN");
 
 		// if (P.name === "Jenny") return this.internalWhatDoX("100:FOLD");
 		// if (P.name === "Nina") return this.internalWhatDoX("100:FOLD");

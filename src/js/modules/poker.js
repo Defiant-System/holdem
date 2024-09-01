@@ -86,8 +86,8 @@ let Poker = {
 				if (!event.noStart) Self.dispatch({ type: "start-new-round" });
 				break;
 			case "start-new-round":
-				if (Self.activePlayers.length === 1) {
-					return console.log(`${Self.activePlayers[0].name} wins!`);
+				if (players.filter(p => p.bankroll > 0).length === 1) {
+					return console.log(`${Self.activePlayers[0].name} wins all!`);
 				}
 				Self.dispatch({ type: "reset-table" });
 				Self.dispatch({ type: "new-game" });
@@ -690,7 +690,6 @@ let Poker = {
 							.cssSequence("ticker", "animationend", el => {
 								// update bankroll content
 								el.removeClass("ticker").html(total).cssProp({ "--roll": "", "--total": "" });
-								console.log(1);
 							});
 					});
 				}, globalSpeed);
@@ -860,6 +859,7 @@ let Poker = {
 					&& this.getPotSize() > 0
 					&& betAmount + player.subtotalBet - currentBetAmount < currentMinRaise) {
 			// COMMENT OUT TO FIND BUGS
+			console.log( player );
 			if (playerIndex == 0) {
 				console.log("Minimum raise is currently " + currentMinRaise + ".");
 			}
