@@ -64,10 +64,8 @@ const holdem = {
 			case "new-game":
 				Poker.dispatch({ type: "start-new-round" });
 				break;
-			case "deal-flop":
-			case "deal-turn":
-			case "deal-river":
-				Poker.dispatch(event);
+			case "change-speed":
+				globalSpeed = 400 + (5 * +event.arg);
 				break;
 			case "set-theme":
 				Self.els.content.data({ theme: event.arg });

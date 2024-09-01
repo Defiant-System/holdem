@@ -7,11 +7,10 @@
 	<Menu name="Game" for="game-board">
 		<Menu name="Start View" click="show-start-view"/>
 		<Menu name="Game View" click="show-game-view"/>
-		<Menu type="divider"/>
 		<Menu name="New Game" click="new-game"/>
-		<Menu name="Deal Flop" click="deal-flop"/>
-		<Menu name="Deal Turn" click="deal-turn"/>
-		<Menu name="Deal River" click="deal-river"/>
+		<Menu type="divider"/>
+		<Menu type="caption" name="Game Speed:"/>
+		<Menu type="slider" min="1" max="100" value="50" change="change-speed"/>
 		<Menu type="divider"/>
 		<Menu name="Purple Theme" click="set-theme" arg="purple"/>
 		<Menu name="Brown Theme" click="set-theme" arg="brown"/>

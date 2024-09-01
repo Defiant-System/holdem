@@ -175,7 +175,8 @@ let Poker = {
 				break;
 			case "go-to-betting":
 				numBetting = Self.getNumBetting();
-				isEveryoneAllIn = Self.activePlayers.filter(p => p.bankroll < 1).length === Self.activePlayers.length;
+				// isEveryoneAllIn = Self.activePlayers.filter(p => p.bankroll < 1).length === Self.activePlayers.length;
+				isEveryoneAllIn = Self.activePlayers.filter(p => p.bankroll < 1).length >= 1;
 				
 				if (isEveryoneAllIn) {
 					// show players cards
@@ -645,7 +646,7 @@ let Poker = {
 							players[i].status = "BUST";
 							if (i == 0) humanLoses = 1;
 						}
-						if (players[i].status != "FOLD") {
+						if (!["FOLD", "BUST"].includes(players[i].status)) {
 							players[i].status = "LOSER";
 							players[i].showCards();
 						}
@@ -683,6 +684,7 @@ let Poker = {
 							.cssSequence("ticker", "animationend", el => {
 								// update bankroll content
 								el.removeClass("ticker").html(total).cssProp({ "--roll": "", "--total": "" });
+								console.log(1);
 							});
 					});
 				}, globalSpeed);
@@ -717,6 +719,8 @@ let Poker = {
 							.cssSequence("ticker", "animationend", el => {
 								// update bankroll content
 								el.removeClass("ticker").html(total).cssProp({ "--roll": "", "--total": "" });
+								// update user bankroll
+								event.player.bankroll = total;
 								// show winnings dialog
 								APP.dialog.dispatch({ type: "finish-round", ...event.dialog });
 							});
