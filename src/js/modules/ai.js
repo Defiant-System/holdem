@@ -71,7 +71,7 @@ let Main = {
 				player,
 				dialog: {
 					head: `${player.name} wins!`,
-					text: `${Poker.getPotSize()} to ${player.name}`,
+					text: `<b>${Poker.getPotSize()}</b> to ${player.name}`,
 				}
 			});
 		}
