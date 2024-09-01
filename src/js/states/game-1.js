@@ -56,8 +56,6 @@ State["pre-flop-4"] = {
 	};
 
 
-
-
 State["post-flop"] = {
 		pot: 30,
 		buttonIndex: 0,
@@ -78,6 +76,7 @@ State["post-flop"] = {
 
 
 State["post-turn"] = {
+		pot: 30,
 		buttonIndex: 0,
 		currentBetAmount: 0,
 		currentBettorIndex: 1,
@@ -86,11 +85,9 @@ State["post-turn"] = {
 			index: 2,
 		},
 		players: {
-			"0": { bankroll: 490, name: "Hakan", cardA: "h5", cardB: "c14", totalBet: 10, subtotalBet: 0, },
-			"1": { bankroll: 490, name: "Nina", cardA: "c6", cardB: "c2", totalBet: 10, subtotalBet: 0, },
-			"2": { bankroll: 490, name: "Jenny", cardA: "c5", cardB: "h4", totalBet: 10, subtotalBet: 0, },
-			"5": { bankroll: 500, name: "Daniel", cardA: "c2", cardB: "d7", totalBet: 0, subtotalBet: 0, status: "FOLD" },
-			// "5": { bankroll: 500, name: "Daniel", cardA: "d14", cardB: "s13", totalBet: 0, subtotalBet: 0 },
+			"0": { bankroll: 290, name: "Hakan", cardA: "h5", cardB: "c14", totalBet: 10, subtotalBet: 0, },
+			"1": { bankroll: 190, name: "Nina", cardA: "c9", cardB: "c2", totalBet: 10, subtotalBet: 0, },
+			"2": { bankroll: 390, name: "Jenny", cardA: "c5", cardB: "h4", totalBet: 10, subtotalBet: 0, },
 		},
 		flop: ["h10", "s9", "c11"],
 		turn: "h12",
@@ -98,23 +95,23 @@ State["post-turn"] = {
 
 
 State["post-river-high-card"] = {
-			buttonIndex: 0,
-			currentBetAmount: 0,
-			currentBettorIndex: 1,
-			deck: {
-				cards: StateCards,
-				index: 2,
-			},
-			players: {
-				"0": { bankroll: 490, name: "Hakan", cardA: "c7", cardB: "c4", totalBet: 10, subtotalBet: 20, },
-				"1": { bankroll: 490, name: "Nina", cardA: "h6", cardB: "c2", totalBet: 10, subtotalBet: 20, },
-				"2": { bankroll: 490, name: "Jenny", cardA: "c5", cardB: "h4", totalBet: 10, subtotalBet: 0, status: "FOLD" },
-				"5": { bankroll: 500, name: "Daniel", cardA: "c2", cardB: "d7", totalBet: 0, subtotalBet: 0, status: "FOLD" },
-			},
-			flop: ["h10", "s9", "c11"],
-			turn: "h12",
-			river: "h3",
-		};
+		buttonIndex: 0,
+		currentBetAmount: 0,
+		currentBettorIndex: 1,
+		deck: {
+			cards: StateCards,
+			index: 2,
+		},
+		players: {
+			"0": { bankroll: 490, name: "Hakan", cardA: "c7", cardB: "c4", totalBet: 10, subtotalBet: 20, },
+			"1": { bankroll: 490, name: "Nina", cardA: "h6", cardB: "c2", totalBet: 10, subtotalBet: 20, },
+			"2": { bankroll: 490, name: "Jenny", cardA: "c5", cardB: "h4", totalBet: 10, subtotalBet: 0, status: "FOLD" },
+			"5": { bankroll: 500, name: "Daniel", cardA: "c2", cardB: "d7", totalBet: 0, subtotalBet: 0, status: "FOLD" },
+		},
+		flop: ["h10", "s9", "c11"],
+		turn: "h12",
+		river: "h3",
+	};
 
 
 State["post-river-one-pair"] = {

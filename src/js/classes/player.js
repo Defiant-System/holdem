@@ -45,8 +45,8 @@ class Player {
 	}
 
 	showCards() {
-		this.AEL.addClass(`card card-back ${this.cardA}`).data({ value: this.cardA });
-		this.BEL.addClass(`card card-back ${this.cardB}`).data({ value: this.cardB });
+		this.AEL.addClass(`card ${this.cardA}`).data({ value: this.cardA });
+		this.BEL.addClass(`card ${this.cardB}`).data({ value: this.cardB });
 		this.cardsEl.addClass("show");
 	}
 

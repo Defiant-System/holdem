@@ -85,6 +85,8 @@
 				value = event.type === "player-raise" ? event.raise || Self.drag.bet : currentBetAmount; // currentBetAmount = 0, when user "checks"
 				// user bets
 				Poker.playerBets(currentBettorIndex, value);
+				// set subtotal bet
+				if (players[0].subtotalBet < value) players[0].subtotalBet = value;
 				// "hide" dialog
 				Self.dispatch({ type: "hide-dialog" });
 				// player status

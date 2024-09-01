@@ -34,6 +34,8 @@ let Poker = {
 		Bots.push(new Player({ name: "Mary" }));
 		Bots.push(new Player({ name: "Nina" }));
 
+		this.dispatch({ type: "new-game" });
+
 		// create deck
 		for (let i=2, j=0; i<15; i++) {
 			cards[j++] = `h${i}`;
@@ -242,7 +244,27 @@ let Poker = {
 				}
 
 				// game finished - handle winning hand, etc
-				if (boardCards[4]) return Self.dispatch({ type: "handle-end-of-round" });
+				if (boardCards[4]) {
+					// get current pot size from DOM
+					value = +APP.els.pot.html();
+					APP.els.table.cssSequence("bets-to-pot", "transitionend", tEl => {
+						let total = Self.getPotSize(),
+							doTick = value !== total ? "" : "no-tick";
+						tEl.find(".pot")
+							.css({ "--roll": value, "--total": total })
+							.cssSequence("ticker "+ doTick, "animationend", potEl => {
+								// reset elements
+								potEl.removeClass("ticker no-tick").html(total).removeAttr("style");
+								// reset table
+								tEl.removeClass("bets-to-pot");
+								// clear player bets + reset minimum bet
+								Self.clearBets();
+								// finish
+								Self.dispatch({ type: "handle-end-of-round" });
+							});
+					});
+					return;
+				}
 					
 				currentMinRaise = BIG_BLIND;
 				Self.resetPlayerStatuses(2);
@@ -859,7 +881,7 @@ let Poker = {
 					&& this.getPotSize() > 0
 					&& betAmount + player.subtotalBet - currentBetAmount < currentMinRaise) {
 			// COMMENT OUT TO FIND BUGS
-			console.log( player );
+			console.log( betAmount, player.subtotalBet, currentBetAmount );
 			if (playerIndex == 0) {
 				console.log("Minimum raise is currently " + currentMinRaise + ".");
 			}

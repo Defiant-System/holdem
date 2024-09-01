@@ -59,7 +59,7 @@ let Test = {
 				// post-river-straight	post-river-flush	post-river-full-house
 				// post-river-four	post-river-straight-flush	post-river-royal-flush
 				// over-jenny-wins
-				data: State["pre-flop"]
+				data: State["post-turn"]
 			});
 
 			// return setTimeout(() => APP.els.table.find(".pot").addClass("to-seat-5"), 1500);
@@ -85,10 +85,11 @@ let Test = {
 			// 	});
 			// }, 800);
 
-			// setTimeout(() => window.find(`.actions .button.call`).trigger("click"), 400);
-			setTimeout(() => {
-				APP.dialog.dispatch({ type: "player-raise", raise: 490 });
-			}, 400);
+			// setTimeout(() => window.find(`.actions .button.call`).trigger("click"), 2400);
+			// setTimeout(() => window.find(`.actions .button.check`).trigger("click"), 2500);
+			// setTimeout(() => {
+			// 	APP.dialog.dispatch({ type: "player-raise", raise: 290 });
+			// }, 400);
 
 			// setTimeout(() => Poker.dispatch({ type: "output-pgn" }), 100);
 		}, 500);
