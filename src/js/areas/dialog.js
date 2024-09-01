@@ -81,7 +81,7 @@
 			case "player-raise":
 			case "player-call":
 				// value of bet
-				value = event.type === "player-raise" ? Self.drag.bet : currentBetAmount; // currentBetAmount = 0, when user "checks"
+				value = event.type === "player-raise" ? event.raise || Self.drag.bet : currentBetAmount; // currentBetAmount = 0, when user "checks"
 				// user bets
 				Poker.playerBets(currentBettorIndex, value);
 				// "hide" dialog
@@ -124,6 +124,9 @@
 					clickX = event.clientX;
 				// drag details
 				Self.drag = { el, betEl, rollEl, minBet, bankroll, clickX, offsetX, limit };
+				// stop countdown
+				players[0].status = "";
+				players[0].el.removeClass("thinking");
 
 				// enable raise button
 				Self.els.el.find(".button.raise").removeClass("disabled");

@@ -85,7 +85,10 @@ let Test = {
 			// 	});
 			// }, 800);
 
-			setTimeout(() => window.find(`.actions .button.call`).trigger("click"), 400);
+			// setTimeout(() => window.find(`.actions .button.call`).trigger("click"), 400);
+			setTimeout(() => {
+				APP.dialog.dispatch({ type: "player-raise", raise: 490 });
+			}, 400);
 
 			// setTimeout(() => Poker.dispatch({ type: "output-pgn" }), 100);
 		}, 500);

@@ -9,7 +9,7 @@ let STARTING_BANKROLL = 500;
 let SMALL_BLIND = 5;
 let BIG_BLIND = 10;
 
-let globalSpeed = 400;
+let globalSpeed = 900;
 let globalPotRemainder = 0;
 
 let Bots = [];
@@ -105,7 +105,8 @@ let Poker = {
 				APP.els.seats.removeClass("hole-flip");
 				// reset players
 				players.map(p => {
-					p.update({ cardA: "", cardB: "", totalBet: 0, status: "" });
+					let status = p.bankroll < 1 ? "BUST" : "";
+					p.update({ cardA: "", cardB: "", totalBet: 0, status });
 					p.reset();
 				});
 				break;
@@ -174,7 +175,7 @@ let Poker = {
 				break;
 			case "go-to-betting":
 				numBetting = Self.getNumBetting();
-				isEveryoneAllIn = Self.activePlayers.filter(p => p.status === "ALLIN").length === Self.activePlayers.length;
+				isEveryoneAllIn = Self.activePlayers.filter(p => p.bankroll < 1).length === Self.activePlayers.length;
 				
 				if (isEveryoneAllIn) {
 					// show players cards
@@ -671,6 +672,8 @@ let Poker = {
 						el.removeClass(toSeat).addClass("hidden").html("");
 						// hide "betting" element
 						event.player.el.removeClass("betting");
+						// show winnings dialog
+						APP.dialog.dispatch({ type: "finish-round", ...event.dialog });
 						// player bankroll ticker
 						event.player.el.find(".bankroll")
 							.css({
@@ -680,8 +683,6 @@ let Poker = {
 							.cssSequence("ticker", "animationend", el => {
 								// update bankroll content
 								el.removeClass("ticker").html(total).cssProp({ "--roll": "", "--total": "" });
-								// show winnings dialog
-								APP.dialog.dispatch({ type: "finish-round", ...event.dialog });
 							});
 					});
 				}, globalSpeed);

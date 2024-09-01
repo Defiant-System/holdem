@@ -755,8 +755,8 @@ content {
 			}
 		}
 
+		&[data-status="BUST"],
 		&[data-status="FOLD"] {
-			// filter: sepia(1) brightness(.75) hue-rotate(305deg);
 			filter: grayscale(1) brightness(.65) opacity(.85);
 
 			// .name:after { filter: sepia(1) saturate(3) brightness(.55) hue-rotate(305deg); }
@@ -781,6 +781,14 @@ content {
 					content: "Folded";
 					font-size: 23px;
 					text-shadow: 0 1px 1px rgba(#000,.15);
+				}
+			}
+		}
+
+		&[data-status="BUST"] {
+			.bet {
+				&:after {
+					content: "Bust";
 				}
 			}
 		}

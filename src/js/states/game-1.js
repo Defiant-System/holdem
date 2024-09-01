@@ -31,9 +31,10 @@ State["pre-flop"] = {
 			index: 2,
 		},
 		players: {
-			"0": { bankroll: 500, name: "Hakan", cardA: "h5", cardB: "c14", totalBet: 0, subtotalBet: 0, },
+			"0": { bankroll: 490, name: "Hakan", cardA: "h5", cardB: "c14", totalBet: 0, subtotalBet: 0, },
 			"1": { bankroll: 595, name: "Nina", cardA: "c6", cardB: "s5", totalBet: 0, subtotalBet: 5, },
 			"3": { bankroll: 490, name: "Jenny", cardA: "c4", cardB: "c12", totalBet: 0, subtotalBet: 10, },
+			"5": { bankroll: 0, name: "Daniel", status: "BUST", },
 		},
 	};
 
