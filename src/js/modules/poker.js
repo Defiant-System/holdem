@@ -657,7 +657,7 @@ let Poker = {
 								bankroll,
 								dialog: {
 									head: `${players[i].name} wins!`,
-									text: `${winningHands[i]} gives ${allocations[i]} to ${players[i].name}`,
+									text: `${winningHands[i]} gives <b>${allocations[i]}</b> to ${players[i].name}`,
 								}
 							});
 						} else {

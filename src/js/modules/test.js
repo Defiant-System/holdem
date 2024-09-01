@@ -8,7 +8,7 @@ let DEBUG = false;
 let Test = {
 	init(APP) {
 
-		// return;
+		return;
 
 		// return APP.els.content.data({ show: "game-view" });
 
