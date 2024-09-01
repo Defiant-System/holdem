@@ -54,6 +54,7 @@
 			case "user-think-to-long":
 				// Self.dispatch({ type: "hide-dialog" });
 				// players[0].status = "CHECK";
+				if (!players[0].el.hasClass("thinking")) return;
 				if (currentBetAmount > 0) Self.els.el.find(".button.fold").trigger("click");
 				else Self.els.el.find(".button.check").trigger("click");
 				break;
