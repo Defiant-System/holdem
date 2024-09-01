@@ -79,6 +79,10 @@ class Player {
 		}, 10);
 	}
 
+	reset() {
+		this.cardsEl.removeClass("show hole-flip");
+	}
+
 	update(data) {
 		if (data.subtotalBet != undefined && data.subtotalBet === 0) {
 			this.totalBet += this.subtotalBet;
@@ -141,6 +145,6 @@ class Player {
 		// this.bankroll -= val;
 		this.el.find(".bet").html(this.subtotalBet.format(" "));
 		this.el.find(".bankroll").html(this.bankroll.format(" "));
-		this.el.toggleClass("betting", this.subtotalBet === 0);
+		this.el.toggleClass("betting", this.subtotalBet < 1);
 	}
 }

@@ -58,6 +58,7 @@ let Test = {
 				// post-river-high-card	post-river-one-pair	post-river-two-pair	post-river-three
 				// post-river-straight	post-river-flush	post-river-full-house
 				// post-river-four	post-river-straight-flush	post-river-royal-flush
+				// over-jenny-wins
 				data: State["pre-flop"]
 			});
 
@@ -84,7 +85,7 @@ let Test = {
 			// 	});
 			// }, 800);
 
-			// setTimeout(() => window.find(`.actions .button.call`).trigger("click"), 400);
+			setTimeout(() => window.find(`.actions .button.call`).trigger("click"), 400);
 
 			// setTimeout(() => Poker.dispatch({ type: "output-pgn" }), 100);
 		}, 500);

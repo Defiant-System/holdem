@@ -28,7 +28,7 @@ let Main = {
 		for (let i=0; i<players.length; i++) {
 			players[i].unHighlight();
 		}
-
+		
 		let nextPlayer = Poker.getPlayer(currentBettorIndex);
 		if (nextPlayer.status == "BUST" || nextPlayer.status == "FOLD") {
 			incrementBettorIndex = 1;
@@ -37,7 +37,7 @@ let Main = {
 			incrementBettorIndex = 1;
 		} else if (["CALL", "CHECK"].includes(nextPlayer.status) && nextPlayer.subtotalBet == currentBetAmount) {
 			incrementBettorIndex = 1;
-		} else {
+		} else if (nextPlayer.status != "WINNER") {
 			nextPlayer.status = "";
 			if (currentBettorIndex == 0) {
 				let actions = currentBetAmount === 0 ? "check-fold" : "call-fold-raise";
@@ -65,9 +65,14 @@ let Main = {
 			}
 		}
 		if (Poker.getNumBetting() === 1) {
+			let player = Poker.getPlayer(currentBettorIndex);
 			return Poker.dispatch({
 				type: "highlight-single-winner",
-				player: Poker.getPlayer(currentBettorIndex),
+				player,
+				dialog: {
+					head: `${player.name} wins!`,
+					text: `${Poker.getPotSize()} to ${player.name}`,
+				}
 			});
 		}
 		if (incrementBettorIndex) {
@@ -152,7 +157,10 @@ let Main = {
 		}
 		// hbi: temp
 		if (P.name === "Jenny") return this.internalWhatDoX("100:ALLIN");
-		if (P.name === "Nina") return this.internalWhatDoX("100:ALLIN");
+		// if (P.name === "Nina") return this.internalWhatDoX("100:ALLIN");
+
+		// if (P.name === "Jenny") return this.internalWhatDoX("100:FOLD");
+		if (P.name === "Nina") return this.internalWhatDoX("100:FOLD");
 
 		if (P.subtotalBet > 0 && CALL_LEVEL < 40) {
 			if (HCONF > 20 || RANKA > 10 || RANKB > 10) return this.internalWhatDoX("5:SMALL,95:CALL");

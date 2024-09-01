@@ -5,6 +5,23 @@ let StateCards = "c8 h10 s12 h12 d2 h3 h4 d14 d11 c2 "+
 					"h11 h13 c14 c10 s8 s10 s7 h7 d4 d3 "+
 					"s13 d8 d6 h5 h9 d10 c3 c5 s11 s9 h14";
 
+State["over-jenny-wins"] = {
+		pot: 20,
+		buttonIndex: 0,
+		currentBetAmount: 0,
+		currentBettorIndex: 3,
+		deck: {
+			cards: StateCards,
+			index: 2,
+		},
+		players: {
+			"0": { bankroll: 500, name: "Hakan", cardA: "h5", cardB: "c14", totalBet: 0, subtotalBet: 0, status: "FOLD", },
+			"1": { bankroll: 595, name: "Nina", cardA: "c6", cardB: "s5", totalBet: 0, subtotalBet: 10, status: "FOLD", },
+			"3": { bankroll: 490, name: "Jenny", cardA: "c4", cardB: "c12", totalBet: 0, subtotalBet: 10, status: "WINNER" },
+		},
+		flop: ["h13", "s12", "c11"],
+	};
+
 State["pre-flop"] = {
 		buttonIndex: 0,
 		currentBetAmount: 10,

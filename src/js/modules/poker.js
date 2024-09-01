@@ -9,7 +9,7 @@ let STARTING_BANKROLL = 500;
 let SMALL_BLIND = 5;
 let BIG_BLIND = 10;
 
-let globalSpeed = 900;
+let globalSpeed = 400;
 let globalPotRemainder = 0;
 
 let Bots = [];
@@ -93,6 +93,8 @@ let Poker = {
 				Self.dispatch({ type: "blinds-and-deal" });
 				break;
 			case "reset-table":
+				// reset flip/flops
+				APP.els.board.prop({ className: "board" });
 				// remove community cards
 				APP.els.table.find(".board .card").remove();
 				// update pot value
@@ -102,7 +104,10 @@ let Poker = {
 				// reset user0 seat
 				APP.els.seats.removeClass("hole-flip");
 				// reset players
-				players.map(p => p.update({ cardA: "", cardB: "", totalBet: 0, status: "" }));
+				players.map(p => {
+					p.update({ cardA: "", cardB: "", totalBet: 0, status: "" });
+					p.reset();
+				});
 				break;
 			case "reset-round":
 				RUN_EM = 0;
@@ -436,6 +441,7 @@ let Poker = {
 				players = new Array(entries.length);
 				// resurrect players
 				entries.map((num, i) => players[i] = new Player({ ...event.data.players[num], index: +num }));
+				
 				// make sure game view is shown
 				APP.dispatch({ type: "show-game-view" });
 
@@ -654,14 +660,29 @@ let Poker = {
 				break;
 			case "highlight-single-winner":
 				event.player.status = "WINNER";
-
+				
 				// UI update
 				setTimeout(() => {
-					let toSeat = `to-seat-${event.player.index}`;
+					let toSeat = `to-seat-${event.player.index}`,
+						roll = event.player.bankroll,
+						total = roll + Self.getPotSize();
 					APP.els.table.find(".pot").cssSequence(toSeat, "transitionend", el => {
 						// reset pot element
 						el.removeClass(toSeat).addClass("hidden").html("");
-
+						// hide "betting" element
+						event.player.el.removeClass("betting");
+						// player bankroll ticker
+						event.player.el.find(".bankroll")
+							.css({
+								"--roll": roll,
+								"--total": total,
+							})
+							.cssSequence("ticker", "animationend", el => {
+								// update bankroll content
+								el.removeClass("ticker").html(total).cssProp({ "--roll": "", "--total": "" });
+								// show winnings dialog
+								APP.dialog.dispatch({ type: "finish-round", ...event.dialog });
+							});
 					});
 				}, globalSpeed);
 				break;
@@ -693,7 +714,7 @@ let Poker = {
 								"--total": total,
 							})
 							.cssSequence("ticker", "animationend", el => {
-								// update pot content
+								// update bankroll content
 								el.removeClass("ticker").html(total).cssProp({ "--roll": "", "--total": "" });
 								// show winnings dialog
 								APP.dialog.dispatch({ type: "finish-round", ...event.dialog });
