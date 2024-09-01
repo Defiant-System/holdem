@@ -32,7 +32,8 @@
 				value = currentBetAmount > 0 ? "Raise" : "Bet";
 				Self.els.btnRaise.html(value);
 				// update UI
-				APP.els.seats.get(0).find(".bet").html(currentBetAmount);
+				value = Math.min(currentBetAmount, players[0].bankroll);
+				APP.els.seats.get(0).find(".bet").html(value);
 				
 				// "thinking" outline
 				players[0].status = "THINKING";
