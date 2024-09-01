@@ -86,6 +86,9 @@ let Poker = {
 				if (!event.noStart) Self.dispatch({ type: "start-new-round" });
 				break;
 			case "start-new-round":
+				if (Self.activePlayers.length === 1) {
+					return console.log(`${Self.activePlayers[0].name} wins!`);
+				}
 				Self.dispatch({ type: "reset-table" });
 				Self.dispatch({ type: "new-game" });
 				Self.dispatch({ type: "reset-round" });
@@ -168,10 +171,13 @@ let Poker = {
 			case "hole-cards-dealt":
 				// reset deck
 				APP.els.deck.cssSequence("disappear", "transitionend", el => el.removeClass("appear disappear"));
-				// flip users hole cards
-				APP.els.seats.get(0).find(".cards").cssSequence("hole-flip", "transitionend", el => {
+				if (players[0].status === "BUST") {
 					Self.dispatch({ type: "go-to-betting" });
-				});
+				} else {
+					// flip users hole cards
+					players[0].el.find(".cards").cssSequence("hole-flip", "transitionend", el =>
+						Self.dispatch({ type: "go-to-betting" }));
+				}
 				break;
 			case "go-to-betting":
 				numBetting = Self.getNumBetting();
