@@ -909,15 +909,14 @@ let Poker = {
 				console.log(`The current bet to match is ${currentBetAmount} \nYou must bet a total of at least ${minBet} or fold`);
 			}
 			return 0;
-		} else if (betAmount + player.subtotalBet > currentBetAmount
-					&& this.getPotSize() > 0
-					&& betAmount + player.subtotalBet - currentBetAmount < currentMinRaise) {
-			// COMMENT OUT TO FIND BUGS
-			console.log( betAmount, player.subtotalBet, currentBetAmount );
-			if (playerIndex == 0) {
-				console.log("Minimum raise is currently " + currentMinRaise + ".");
-			}
-			return 0;
+		// } else if (betAmount + player.subtotalBet > currentBetAmount
+		// 			&& this.getPotSize() > 0
+		// 			&& betAmount + player.subtotalBet - currentBetAmount < currentMinRaise) {
+		// 	// COMMENT OUT TO FIND BUGS
+		// 	if (playerIndex == 0) {
+		// 		console.log("Minimum raise is currently " + currentMinRaise + ".");
+		// 	}
+		// 	return 0;
 		} else {
 			player.status = "CALL";
 

@@ -10,7 +10,7 @@ let Test = {
 
 		// return;
 
-		// return APP.els.content.find(`.options span[data-arg="1"]`).trigger("click");
+		return APP.els.content.find(`.options span[data-arg="1"]`).trigger("click");
 		// return APP.els.content.data({ show: "game-view" });
 
 
