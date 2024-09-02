@@ -51,10 +51,10 @@
 				Self.els.el.removeClass("hidden").data({ actions });
 				APP.els.table.addClass("shows-user-actions");
 
-				setTimeout(() => {
-					if (currentBetAmount > 0) Self.els.el.find(".button.call").trigger("click");
-					else Self.els.el.find(".button.check").trigger("click");
-				}, 400);
+				// setTimeout(() => {
+				// 	if (currentBetAmount > 0) Self.els.el.find(".button.call").trigger("click");
+				// 	else Self.els.el.find(".button.check").trigger("click");
+				// }, 400);
 				break;
 			case "user-think-to-long":
 				if (!players[0].el.hasClass("thinking")) return;

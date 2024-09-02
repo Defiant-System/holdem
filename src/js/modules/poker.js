@@ -491,7 +491,7 @@ let Poker = {
 				if (event.data.flop) {
 					// restore flop cards
 					value = event.data.flop.map((c, i) => `<div class="card ${c} card-back flop-${i+1} no-anim" data-value="${c}"></div>`);
-					APP.els.board.addClass("fan-flop flip-flop no-anim").html(value.join());
+					APP.els.board.addClass("fan-flop flip-flop no-anim").html(value.join(""));
 					
 					if (event.data.turn) {
 						// append turn
@@ -563,7 +563,7 @@ let Poker = {
 						player,
 						dialog: {
 							head: `${player.name} Wins!`,
-							text: `${totalPotSize} to ${player.name}`,
+							text: `<b>${totalPotSize}</b> to ${player.name}`,
 						}
 					});
 					return;
