@@ -210,7 +210,7 @@ let Poker = {
 				} else if (numBetting > 1) {
 					// think next step AI
 					setTimeout(() => AI.think(), event.wait || 0);
-				} else {
+				} else {playerBets
 					setTimeout(() => Self.dispatch({ type: "ready-for-next-card" }), globalSpeed);
 				}
 				break;
@@ -258,6 +258,7 @@ let Poker = {
 				boardCards = APP.els.board.find(".card");
 				for (let i=0; i<players.length; i++) {
 					players[i].totalBet += players[i].subtotalBet;
+					players[i].subtotalBet = 0;
 					if (!["BUST", "FOLD"].includes(players[i].status)) players[i].status = "";
 				}
 
@@ -796,7 +797,7 @@ let Poker = {
 	},
 	clearBets () {
 		for (let i=0; i<players.length; i++) {
-			// players[i].subtotalBet = 0;
+			players[i].subtotalBet = 0;
 			players[i].update({ subtotalBet: 0 });
 		}
 		currentBetAmount = 0;

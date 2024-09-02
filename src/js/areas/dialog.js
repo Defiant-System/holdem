@@ -89,6 +89,7 @@
 			case "player-call":
 				// value of bet
 				value = event.type === "player-raise" ? event.raise || Self.drag.bet : currentBetAmount; // currentBetAmount = 0, when user "checks"
+				if (event.type === "player-call") value -= players[currentBettorIndex].subtotalBet;
 				// user bets
 				Poker.playerBets(currentBettorIndex, value);
 				// "hide" dialog
