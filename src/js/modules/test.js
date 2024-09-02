@@ -85,7 +85,7 @@ let Test = {
 			// 	});
 			// }, 800);
 
-			setTimeout(() => window.find(`.actions .button.call`).trigger("click"), 500);
+			// setTimeout(() => window.find(`.actions .button.call`).trigger("click"), 500);
 			// setTimeout(() => window.find(`.actions .button.check`).trigger("click"), 2500);
 			// setTimeout(() => {
 			// 	APP.dialog.dispatch({ type: "player-raise", raise: 290 });

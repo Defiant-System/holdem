@@ -138,7 +138,7 @@ class Player {
 				// reset seat UI
 				el.removeClass("ticker").html(total);
 				// start new round
-				Poker.dispatch({ type: "start-new-round" });
+				// Poker.dispatch({ type: "start-new-round" });
 			});
 	}
 

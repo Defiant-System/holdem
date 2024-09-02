@@ -552,7 +552,7 @@ let Poker = {
 
 				if (Self.activePlayers.length === 1) {
 					let player = Self.activePlayers[0];
-					// Self.activePlayers[0].wins(totalPotSize);
+					player.wins(totalPotSize);
 					Self.dispatch({
 						type: "highlight-single-winner",
 						player,
