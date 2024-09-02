@@ -50,10 +50,13 @@
 				//  check-raise
 				Self.els.el.removeClass("hidden").data({ actions });
 				APP.els.table.addClass("shows-user-actions");
+
+				setTimeout(() => {
+					if (currentBetAmount > 0) Self.els.el.find(".button.call").trigger("click");
+					else Self.els.el.find(".button.check").trigger("click");
+				}, 400);
 				break;
 			case "user-think-to-long":
-				// Self.dispatch({ type: "hide-dialog" });
-				// players[0].status = "CHECK";
 				if (!players[0].el.hasClass("thinking")) return;
 				if (currentBetAmount > 0) Self.els.el.find(".button.fold").trigger("click");
 				else Self.els.el.find(".button.check").trigger("click");

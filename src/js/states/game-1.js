@@ -46,7 +46,7 @@ State["pre-flop-single"] = {
 		},
 		players: {
 			"0": { bankroll: 490, name: "Hakan", cardA: "h5", cardB: "c14", totalBet: 0, subtotalBet: 5, },
-			"3": { bankroll: 490, name: "Jenny", cardA: "c4", cardB: "c12", totalBet: 0, subtotalBet: 10, },
+			"3": { bankroll: 490, name: "Jenny", cardA: "c4", cardB: "c11", totalBet: 0, subtotalBet: 10, },
 		},
 	};
 

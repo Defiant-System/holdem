@@ -249,23 +249,28 @@ let Poker = {
 				// game finished - handle winning hand, etc
 				if (boardCards[4]) {
 					// get current pot size from DOM
-					value = +APP.els.pot.html();
-					APP.els.table.cssSequence("bets-to-pot", "transitionend", tEl => {
-						let total = Self.getPotSize(),
-							doTick = value !== total ? "" : "no-tick";
-						tEl.find(".pot")
-							.css({ "--roll": value, "--total": total })
-							.cssSequence("ticker "+ doTick, "animationend", potEl => {
-								// reset elements
-								potEl.removeClass("ticker no-tick").html(total).removeAttr("style");
-								// reset table
-								tEl.removeClass("bets-to-pot");
-								// clear player bets + reset minimum bet
-								Self.clearBets();
-								// finish
-								Self.dispatch({ type: "handle-end-of-round" });
-							});
-					});
+					if (numBetting === 1) {
+						value = +APP.els.pot.html();
+						APP.els.table.cssSequence("bets-to-pot", "transitionend", tEl => {
+							let total = Self.getPotSize(),
+								doTick = value !== total ? "" : "no-tick";
+							tEl.find(".pot")
+								.css({ "--roll": value, "--total": total })
+								.cssSequence("ticker "+ doTick, "animationend", potEl => {
+									// reset elements
+									potEl.removeClass("ticker no-tick").html(total).removeAttr("style");
+									// reset table
+									tEl.removeClass("bets-to-pot");
+									// clear player bets + reset minimum bet
+									// Self.clearBets();
+									// finish
+									// Self.dispatch({ type: "handle-end-of-round" });
+								});
+						});
+					} else {
+						// finish
+						Self.dispatch({ type: "handle-end-of-round" });
+					}
 					return;
 				}
 					

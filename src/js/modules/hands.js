@@ -392,9 +392,10 @@ let Test = {
 
 		let highlight = [];
 		cards.filter(c => c).map(c => {
-			if (Utils.getRank(c) === first) highlight.push(c);
-			if (Utils.getRank(c) === second) highlight.push(c);
-			if (Utils.getRank(c) === kicker) highlight.push(c);
+			if ([first, second].includes(Utils.getRank(c))) highlight.push(c);
+		});
+		cards.filter(c => c).map(c => {
+			if (Utils.getRank(c) === kicker && highlight.length < 5) highlight.push(c);
 		});
 
 		let hashResult = {};
