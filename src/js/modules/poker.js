@@ -99,6 +99,9 @@ let Poker = {
 				Self.dispatch({ type: "new-game" });
 				Self.dispatch({ type: "reset-round" });
 				Self.dispatch({ type: "shuffle-deck" });
+				// debug purpose
+				Self.dispatch({ type: "temp-sum-all-money", debug: 99 });
+				// deal
 				Self.dispatch({ type: "blinds-and-deal" });
 				break;
 			case "reset-table":
@@ -141,7 +144,7 @@ let Poker = {
 				break;
 			case "temp-sum-all-money":
 				value = Self.activePlayers.reduce((a, p) => p.bankroll + p.totalBet + a, 0);
-				console.log("NO-"+ event.debug, value);
+				if (event.debug === 99) console.log("NO-"+ event.debug, value);
 				break;
 			case "blinds-and-deal":
 				// reset players
@@ -258,6 +261,7 @@ let Poker = {
 					APP.els.table.cssSequence("bets-to-pot", "transitionend", tEl => {
 						let total = Self.getPotSize(),
 							doTick = value !== total ? "" : "no-tick";
+						console.log(total);
 						tEl.find(".pot")
 							.css({ "--roll": value, "--total": total })
 							.cssSequence("ticker "+ doTick, "animationend", potEl => {
@@ -677,7 +681,7 @@ let Poker = {
 								bestHandPlayers: bestHandPlayers[i],
 								winnings: allocations[i],
 								dialog: {
-									head: bestHandPlayers.length > 0 ? `Split pot!` : `${players[i].name} wins!`,
+									head: `${players[i].name} wins!`,
 									text: `${winningHands[i]} gives <b>${allocations[i]}</b> to ${players[i].name}`,
 								}
 							});
