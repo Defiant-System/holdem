@@ -100,6 +100,8 @@ let Poker = {
 			case "reset-table":
 				// reset flip/flops
 				APP.els.board.prop({ className: "board" });
+				// reset pot element
+				APP.els.pot.prop({ className: "pot hidden" });
 				// remove community cards
 				APP.els.table.find(".board .card").remove();
 				// update pot value
@@ -189,31 +191,26 @@ let Poker = {
 				if (isEveryoneAllIn) {
 					// show players cards
 					Self.activePlayers.map(p => p.showCards());
-					// if (APP.els.pot.hasClass("hidden")) {
-						// make sure pot is shown
-						APP.els.pot.removeClass("hidden");
-						// get current pot size from DOM
-						value = +APP.els.pot.html();
-						APP.els.table.cssSequence("bets-to-pot", "transitionend", tEl => {
-							let total = Self.getPotSize(),
-								doTick = value !== total ? "" : "no-tick";
-							tEl.find(".pot")
-								.css({ "--roll": value, "--total": total })
-								.cssSequence("ticker "+ doTick, "animationend", potEl => {
-									// reset elements
-									potEl.removeClass("ticker no-tick").html(total).removeAttr("style");
-									// reset table
-									tEl.removeClass("bets-to-pot");
-									// clear player bets + reset minimum bet
-									Self.clearBets();
-									// auto play cards
-									Self.dispatch({ type: "auto-dealer-cards" });
-								});
-						});
-					// } else {
-					// 	// auto play cards
-					// 	Self.dispatch({ type: "auto-dealer-cards" });
-					// }
+					// make sure pot is shown
+					APP.els.pot.removeClass("hidden");
+					// get current pot size from DOM
+					value = +APP.els.pot.html();
+					APP.els.table.cssSequence("bets-to-pot", "transitionend", tEl => {
+						let total = Self.getPotSize(),
+							doTick = value !== total ? "" : "no-tick";
+						tEl.find(".pot")
+							.css({ "--roll": value, "--total": total })
+							.cssSequence("ticker "+ doTick, "animationend", potEl => {
+								// reset elements
+								potEl.removeClass("ticker no-tick").html(total).removeAttr("style");
+								// reset table
+								tEl.removeClass("bets-to-pot");
+								// clear player bets + reset minimum bet
+								Self.clearBets();
+								// auto play cards
+								Self.dispatch({ type: "auto-dealer-cards" });
+							});
+					});
 				} else if (numBetting > 1) {
 					// think next step AI
 					setTimeout(() => AI.think(), event.wait || 0);
