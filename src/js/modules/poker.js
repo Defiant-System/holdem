@@ -85,8 +85,6 @@ let Poker = {
 				players = players.sort((a, b) => a.index - b.index);
 				// start new round
 				if (!event.noStart) Self.dispatch({ type: "start-new-round" });
-				// debug purpose
-				Self.dispatch({ type: "temp-sum-all-money", debug: 1 });
 				break;
 			case "start-new-round":
 				if (players.filter(p => p.bankroll > 0).length === 1) {
@@ -200,27 +198,14 @@ let Poker = {
 				if (isEveryoneAllIn) {
 					// show players cards
 					Self.activePlayers.map(p => p.showCards());
-					// make sure pot is shown
-					APP.els.pot.removeClass("hidden");
-					// get current pot size from DOM
-					value = +APP.els.pot.html();
-					APP.els.table.cssSequence("bets-to-pot", "transitionend", tEl => {
-						let total = Self.getPotSize(),
-							doTick = value !== total ? "" : "no-tick";
-						tEl.find(".pot")
-							.css({ "--roll": value, "--total": total })
-							.cssSequence("ticker "+ doTick, "animationend", potEl => {
-								// reset elements
-								potEl.removeClass("ticker no-tick").html(total).removeAttr("style");
-								// reset table
-								tEl.removeClass("bets-to-pot");
-								// clear player bets + reset minimum bet
-								Self.clearBets();
-								// debug purpose
-								Self.dispatch({ type: "temp-sum-all-money", debug: 4 });
-								// auto play cards
-								Self.dispatch({ type: "auto-dealer-cards" });
-							});
+					// collect bets to pot
+					Self.dispatch({
+						type: "move-bets-to-pot",
+						ticker: {
+							start: +APP.els.pot.html(),
+							end: Self.getPotSize(),
+						},
+						finally: "auto-dealer-cards",
 					});
 				} else if (numBetting > 1) {
 					// think next step AI
@@ -241,6 +226,28 @@ let Poker = {
 					Self.dispatch({ type: "handle-end-of-round" });
 				}
 				break;
+			case "move-bets-to-pot":
+				// make sure pot is shown
+				APP.els.pot.removeClass("hidden");
+				// get current pot size from DOM
+				value = event.ticker.start;
+				APP.els.table.cssSequence("bets-to-pot", "transitionend", tEl => {
+					let total = event.ticker.end,
+						doTick = value !== total ? "" : "no-tick";
+					tEl.find(".pot")
+						.css({ "--roll": value, "--total": total })
+						.cssSequence("ticker "+ doTick, "animationend", potEl => {
+							// reset elements
+							potEl.removeClass("ticker no-tick").html(total).removeAttr("style");
+							// reset table
+							tEl.removeClass("bets-to-pot");
+							// clear player bets + reset minimum bet
+							Self.clearBets();
+							// auto play cards
+							Self.dispatch({ type: event.finally });
+						});
+				});
+				break;
 			case "ready-for-next-card":
 				numBetting = Self.getNumBetting();
 				if (numBetting <= 1) {
@@ -256,28 +263,15 @@ let Poker = {
 
 				// game finished - handle winning hand, etc
 				if (boardCards[4]) {
-					// get current pot size from DOM
-					value = +APP.els.pot.html();
-					APP.els.table.cssSequence("bets-to-pot", "transitionend", tEl => {
-						let total = Self.getPotSize(),
-							doTick = value !== total ? "" : "no-tick";
-						console.log(total);
-						tEl.find(".pot")
-							.css({ "--roll": value, "--total": total })
-							.cssSequence("ticker "+ doTick, "animationend", potEl => {
-								// reset elements
-								potEl.removeClass("ticker no-tick").html(total).removeAttr("style");
-								// reset table
-								tEl.removeClass("bets-to-pot");
-								// clear player bets + reset minimum bet
-								Self.clearBets();
-								// debug purpose
-								Self.dispatch({ type: "temp-sum-all-money", debug: 6 });
-								// finish
-								Self.dispatch({ type: "handle-end-of-round" });
-							});
+					// collect bets to pot
+					return Self.dispatch({
+						type: "move-bets-to-pot",
+						ticker: {
+							start: +APP.els.pot.html(),
+							end: Self.getPotSize(),
+						},
+						finally: "handle-end-of-round",
 					});
-					return;
 				}
 				
 				currentMinRaise = BIG_BLIND;
@@ -308,31 +302,14 @@ let Poker = {
 					APP.els.pot.removeClass("hidden").html(0);
 				}
 				
-				// get current pot size from DOM
-				value = +APP.els.pot.html();
-				APP.els.table.cssSequence("bets-to-pot", "transitionend", tEl => {
-					let total = Self.getPotSize(),
-						doTick = value !== total ? "" : "no-tick";
-					tEl.find(".pot")
-						.css({ "--roll": value, "--total": total })
-						.cssSequence("ticker "+ doTick, "animationend", potEl => {
-							// reset elements
-							potEl.removeClass("ticker no-tick").html(total).removeAttr("style");
-							// reset table
-							tEl.removeClass("bets-to-pot");
-							// clear player bets + reset minimum bet
-							Self.clearBets();
-							// debug purpose
-							Self.dispatch({ type: "temp-sum-all-money", debug: 7 });
-							
-							if (!boardCards[0]) {
-								Self.dispatch({ type: "deal-flop" });
-							} else if (!boardCards[3]) {
-								Self.dispatch({ type: "deal-turn" });
-							} else if (!boardCards[4]) {
-								Self.dispatch({ type: "deal-river" });
-							}
-						});
+				// collect bets to pot
+				Self.dispatch({
+					type: "move-bets-to-pot",
+					ticker: {
+						start: +APP.els.pot.html(),
+						end: Self.getPotSize(),
+					},
+					finally: "auto-dealer-cards",
 				});
 				break;
 			case "deal-flop":
@@ -738,8 +715,6 @@ let Poker = {
 							.cssSequence("ticker", "animationend", el => {
 								// update user bankroll
 								event.player.bankroll += total;
-								// debug purpose
-								Self.dispatch({ type: "temp-sum-all-money", debug: 2 });
 								// update bankroll content
 								el.removeClass("ticker").html(event.player.bankroll).cssProp({ "--roll": "", "--total": "" });
 							});
@@ -776,8 +751,6 @@ let Poker = {
 							.cssSequence("ticker", "animationend", el => {
 								// update user bankroll
 								event.player.bankroll += total;
-								// debug purpose
-								Self.dispatch({ type: "temp-sum-all-money", debug: 3 });
 								// update bankroll content
 								el.removeClass("ticker").html(event.player.bankroll).cssProp({ "--roll": "", "--total": "" });
 								// show winnings dialog
