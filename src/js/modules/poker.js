@@ -85,6 +85,8 @@ let Poker = {
 				players = players.sort((a, b) => a.index - b.index);
 				// start new round
 				if (!event.noStart) Self.dispatch({ type: "start-new-round" });
+				// debug purpose
+				Self.dispatch({ type: "temp-sum-all-money", debug: 1 });
 				break;
 			case "start-new-round":
 				if (players.filter(p => p.bankroll > 0).length === 1) {
@@ -136,6 +138,10 @@ let Poker = {
 					cards[j] = tmp;
 				}
 				deckIndex = 0;
+				break;
+			case "temp-sum-all-money":
+				value = Self.activePlayers.reduce((a, p) => p.bankroll + p.totalBet + a, 0);
+				console.log("NO-"+ event.debug, value);
 				break;
 			case "blinds-and-deal":
 				// reset players
@@ -207,6 +213,8 @@ let Poker = {
 								tEl.removeClass("bets-to-pot");
 								// clear player bets + reset minimum bet
 								Self.clearBets();
+								// debug purpose
+								Self.dispatch({ type: "temp-sum-all-money", debug: 4 });
 								// auto play cards
 								Self.dispatch({ type: "auto-dealer-cards" });
 							});
@@ -259,13 +267,15 @@ let Poker = {
 								tEl.removeClass("bets-to-pot");
 								// clear player bets + reset minimum bet
 								Self.clearBets();
+								// debug purpose
+								Self.dispatch({ type: "temp-sum-all-money", debug: 6 });
 								// finish
 								Self.dispatch({ type: "handle-end-of-round" });
 							});
 					});
 					return;
 				}
-					
+				
 				currentMinRaise = BIG_BLIND;
 				Self.resetPlayerStatuses(2);
 
@@ -280,14 +290,14 @@ let Poker = {
 				let showCards = 0;
 				if (numBetting < 2) showCards = 1;
 
-				if (!RUN_EM) {
+				// if (!RUN_EM) {
 					for (let i=0; i<players.length; i++) { // <-- UNROLL
 						players[i].unHighlight();
 						if (players[i].status != "BUST" && players[i].status != "FOLD") {
 							players[i].subtotalBet = 0;
 						}
 					}
-				}
+				// }
 				// if (numBetting < 2) RUN_EM = 1;
 				
 				if (!boardCards[0]) {
@@ -308,6 +318,8 @@ let Poker = {
 							tEl.removeClass("bets-to-pot");
 							// clear player bets + reset minimum bet
 							Self.clearBets();
+							// debug purpose
+							Self.dispatch({ type: "temp-sum-all-money", debug: 7 });
 							
 							if (!boardCards[0]) {
 								Self.dispatch({ type: "deal-flop" });
@@ -665,7 +677,7 @@ let Poker = {
 								bestHandPlayers: bestHandPlayers[i],
 								winnings: allocations[i],
 								dialog: {
-									head: `${players[i].name} wins!`,
+									head: bestHandPlayers.length > 0 ? `Split pot!` : `${players[i].name} wins!`,
 									text: `${winningHands[i]} gives <b>${allocations[i]}</b> to ${players[i].name}`,
 								}
 							});
@@ -722,6 +734,8 @@ let Poker = {
 							.cssSequence("ticker", "animationend", el => {
 								// update user bankroll
 								event.player.bankroll += total;
+								// debug purpose
+								Self.dispatch({ type: "temp-sum-all-money", debug: 2 });
 								// update bankroll content
 								el.removeClass("ticker").html(event.player.bankroll).cssProp({ "--roll": "", "--total": "" });
 							});
@@ -758,6 +772,8 @@ let Poker = {
 							.cssSequence("ticker", "animationend", el => {
 								// update user bankroll
 								event.player.bankroll += total;
+								// debug purpose
+								Self.dispatch({ type: "temp-sum-all-money", debug: 3 });
 								// update bankroll content
 								el.removeClass("ticker").html(event.player.bankroll).cssProp({ "--roll": "", "--total": "" });
 								// show winnings dialog

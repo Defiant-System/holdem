@@ -80,6 +80,7 @@ class Player {
 	}
 
 	reset() {
+		this.el.find(".ticker").removeClass("ticker");
 		this.cardsEl.removeClass("show hole-flip");
 		delete this.AEL;
 		delete this.BEL;
