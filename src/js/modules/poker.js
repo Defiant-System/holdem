@@ -664,7 +664,6 @@ let Poker = {
 								player: players[i],
 								bestHandPlayers: bestHandPlayers[i],
 								winnings: allocations[i],
-								bankroll,
 								dialog: {
 									head: `${players[i].name} wins!`,
 									text: `${winningHands[i]} gives <b>${allocations[i]}</b> to ${players[i].name}`,
