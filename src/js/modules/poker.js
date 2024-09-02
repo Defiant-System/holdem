@@ -33,9 +33,8 @@ let Poker = {
 		Bots.push(new Player({ name: "Jenny" }));
 		Bots.push(new Player({ name: "Mary" }));
 		Bots.push(new Player({ name: "Nina" }));
-
+		// reset game + shuffle bots
 		this.dispatch({ type: "new-game" });
-
 		// create deck
 		for (let i=2, j=0; i<15; i++) {
 			cards[j++] = `h${i}`;
@@ -89,8 +88,11 @@ let Poker = {
 				break;
 			case "start-new-round":
 				if (players.filter(p => p.bankroll > 0).length === 1) {
-					return console.log(`${Self.activePlayers[0].name} wins all!`);
+					return APP.dispatch({ type: "show-start-view" });
 				}
+				// show "bust"
+				players.map(p => p.bankroll < 1 ? p.status = "BUST" : void(0));
+
 				Self.dispatch({ type: "reset-table" });
 				Self.dispatch({ type: "new-game" });
 				Self.dispatch({ type: "reset-round" });
@@ -101,11 +103,9 @@ let Poker = {
 				// reset flip/flops
 				APP.els.board.prop({ className: "board" });
 				// reset pot element
-				APP.els.pot.prop({ className: "pot hidden" });
+				APP.els.pot.prop({ className: "pot hidden" }).html(0);
 				// remove community cards
 				APP.els.table.find(".board .card").remove();
-				// update pot value
-				APP.els.pot.addClass("hidden").html(0);
 				// remove card elements
 				APP.els.seats.find(".cards > *").remove();
 				// reset user0 seat
@@ -680,7 +680,7 @@ let Poker = {
 						}
 					} else {
 						if (!Self.hasMoney(players[i].index) && players[i].status != "BUST") {
-							players[i].status = "BUST";
+							// players[i].status = "BUST";
 							if (i == 0) humanLoses = 1;
 						}
 						if (!["FOLD", "BUST"].includes(players[i].status)) {

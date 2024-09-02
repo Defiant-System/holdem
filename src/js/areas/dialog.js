@@ -90,7 +90,6 @@
 				// value of bet
 				value = event.type === "player-raise" ? event.raise || Self.drag.bet : currentBetAmount; // currentBetAmount = 0, when user "checks"
 				// set subtotal bet
-				// if (players[0].subtotalBet < value) players[0].subtotalBet = value;
 				players[0].subtotalBet = 0;
 				// user bets
 				Poker.playerBets(currentBettorIndex, value);
