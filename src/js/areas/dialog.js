@@ -72,6 +72,8 @@
 				break;
 			case "player-fold":
 				Poker.playerFolds(currentBettorIndex);
+				// update UI
+				players[0].el.find(".bankroll").html(players[0].bankroll);
 				// "hide" dialog
 				Self.dispatch({ type: "hide-dialog" });
 				// go to next player

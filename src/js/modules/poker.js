@@ -235,7 +235,10 @@ let Poker = {
 				break;
 			case "ready-for-next-card":
 				numBetting = Self.getNumBetting();
-				if (numBetting <= 1) return Self.dispatch({ type: "handle-end-of-round" });
+				if (numBetting <= 1) {
+					Self.dispatch({ type: "handle-end-of-round" });
+					return;
+				}
 				
 				boardCards = APP.els.board.find(".card");
 				for (let i=0; i<players.length; i++) {
@@ -548,7 +551,17 @@ let Poker = {
 				}
 
 				if (Self.activePlayers.length === 1) {
-					return Self.activePlayers[0].wins(totalPotSize);
+					let player = Self.activePlayers[0];
+					// Self.activePlayers[0].wins(totalPotSize);
+					Self.dispatch({
+						type: "highlight-single-winner",
+						player,
+						dialog: {
+							head: `${player.name} Wins!`,
+							text: `${totalPotSize} to ${player.name}`,
+						}
+					});
+					return;
 				}
 
 				isEveryoneAllIn = true;
@@ -696,13 +709,14 @@ let Poker = {
 					let toSeat = `to-seat-${event.player.index}`,
 						roll = event.player.bankroll,
 						total = roll + Self.getPotSize();
+					// show winnings dialog
+					APP.dialog.dispatch({ type: "finish-round", ...event.dialog });
+					
 					APP.els.table.find(".pot").cssSequence(toSeat, "transitionend", el => {
 						// reset pot element
 						el.removeClass(toSeat).addClass("hidden").html("");
 						// hide "betting" element
 						event.player.el.removeClass("betting");
-						// show winnings dialog
-						APP.dialog.dispatch({ type: "finish-round", ...event.dialog });
 						// player bankroll ticker
 						event.player.el.find(".bankroll")
 							.css({

@@ -22,6 +22,20 @@ State["over-jenny-wins"] = {
 		flop: ["h13", "s12", "c11"],
 	};
 
+State["pre-flop-2-bots"] = {
+		buttonIndex: 1,
+		currentBetAmount: 10,
+		currentBettorIndex: 1,
+		deck: {
+			cards: StateCards,
+			index: 2,
+		},
+		players: {
+			"1": { bankroll: 495, name: "Nina", cardA: "h5", cardB: "c14", totalBet: 0, subtotalBet: 5, },
+			"3": { bankroll: 490, name: "Jenny", cardA: "c4", cardB: "c12", totalBet: 0, subtotalBet: 10, },
+		},
+	};
+
 State["pre-flop-single"] = {
 		buttonIndex: 0,
 		currentBetAmount: 10,

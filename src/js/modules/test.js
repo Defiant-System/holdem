@@ -8,7 +8,7 @@ let DEBUG = false;
 let Test = {
 	init(APP) {
 
-		return;
+		// return;
 
 		// return APP.els.content.data({ show: "game-view" });
 
@@ -58,7 +58,7 @@ let Test = {
 				// post-river-high-card	post-river-one-pair	post-river-two-pair	post-river-three
 				// post-river-straight	post-river-flush	post-river-full-house
 				// post-river-four	post-river-straight-flush	post-river-royal-flush
-				// over-jenny-wins
+				// over-jenny-wins	pre-flop-2-bots
 				data: State["pre-flop-single"]
 			});
 
