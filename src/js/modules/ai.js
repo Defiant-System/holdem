@@ -68,15 +68,25 @@ let Main = {
 				winnings = Poker.getPotSize();
 			// tick money to winner
 			player.wins(winnings);
-			// show dialog
-			return Poker.dispatch({
-				type: "highlight-single-winner",
-				player,
-				dialog: {
-					head: `${player.name} wins!`,
-					text: `<b>${winnings}</b> to ${player.name}`,
-				}
+			
+			// show winnings dialog
+			APP.dialog.dispatch({
+				type: "finish-round",
+				head: `${player.name} wins!`,
+				text: `<b>${winnings}</b> to ${player.name}`,
 			});
+
+			// show dialog
+			// return Poker.dispatch({
+			// 	type: "highlight-single-winner",
+			// 	player,
+			// 	winnings,
+			// 	dialog: {
+			// 		head: `${player.name} wins!`,
+			// 		text: `<b>${winnings}</b> to ${player.name}`,
+			// 	}
+			// });
+			return;
 		}
 		if (incrementBettorIndex) {
 			currentBettorIndex = Poker.getNextPlayerPosition(currentBettorIndex, 1);
