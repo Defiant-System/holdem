@@ -143,6 +143,7 @@ State["post-river-high-card"] = {
 
 
 State["post-river-one-pair"] = {
+		pot: 110,
 		buttonIndex: 0,
 		currentBetAmount: 0,
 		currentBettorIndex: 1,

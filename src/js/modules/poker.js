@@ -744,7 +744,7 @@ let Poker = {
 					event.bestHandPlayers.highlight.map(c => {
 						let wCard = APP.els.board.find(`.card[data-value="${c}"]`);
 						if (!wCard.length) wCard = event.player.el.find(`.card[data-value="${c}"]`);
-						wCard.addClass("winner");
+						wCard.css({ transform: "" }).addClass("winner");
 					});
 					// loser cards
 					APP.els.board.find(`.card:not(.winner)`).addClass("loser");

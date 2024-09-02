@@ -10,6 +10,8 @@ let Test = {
 
 		// return;
 
+		return APP.els.content.find(`.options span[data-arg="1"]`).trigger("click");
+
 		// return APP.els.content.data({ show: "game-view" });
 
 
@@ -54,12 +56,12 @@ let Test = {
 			// Poker.dispatch({ type: "shuffle-deck" });
 			Poker.dispatch({
 				type: "restore-state",
-				// pre-flop	post-flop	post-turn	post-river	full-table
+				// pre-flop	post-flop	post-turn	full-table
 				// post-river-high-card	post-river-one-pair	post-river-two-pair	post-river-three
 				// post-river-straight	post-river-flush	post-river-full-house
 				// post-river-four	post-river-straight-flush	post-river-royal-flush
 				// over-jenny-wins	pre-flop-2-bots
-				data: State["pre-flop-single"]
+				data: State["post-river-one-pair"]
 			});
 
 			// return setTimeout(() => APP.els.table.find(".pot").addClass("to-seat-5"), 1500);

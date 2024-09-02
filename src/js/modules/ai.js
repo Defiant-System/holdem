@@ -66,7 +66,6 @@ let Main = {
 		}
 		if (Poker.activePlayers.length === 1) {
 			let player = Poker.getPlayer(currentBettorIndex);
-			console.log( player );
 			return Poker.dispatch({
 				type: "highlight-single-winner",
 				player,
