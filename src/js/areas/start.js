@@ -18,6 +18,9 @@
 		switch (event.type) {
 			// custom events
 			case "set-opponents":
+				// reset seats
+				APP.els.content.find(".seat").attr({ className: "seat" }).removeAttr("data-status");
+				// forward event
 				Poker.dispatch({ ...event, value: +event.arg });
 				APP.els.content.data({ show: "game-view" });
 				break;

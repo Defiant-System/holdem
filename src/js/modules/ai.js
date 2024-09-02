@@ -45,7 +45,6 @@ let Main = {
 				return;
 			} else {
 				nextPlayer.highlight();
-				
 				setTimeout(() => this.getBet(currentBettorIndex), globalSpeed);
 				return;
 			}
@@ -65,13 +64,17 @@ let Main = {
 			}
 		}
 		if (Poker.activePlayers.length === 1) {
-			let player = Poker.getPlayer(currentBettorIndex);
+			let player = Poker.getPlayer(currentBettorIndex),
+				winnings = Poker.getPotSize();
+			// tick money to winner
+			player.wins(winnings);
+			// show dialog
 			return Poker.dispatch({
 				type: "highlight-single-winner",
 				player,
 				dialog: {
 					head: `${player.name} wins!`,
-					text: `<b>${Poker.getPotSize()}</b> to ${player.name}`,
+					text: `<b>${winnings}</b> to ${player.name}`,
 				}
 			});
 		}
@@ -400,6 +403,9 @@ let Main = {
 			// add verdict "POTENTIALLY BAD" here, for example, for when the board looks dangerous?
 			// but what if i can get it!?!?!!!!!!!!!!!!!!!!!!!!!!!!!
 		}
+
+		// hbi: temp
+		// if (P.name === "Jenny") return this.internalWhatDoX("100:ALLIN");
 
 		// special case if verdict is MAYBE AND i have a draw...tend not to fold
 		// special case where verdict is good & i have a draw...tend not to fold

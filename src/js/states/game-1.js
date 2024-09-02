@@ -53,7 +53,7 @@ State["pre-flop-single"] = {
 State["pre-flop"] = {
 		buttonIndex: 0,
 		currentBetAmount: 10,
-		currentBettorIndex: 0,
+		currentBettorIndex: 1,
 		deck: {
 			cards: StateCards,
 			index: 2,
@@ -61,8 +61,8 @@ State["pre-flop"] = {
 		players: {
 			"0": { bankroll: 490, name: "Hakan", cardA: "h5", cardB: "c14", totalBet: 0, subtotalBet: 0, },
 			"1": { bankroll: 595, name: "Nina", cardA: "c6", cardB: "s5", totalBet: 0, subtotalBet: 5, },
-			"3": { bankroll: 490, name: "Jenny", cardA: "c4", cardB: "c12", totalBet: 0, subtotalBet: 10, },
-			"5": { bankroll: 0, name: "Daniel", status: "BUST", },
+			// "3": { bankroll: 490, name: "Jenny", cardA: "c4", cardB: "c12", totalBet: 0, subtotalBet: 10, },
+			// "5": { bankroll: 0, name: "Daniel", status: "BUST", },
 		},
 	};
 
@@ -104,17 +104,16 @@ State["post-flop"] = {
 
 
 State["post-turn"] = {
-		pot: 30,
+		pot: 130,
 		buttonIndex: 0,
 		currentBetAmount: 0,
-		currentBettorIndex: 0,
+		currentBettorIndex: 2,
 		deck: {
 			cards: StateCards,
 			index: 2,
 		},
 		players: {
-			"0": { bankroll: 20, name: "Hakan", cardA: "s11", cardB: "c14", totalBet: 10, subtotalBet: 0, },
-			// "1": { bankroll: 190, name: "Nina", cardA: "c9", cardB: "c2", totalBet: 10, subtotalBet: 0, },
+			"0": { bankroll: 120, name: "Hakan", cardA: "s11", cardB: "c14", totalBet: 10, subtotalBet: 0, },
 			"2": { bankroll: 390, name: "Jenny", cardA: "c10", cardB: "d10", totalBet: 10, subtotalBet: 0, },
 		},
 		flop: ["h10", "s9", "c11"],
