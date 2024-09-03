@@ -198,14 +198,19 @@ let Poker = {
 				if (isEveryoneAllIn) {
 					// show players cards
 					Self.activePlayers.map(p => p.showCards());
+
+					// players.map(p => console.log( p.totalBet, p.subtotalBet ));
+					let ticker = {
+							start: +APP.els.pot.html(),
+							end: Self.getPotSize(),
+						};
+					if (ticker.end === 0) ticker.end = ticker.start;
+
 					// collect bets to pot
 					Self.dispatch({
 						type: "move-bets-to-pot",
-						ticker: {
-							start: +APP.els.pot.html(),
-							end: Self.getPotSize(),
-						},
 						finally: "auto-dealer-cards",
+						ticker,
 					});
 				} else if (numBetting > 1) {
 					// think next step AI
@@ -589,7 +594,7 @@ let Poker = {
 							lowestWinnerBet = totalBetsPerPlayer[i];
 						}
 					}
-
+					
 					// Compose the pot
 					// If your bet was less than (a fold) or equal to the lowest winner bet:
 					//    then add it to the current pot
@@ -610,6 +615,8 @@ let Poker = {
 						}
 					}
 
+					// covers "everybody all in" exception
+					if (numWinners === 1 && currentPotToSplit < 1) currentPotToSplit = totalPotSize;
 					// Divide the pot - in even integrals
 					let share = Math.floor(currentPotToSplit / numWinners);
 					// and save any remainders to next round
@@ -639,7 +646,7 @@ let Poker = {
 				
 				globalPotRemainder = potRemainder;
 				potRemainder = 0;
-
+				
 				let humanLoses = 0;
 				// Distribute the pot - and then do too many things
 				for (let i=0; i<allocations.length; i++) {
@@ -816,6 +823,7 @@ let Poker = {
 		for (let i=0; i<players.length; i++) {
 			p += players[i].totalBet + players[i].subtotalBet;
 		}
+		if (p < 1) p = +holdem.els.pot.html();
 		return p;
 	},
 	getNextPlayerPosition(i, delta) {

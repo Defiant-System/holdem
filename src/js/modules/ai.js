@@ -170,7 +170,7 @@ let Main = {
 		}
 		// hbi: temp
 		// if (P.name === "Jenny") return this.internalWhatDoX("100:ALLIN");
-		// if (P.name === "Nina") return this.internalWhatDoX("100:ALLIN");
+		if (P.name === "Nina") return this.internalWhatDoX("100:ALLIN");
 
 		// if (P.name === "Jenny") return this.internalWhatDoX("100:FOLD");
 		// if (P.name === "Nina") return this.internalWhatDoX("100:FOLD");
@@ -416,7 +416,7 @@ let Main = {
 
 		// hbi: temp
 		// if (P.name === "Jenny") return this.internalWhatDoX("100:ALLIN");
-		if (P.name === "Nina") return this.internalWhatDoX("100:ALLIN");
+		// if (P.name === "Nina") return this.internalWhatDoX("100:ALLIN");
 
 		// special case if verdict is MAYBE AND i have a draw...tend not to fold
 		// special case where verdict is good & i have a draw...tend not to fold

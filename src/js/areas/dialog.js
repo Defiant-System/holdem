@@ -108,7 +108,7 @@
 				break;
 			case "new-round":
 				Self.els.finish.addClass("hidden");
-				Poker.dispatch({ type: "start-new-round" });
+				setTimeout(() => Poker.dispatch({ type: "start-new-round" }), globalSpeed >> 1);
 				break;
 		}
 	},
