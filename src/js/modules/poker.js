@@ -617,6 +617,7 @@ let Poker = {
 
 					// covers "everybody all in" exception
 					if (numWinners === 1 && currentPotToSplit < 1) currentPotToSplit = totalPotSize;
+
 					// Divide the pot - in even integrals
 					let share = Math.floor(currentPotToSplit / numWinners);
 					// and save any remainders to next round
@@ -819,11 +820,12 @@ let Poker = {
 		return n;
 	},
 	getPotSize() {
-		let p = 0;
+		let p = 0,
+			uiPot = +holdem.els.pot.html();
 		for (let i=0; i<players.length; i++) {
 			p += players[i].totalBet + players[i].subtotalBet;
 		}
-		if (p < 1) p = +holdem.els.pot.html();
+		if (p < uiPot) p = uiPot;
 		return p;
 	},
 	getNextPlayerPosition(i, delta) {

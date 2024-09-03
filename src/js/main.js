@@ -1,14 +1,13 @@
 
-@import "./classes/player.js"
+const ME = karaqu.user;
 
+
+@import "./classes/player.js"
 @import "./modules/utils.js"
 @import "./modules/ai.js"
 @import "./modules/hands.js"
 @import "./modules/poker.js"
 @import "./modules/test.js"
-
-
-const ME = karaqu.user;
 
 
 const holdem = {
