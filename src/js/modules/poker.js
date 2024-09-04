@@ -539,7 +539,8 @@ let Poker = {
 					bestHandName = "",
 					bestHandPlayers,
 					currentPotToSplit = 0,
-					potRemainder = 0;
+					potRemainder = 0,
+					numWinners = 0;
 				
 				if (globalPotRemainder) {
 					potRemainder = globalPotRemainder;
@@ -582,7 +583,6 @@ let Poker = {
 
 					// Get the lowest winner bet, e.g. an all-in
 					let lowestWinnerBet = totalPotSize * 2;
-					let numWinners = 0;
 					for (let i=0; i<winners.length; i++) {
 						// Only the winners bets
 						if (!winners[i]) continue;
@@ -661,13 +661,14 @@ let Poker = {
 						}
 						let bankroll = players[i].bankroll;
 						if (bestHandPlayers[i]) {
+							console.log(numWinners, allocations);
 							Self.dispatch({
 								type: "highlight-winning-hand",
 								player: players[i],
 								bestHandPlayers: bestHandPlayers[i],
 								winnings: allocations[i],
 								dialog: {
-									head: `${players[i].name} wins!`,
+									head: numWinners > 1 ? `Split pot!` : `${players[i].name} wins!`,
 									text: `${winningHands[i]} gives <b>${allocations[i]}</b> to ${players[i].name}`,
 								}
 							});
