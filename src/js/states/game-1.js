@@ -147,13 +147,13 @@ State["post-river-one-pair"] = {
 			index: 2,
 		},
 		players: {
-			"0": { bankroll: 490, name: ME.firstName, cardA: "c3", cardB: "c7", totalBet: 55, subtotalBet: 0, },
-			"1": { bankroll: 290, name: "Nina", cardA: "h11", cardB: "c2", totalBet: 55, subtotalBet: 0, },
+			"0": { bankroll: 290, name: ME.firstName, cardA: "c13", cardB: "c7", totalBet: 55, subtotalBet: 0, },
+			"1": { bankroll: 490, name: "Nina", cardA: "h7", cardB: "c2", totalBet: 55, subtotalBet: 0, },
 			// "2": { bankroll: 490, name: "Jenny", cardA: "c5", cardB: "h4", totalBet: 10, subtotalBet: 0, status: "FOLD" },
 			// "5": { bankroll: 500, name: "Daniel", cardA: "c2", cardB: "d7", totalBet: 0, subtotalBet: 0, status: "FOLD" },
 		},
 		flop: ["h10", "s9", "c11"],
-		turn: "h12",
+		turn: "h8",
 		// river: "h3",
 	};
 

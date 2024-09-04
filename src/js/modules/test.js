@@ -10,7 +10,7 @@ let Test = {
 
 		// return;
 
-		// return APP.els.content.find(`.options span[data-arg="1"]`).trigger("click");
+		// return APP.els.content.find(`.options span[data-arg="2"]`).trigger("click");
 		// return APP.els.content.data({ show: "game-view" });
 
 
@@ -86,7 +86,7 @@ let Test = {
 			// 	});
 			// }, 800);
 
-			// setTimeout(() => window.find(`.actions .button.call`).trigger("click"), 500);
+			setTimeout(() => window.find(`.actions .button.call`).trigger("click"), 1700);
 			// setTimeout(() => window.find(`.actions .button.check`).trigger("click"), 2500);
 			// setTimeout(() => {
 			// 	APP.dialog.dispatch({ type: "player-raise", raise: 290 });

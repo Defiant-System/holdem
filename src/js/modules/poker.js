@@ -262,7 +262,7 @@ let Poker = {
 				
 				boardCards = APP.els.board.find(".card");
 				for (let i=0; i<players.length; i++) {
-					players[i].totalBet += players[i].subtotalBet;
+					// players[i].totalBet += players[i].subtotalBet;
 					players[i].subtotalBet = 0;
 					if (!["BUST", "FOLD"].includes(players[i].status)) players[i].status = "";
 				}
@@ -298,6 +298,7 @@ let Poker = {
 					for (let i=0; i<players.length; i++) { // <-- UNROLL
 						players[i].unHighlight();
 						if (players[i].status != "BUST" && players[i].status != "FOLD") {
+							// players[i].totalBet += players[i].subtotalBet;
 							players[i].subtotalBet = 0;
 						}
 					}
@@ -540,6 +541,7 @@ let Poker = {
 					bestHandPlayers,
 					currentPotToSplit = 0,
 					potRemainder = 0;
+				
 				if (globalPotRemainder) {
 					potRemainder = globalPotRemainder;
 					totalPotSize += globalPotRemainder;
@@ -616,7 +618,7 @@ let Poker = {
 					}
 
 					// covers "everybody all in" exception
-					if (numWinners === 1 && currentPotToSplit < 1) currentPotToSplit = totalPotSize;
+					// if (numWinners === 1 && currentPotToSplit < 1) currentPotToSplit = totalPotSize;
 
 					// Divide the pot - in even integrals
 					let share = Math.floor(currentPotToSplit / numWinners);
@@ -659,7 +661,6 @@ let Poker = {
 							allocations[i] = aString.substring(0, dotIndex + 3) - 0;
 						}
 						let bankroll = players[i].bankroll;
-						// players[i].bankroll += allocations[i];
 						if (bestHandPlayers[i]) {
 							Self.dispatch({
 								type: "highlight-winning-hand",
@@ -803,8 +804,9 @@ let Poker = {
 	get activePlayers() {
 		return players.filter(p => !["BUST", "FOLD"].includes(p.status));
 	},
-	clearBets () {
+	clearBets() {
 		for (let i=0; i<players.length; i++) {
+			players[i].totalBet += players[i].subtotalBet;
 			players[i].subtotalBet = 0;
 			players[i].update({ subtotalBet: 0 });
 		}
