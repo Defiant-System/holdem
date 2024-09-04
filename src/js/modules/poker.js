@@ -17,8 +17,8 @@ let cards = new Array(52);
 let players,
 	board,
 	deckIndex,
-	buttonIndex;
-let currentBettorIndex,
+	buttonIndex = 0,
+	currentBettorIndex,
 	currentBetAmount,
 	currentMinRaise;
 
@@ -192,8 +192,8 @@ let Poker = {
 				break;
 			case "go-to-betting":
 				numBetting = Self.getNumBetting();
-				isEveryoneAllIn = Self.activePlayers.filter(p => p.bankroll < 1).length === Self.activePlayers.length;
-				// isEveryoneAllIn = Self.activePlayers.filter(p => p.bankroll < 1).length >= 1;
+				// isEveryoneAllIn = Self.activePlayers.filter(p => p.bankroll < 1).length === Self.activePlayers.length;
+				isEveryoneAllIn = Self.activePlayers.filter(p => p.bankroll < 1).length >= 1;
 				
 				if (isEveryoneAllIn) {
 					// show players cards
@@ -831,11 +831,26 @@ let Poker = {
 		return p;
 	},
 	getNextPlayerPosition(i, delta) {
-		let seats = players.filter(p => !["BUST", "FOLD"].includes(p.status)).map(p => p.index),
-		// let seats = players.map(p => p.index),
-			index = seats.indexOf(i),
-			add = seats.length * seats.length;
-		return seats[(index + delta + add) % seats.length];
+		let j = 0,
+			step = 1,
+			loop_on = 0;
+		if (delta < 0) step = -1;
+		do {
+			i += step;
+			if (i >= players.length) {
+				i = 0;
+			} else {
+				if (i < 0) {
+					i = players.length - 1;
+				}
+			}
+			// Check if we can stop
+			loop_on = 0;
+			if (players[i].status == "BUST") loop_on = 1;
+			if (players[i].status == "FOLD") loop_on = 1;
+			if (++j < delta) loop_on = 1;
+		} while (loop_on);
+		return i;
 	},
 	getPlayer(pos) {
 		return players.find(p => p.index === pos);

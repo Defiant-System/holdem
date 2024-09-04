@@ -454,7 +454,7 @@ content {
 						bottom: 0;
 						border-radius: inherit;
 						transform: rotateY(180deg) translateZ(.1px);
-						filter: brightness(1);
+						filter: brightness(1.15) hue-rotate(215deg) saturate(0.5);
 					}
 				}
 			}
@@ -679,6 +679,7 @@ content {
 				&:not(.card),
 				&:not(.card) {
 					background: url(~/icons/cb-red.png) 0 0/contain no-repeat;
+					filter: brightness(1.15) hue-rotate(215deg) saturate(0.5);
 				}
 
 				&.dealt {
@@ -947,7 +948,8 @@ content {
 					drop-shadow(0 2px 0 hsl(1, 5%, 75%))
 					drop-shadow(0 3px 0 hsl(1, 5%, 70%))
 					drop-shadow(0 2px 7px rgba(#000,.35))
-					drop-shadow(0 5px 13px rgba(#000,.5));
+					drop-shadow(0 5px 13px rgba(#000,.5))
+					brightness(1.15) hue-rotate(215deg) saturate(0.5);
 		}
 
 		&.appear {
@@ -1696,7 +1698,7 @@ content {
 			bottom: 0;
 			border-radius: inherit;
 			transform: rotateY(180deg) translateZ(.1px);
-			filter: brightness(1);
+			filter: brightness(1.15) hue-rotate(215deg) saturate(0.5);
 		}
 	}
 
