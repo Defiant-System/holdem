@@ -192,8 +192,8 @@ let Poker = {
 				break;
 			case "go-to-betting":
 				numBetting = Self.getNumBetting();
-				// isEveryoneAllIn = Self.activePlayers.filter(p => p.bankroll < 1).length === Self.activePlayers.length;
-				isEveryoneAllIn = Self.activePlayers.filter(p => p.bankroll < 1).length >= 1;
+				isEveryoneAllIn = Self.activePlayers.filter(p => p.bankroll < 1).length === Self.activePlayers.length;
+				// isEveryoneAllIn = Self.activePlayers.filter(p => p.bankroll < 1).length >= 1;
 				
 				if (isEveryoneAllIn) {
 					// show players cards
@@ -215,7 +215,7 @@ let Poker = {
 				} else if (numBetting > 1) {
 					// think next step AI
 					setTimeout(() => AI.think(), event.wait || 0);
-				} else {playerBets
+				} else {
 					setTimeout(() => Self.dispatch({ type: "ready-for-next-card" }), globalSpeed);
 				}
 				break;
@@ -661,14 +661,14 @@ let Poker = {
 						}
 						let bankroll = players[i].bankroll;
 						if (bestHandPlayers[i]) {
-							console.log(numWinners, allocations);
+							// console.log(numWinners, allocations);
 							Self.dispatch({
 								type: "highlight-winning-hand",
 								player: players[i],
 								bestHandPlayers: bestHandPlayers[i],
 								winnings: allocations[i],
 								dialog: {
-									head: numWinners > 1 ? `Split pot!` : `${players[i].name} wins!`,
+									head: `${players[i].name} wins!`,
 									text: `${winningHands[i]} gives <b>${allocations[i]}</b> to ${players[i].name}`,
 								}
 							});
@@ -827,7 +827,7 @@ let Poker = {
 		for (let i=0; i<players.length; i++) {
 			p += players[i].totalBet + players[i].subtotalBet;
 		}
-		if (p < uiPot) p = uiPot;
+		// if (p < uiPot) p = uiPot;
 		return p;
 	},
 	getNextPlayerPosition(i, delta) {
