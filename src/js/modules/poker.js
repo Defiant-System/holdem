@@ -262,7 +262,7 @@ let Poker = {
 				
 				boardCards = APP.els.board.find(".card");
 				for (let i=0; i<players.length; i++) {
-					// players[i].totalBet += players[i].subtotalBet;
+					players[i].totalBet += players[i].subtotalBet;
 					players[i].subtotalBet = 0;
 					if (!["BUST", "FOLD"].includes(players[i].status)) players[i].status = "";
 				}
@@ -308,7 +308,6 @@ let Poker = {
 				if (!boardCards[0]) {
 					APP.els.pot.removeClass("hidden").html(0);
 				}
-				
 				// collect bets to pot
 				Self.dispatch({
 					type: "move-bets-to-pot",
