@@ -64,7 +64,7 @@ const holdem = {
 				Poker.dispatch({ type: "start-new-round" });
 				break;
 			case "change-speed":
-				globalSpeed = 400 + (5 * +event.arg);
+				globalSpeed = 400 + (5 * (100 - +event.arg));
 				break;
 			case "set-theme":
 				Self.els.content.data({ theme: event.arg });
