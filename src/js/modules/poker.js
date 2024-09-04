@@ -771,8 +771,8 @@ let Poker = {
 				break;
 			case "output-pgn":
 				data = {
-					buttonIndex: buttonIndex,
-					currentBetAmount: currentBetAmount,
+					buttonIndex,
+					currentBetAmount,
 					deck: {
 						cards: cards.join(" "),
 						index: deckIndex,
@@ -831,27 +831,35 @@ let Poker = {
 		return p;
 	},
 	getNextPlayerPosition(i, delta) {
-		let j = 0,
-			step = 1,
-			loop_on = 0;
-		if (delta < 0) step = -1;
-		do {
-			i += step;
-			if (i >= players.length) {
-				i = 0;
-			} else {
-				if (i < 0) {
-					i = players.length - 1;
-				}
-			}
-			// Check if we can stop
-			loop_on = 0;
-			if (players[i].status == "BUST") loop_on = 1;
-			if (players[i].status == "FOLD") loop_on = 1;
-			if (++j < delta) loop_on = 1;
-		} while (loop_on);
-		return i;
+		let seats = players.map(p => p.index),
+			index = seats.indexOf(i),
+			add = seats.length * seats.length,
+			pos = seats[(index + delta + add) % seats.length];
+		if (["BUST", "FOLD"].includes(players[pos].status)) return this.getNextPlayerPosition(i + delta, delta);
+		return pos;
 	},
+	// getNextPlayerPosition_(i, delta) {
+	// 	let j = 0,
+	// 		step = 1,
+	// 		loop_on = 0;
+	// 	if (delta < 0) step = -1;
+	// 	do {
+	// 		i += step;
+	// 		if (i >= players.length) {
+	// 			i = 0;
+	// 		} else {
+	// 			if (i < 0) {
+	// 				i = players.length - 1;
+	// 			}
+	// 		}
+	// 		// Check if we can stop
+	// 		loop_on = 0;
+	// 		if (players[i].status == "BUST") loop_on = 1;
+	// 		if (players[i].status == "FOLD") loop_on = 1;
+	// 		if (++j < delta) loop_on = 1;
+	// 	} while (loop_on);
+	// 	return i;
+	// },
 	getPlayer(pos) {
 		return players.find(p => p.index === pos);
 	},
