@@ -8,7 +8,7 @@ let DEBUG = false;
 let Test = {
 	init(APP) {
 
-		// return;
+		return;
 
 		// return APP.els.content.find(`.options span[data-arg="2"]`).trigger("click");
 		// return APP.els.content.data({ show: "game-view" });
@@ -60,8 +60,7 @@ let Test = {
 				// post-river-straight	post-river-flush	post-river-full-house
 				// post-river-four	post-river-straight-flush	post-river-royal-flush
 				// over-jenny-wins	pre-flop-2-bots
-				data: State["pre-flop"]
-				// data: State["post-river-one-pair"]
+				data: State["post-river-one-pair"]
 			});
 
 			// return setTimeout(() => APP.els.table.find(".pot").addClass("to-seat-5"), 1500);
