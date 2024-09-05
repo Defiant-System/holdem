@@ -38,6 +38,24 @@ State["pre-flop-only-bots"] = {
 		},
 	};
 
+State["post-flop-only-bots"] = {
+		pot: 30,
+		buttonIndex: 1,
+		currentBetAmount: 20,
+		currentBettorIndex: 3,
+		deck: {
+			cards: StateCards,
+			index: 2,
+		},
+		players: {
+			"1": { bankroll: 495, name: "Nina", cardA: "h5", cardB: "c14", totalBet: 10, subtotalBet: 20, },
+			"3": { bankroll: 490, name: "Jenny", cardA: "c4", cardB: "c12", totalBet: 10, subtotalBet: 0, },
+			"5": { bankroll: 500, name: "Ann", cardA: "h6", cardB: "d8", totalBet: 0, subtotalBet: 0, status: "FOLD" },
+			"6": { bankroll: 500, name: "Jack", cardA: "h6", cardB: "d7", totalBet: 10, subtotalBet: 0, },
+		},
+		flop: ["h13", "s13", "d2"],
+	};
+
 State["pre-flop-single"] = {
 		buttonIndex: 0,
 		currentBetAmount: 10,

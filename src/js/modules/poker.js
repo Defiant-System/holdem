@@ -285,8 +285,7 @@ let Poker = {
 
 				dealer = Self.getPlayer(buttonIndex);
 				if (dealer.status == "FOLD") {
-					let player = players[Self.getNextPlayerPosition(buttonIndex, -1)];
-					if (player) player.status = "OPTION";
+					players[Self.getNextPlayerPosition(buttonIndex, -1)].status = "OPTION";
 				} else {
 					dealer.status = "OPTION";
 				}
@@ -506,7 +505,7 @@ let Poker = {
 				// current bet amount
 				currentBetAmount = event.data.currentBetAmount || 0;
 
-				// return console.log( Self.getNextPlayerPosition(6, 1) );
+				return console.log( Self.getNextPlayerPosition(4, 1) );
 
 				// think next step AI
 				AI.think();

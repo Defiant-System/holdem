@@ -30,14 +30,18 @@ let Main = {
 		}
 		
 		let nextPlayer = Poker.getPlayer(currentBettorIndex);
-		if (["FOLD", "BUST"].includes nextPlayer.status == "BUST" || nextPlayer.status == "FOLD") {
+		if (["FOLD", "BUST"].includes(nextPlayer.status)) {
+			console.log(1, nextPlayer.name);
 			incrementBettorIndex = 1;
 		} else if (!Poker.hasMoney(currentBettorIndex)) {
+			console.log(2, nextPlayer.name);
 			nextPlayer.status = nextPlayer.status || "CALL";
 			incrementBettorIndex = 1;
 		} else if (["CALL", "CHECK"].includes(nextPlayer.status) && nextPlayer.subtotalBet == currentBetAmount) {
+			console.log(3, nextPlayer.name);
 			incrementBettorIndex = 1;
 		} else if (nextPlayer.status != "WINNER") {
+			console.log(4, nextPlayer.name);
 			nextPlayer.status = "";
 			if (currentBettorIndex == 0) {
 				let actions = currentBetAmount === 0 ? "check-fold" : "call-fold-raise";
@@ -158,6 +162,7 @@ let Main = {
 			return this.internalWhatDoX("5:ALLIN,15:BIG,15:MED,30:SMALL,35:CALL");
 		}
 		// hbi: temp
+		if (P.name === "Ann") return this.internalWhatDoX("100:FOLD");
 		// if (P.name === "Jenny") return this.internalWhatDoX("100:ALLIN");
 		// if (P.name === "Nina") return this.internalWhatDoX("100:ALLIN");
 

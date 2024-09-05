@@ -61,7 +61,7 @@ let Test = {
 				// post-river-four	post-river-straight-flush	post-river-royal-flush
 				// over-jenny-wins	pre-flop-2-bots
 				// data: State["pre-flop"]
-				data: State["pre-flop-only-bots"]
+				data: State["post-flop-only-bots"]
 			});
 
 			// return setTimeout(() => APP.els.table.find(".pot").addClass("to-seat-5"), 1500);
