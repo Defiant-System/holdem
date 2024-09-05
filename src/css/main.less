@@ -308,24 +308,26 @@ content {
 	&.bets-to-pot {
 		min-height: 10px;
 		
-		.seat.betting {
-			.bet {
-				opacity: 0;
-				transition: top 250ms ease-in-out,
-							left 250ms ease-in-out,
-							right 250ms ease-in-out,
-							bottom 250ms ease-in-out,
-							opacity 280ms;
+		.seat {
+			&.betting {
+				.bet {
+					opacity: 0;
+					transition: top 250ms ease-in-out,
+								left 250ms ease-in-out,
+								right 250ms ease-in-out,
+								bottom 250ms ease-in-out,
+								opacity 280ms;
+				}
+				
+				&.s0 .bet { opacity: 0; top: -62px; left: 308px; }
+				&.s1 .bet { opacity: 0; top: 153px; left: 348px; }
+				&.s2 .bet { opacity: 0; top: 301px; left: 187px; }
+				&.s3 .bet { opacity: 0; top: 303px; left: -1px; }
+				&.s4 .bet { opacity: 0; top: 302px; left: -183px; }
+				&.s5 .bet { opacity: 0; bottom: -55px; right: 401px; }
+				&.s6 .bet { opacity: 0; top: -100px; left: -184px; }
+				&.s7 .bet { opacity: 0; top: -100px; left: 36px; }
 			}
-			
-			&.s0 .bet { opacity: 0; top: -62px; left: 308px; }
-			&.s1 .bet { opacity: 0; top: 153px; left: 348px; }
-			&.s2 .bet { opacity: 0; top: 301px; left: 187px; }
-			&.s3 .bet { opacity: 0; top: 303px; left: -1px; }
-			&.s4 .bet { opacity: 0; top: 302px; left: -183px; }
-			&.s5 .bet { opacity: 0; bottom: -55px; right: 401px; }
-			&.s6 .bet { opacity: 0; top: -100px; left: -184px; }
-			&.s7 .bet { opacity: 0; top: -100px; left: 36px; }
 		}
 
 		.pot {

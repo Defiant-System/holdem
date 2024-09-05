@@ -10,7 +10,7 @@ let Test = {
 
 		// return;
 
-		return APP.els.content.find(`.options span[data-arg="7"]`).trigger("click");
+		// return APP.els.content.find(`.options span[data-arg="7"]`).trigger("click");
 		// return APP.els.content.data({ show: "game-view" });
 
 
@@ -60,7 +60,7 @@ let Test = {
 				// post-river-straight	post-river-flush	post-river-full-house
 				// post-river-four	post-river-straight-flush	post-river-royal-flush
 				// over-jenny-wins	pre-flop-2-bots
-				data: State["post-river-one-pair"]
+				data: State["pre-flop-only-bots"]
 			});
 
 			// return setTimeout(() => APP.els.table.find(".pot").addClass("to-seat-5"), 1500);
@@ -86,7 +86,7 @@ let Test = {
 			// 	});
 			// }, 800);
 
-			setTimeout(() => window.find(`.actions .button.call`).trigger("click"), 1700);
+			// setTimeout(() => window.find(`.actions .button.call`).trigger("click"), 1700);
 			// setTimeout(() => window.find(`.actions .button.check`).trigger("click"), 2500);
 			// setTimeout(() => {
 			// 	APP.dialog.dispatch({ type: "player-raise", raise: 290 });

@@ -33,7 +33,10 @@ class Player {
 		// internal value
 		this._status = v;
 		// seat state
-		if (this.el) this.el.data({ status: this._status });
+		if (this.el) {
+			this.el.data({ status: this._status });
+			if (v === "FOLD") this.el.removeClass("betting");
+		}
 	}
 
 	unHighlight() {
@@ -84,6 +87,10 @@ class Player {
 		this.cardsEl.removeClass("show hole-flip");
 		delete this.AEL;
 		delete this.BEL;
+		// remove bust players from table
+		if (this.status === "BUST") {
+			this.el.removeClass(`s${this.index} betting thinking`);
+		}
 	}
 
 	update(data) {
@@ -107,7 +114,7 @@ class Player {
 		this.cardsEl = this.el.find(".cards");
 		this.el.find(".name").data({ name: this.name });
 		this.el.find(".bankroll").html(this.bankroll.format(" "));
-		this.el.addClass(`s${this.index}`);
+		if (this.status !== "BUST") this.el.addClass(`s${this.index}`);
 		// seat state
 		this.el.data({ status: this.status });
 		// update UI

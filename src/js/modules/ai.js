@@ -75,17 +75,6 @@ let Main = {
 				head: `${player.name} wins!`,
 				text: `<b>${winnings}</b> to ${player.name}`,
 			});
-
-			// show dialog
-			// return Poker.dispatch({
-			// 	type: "highlight-single-winner",
-			// 	player,
-			// 	winnings,
-			// 	dialog: {
-			// 		head: `${player.name} wins!`,
-			// 		text: `<b>${winnings}</b> to ${player.name}`,
-			// 	}
-			// });
 			return;
 		}
 		if (incrementBettorIndex) {
