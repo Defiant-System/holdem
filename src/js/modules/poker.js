@@ -182,7 +182,7 @@ let Poker = {
 			case "hole-cards-dealt":
 				// reset deck
 				APP.els.deck.cssSequence("disappear", "transitionend", el => el.removeClass("appear disappear"));
-				if (players[0].status === "BUST") {
+				if (players[0].status === "BUST" || players[0].index > 0) {
 					Self.dispatch({ type: "go-to-betting" });
 				} else {
 					// flip users hole cards
@@ -506,7 +506,7 @@ let Poker = {
 				// current bet amount
 				currentBetAmount = event.data.currentBetAmount || 0;
 
-				// console.log( Self.getNextPlayerPosition(2, -1) );
+				// return console.log( Self.getNextPlayerPosition(6, 1) );
 
 				// think next step AI
 				AI.think();

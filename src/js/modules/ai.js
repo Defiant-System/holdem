@@ -30,7 +30,7 @@ let Main = {
 		}
 		
 		let nextPlayer = Poker.getPlayer(currentBettorIndex);
-		if (nextPlayer.status == "BUST" || nextPlayer.status == "FOLD") {
+		if (["FOLD", "BUST"].includes nextPlayer.status == "BUST" || nextPlayer.status == "FOLD") {
 			incrementBettorIndex = 1;
 		} else if (!Poker.hasMoney(currentBettorIndex)) {
 			nextPlayer.status = nextPlayer.status || "CALL";

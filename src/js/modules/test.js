@@ -60,6 +60,7 @@ let Test = {
 				// post-river-straight	post-river-flush	post-river-full-house
 				// post-river-four	post-river-straight-flush	post-river-royal-flush
 				// over-jenny-wins	pre-flop-2-bots
+				// data: State["pre-flop"]
 				data: State["pre-flop-only-bots"]
 			});
 

@@ -31,7 +31,6 @@ State["pre-flop-only-bots"] = {
 			index: 2,
 		},
 		players: {
-			"0": { bankroll: 0, name: ME.firstName, totalBet: 0, subtotalBet: 0, status: "BUST", },
 			"1": { bankroll: 495, name: "Nina", cardA: "h5", cardB: "c14", totalBet: 0, subtotalBet: 5, },
 			"3": { bankroll: 490, name: "Jenny", cardA: "c4", cardB: "c12", totalBet: 0, subtotalBet: 10, },
 			"5": { bankroll: 500, name: "Ann", cardA: "h6", cardB: "d8", totalBet: 0, subtotalBet: 0, },
