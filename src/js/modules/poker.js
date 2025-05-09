@@ -8,6 +8,7 @@ let RUN_EM = 0;
 let STARTING_BANKROLL = 500;
 let SMALL_BLIND = 5;
 let BIG_BLIND = 10;
+let GAME_OVER = true;
 
 let globalSpeed = 900;
 let globalPotRemainder = 0;
@@ -56,6 +57,7 @@ let Poker = {
 				START_DATE = new Date();
 				NUM_ROUNDS = 0;
 				HUMAN_WINS_AGAIN = 0;
+				GAME_OVER = false;
 				// shuffle bots
 				Bots.sort(() => .5 - Math.random());
 				break;
@@ -121,6 +123,7 @@ let Poker = {
 				});
 				break;
 			case "reset-round":
+				GAME_OVER = false;
 				RUN_EM = 0;
 				NUM_ROUNDS++;
 				HUMAN_GOES_ALL_IN = 0;

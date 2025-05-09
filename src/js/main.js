@@ -60,6 +60,11 @@ const holdem = {
 			case "show-game-view":
 				Self.els.content.data({ show: event.type.slice(5) });
 				break;
+			case "go-to-start":
+				GAME_OVER = true;
+				Self.dialog.dispatch({ type: "hide-dialog" });
+				Self.dispatch({ type: "show-start-view" });
+				break;
 			case "new-game":
 				Poker.dispatch({ type: "start-new-round" });
 				break;

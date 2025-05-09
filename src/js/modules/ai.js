@@ -23,6 +23,7 @@ let Main = {
 		APP = holdem;
 	},
 	think() {
+		if (GAME_OVER) return;
 		let incrementBettorIndex = 0;
 		
 		for (let i=0; i<players.length; i++) {
@@ -31,17 +32,17 @@ let Main = {
 		
 		let nextPlayer = Poker.getPlayer(currentBettorIndex);
 		if (["FOLD", "BUST"].includes(nextPlayer.status)) {
-			console.log(1, nextPlayer.name);
+			// console.log(1, nextPlayer.name);
 			incrementBettorIndex = 1;
 		} else if (!Poker.hasMoney(currentBettorIndex)) {
-			console.log(2, nextPlayer.name);
+			// console.log(2, nextPlayer.name);
 			nextPlayer.status = nextPlayer.status || "CALL";
 			incrementBettorIndex = 1;
 		} else if (["CALL", "CHECK"].includes(nextPlayer.status) && nextPlayer.subtotalBet == currentBetAmount) {
-			console.log(3, nextPlayer.name);
+			// console.log(3, nextPlayer.name);
 			incrementBettorIndex = 1;
 		} else if (nextPlayer.status != "WINNER") {
-			console.log(4, nextPlayer.name);
+			// console.log(4, nextPlayer.name);
 			nextPlayer.status = "";
 			if (currentBettorIndex == 0) {
 				let actions = currentBetAmount === 0 ? "check-fold" : "call-fold-raise";

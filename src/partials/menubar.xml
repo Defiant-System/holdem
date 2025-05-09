@@ -5,9 +5,9 @@
 		<Menu name="Quit Texas Hold'em" shell="win -c"/>
 	</Menu>
 	<Menu name="Game" for="game-board">
-		<Menu name="Start View" click="show-start-view"/>
-		<Menu name="Game View" click="show-game-view"/>
-		<Menu name="New Game" click="new-game"/>
+		<!-- <Menu name="Start View" click="show-start-view"/>
+		<Menu name="Game View" click="show-game-view"/> -->
+		<Menu name="New Game" click="go-to-start"/>
 		<Menu type="divider"/>
 		<Menu type="caption" name="Game Speed:"/>
 		<Menu type="slider" min="1" max="100" value="50" change="change-speed"/>

@@ -8,9 +8,11 @@ let DEBUG = false;
 let Test = {
 	init(APP) {
 
-		// return;
+		return;
 
-		// return APP.els.content.find(`.options span[data-arg="7"]`).trigger("click");
+		setTimeout(() => APP.dispatch({ type: "go-to-start" }), 3500);
+
+		return APP.els.content.find(`.options span[data-arg="2"]`).trigger("click");
 		// return APP.els.content.data({ show: "game-view" });
 
 
